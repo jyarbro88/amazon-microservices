@@ -18,8 +18,13 @@ public class LineItemModel {
     @GeneratedValue
     private Long id;
     private Long productId;
+    private Long shipmentId;
+    private Long orderId;
     private Integer quantity;
+    private Double singleItemPrice;
     private Double lineItemTotalPrice;
+    private Boolean shipped;
+    private Boolean delivered;
 
 
 }
