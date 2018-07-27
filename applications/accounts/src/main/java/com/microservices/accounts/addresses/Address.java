@@ -1,4 +1,4 @@
-package com.microservices.products.products;
+package com.microservices.accounts.addresses;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,14 +11,18 @@ import javax.persistence.Table;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "products")
-public class Products {
+@Table(name = "addresses")
+public class Address {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
-    private String description;
-    private Double price;
+    private String addressOne;
+    private String addressTwo;
+    private String city;
+    private String state;
+    private String zipCode;
+    private String country;
+
 
 }
