@@ -1,15 +1,15 @@
-package com.microservices.accounts;
+package com.microservices.accounts.addresses;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/accounts"})
-public class AccountsController {
+@RequestMapping(value = {"/addresses"})
+public class AddressController {
 
     @GetMapping(produces = {"application/json"})
     public String sayHello(){
-        return "hello from accounts";
+        return "hello from addresses";
     }
 }

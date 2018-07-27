@@ -1,6 +1,5 @@
-package com.microservices.accounts;
+package com.microservices.accounts.accounts;
 
-import com.sun.javafx.beans.IDProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
