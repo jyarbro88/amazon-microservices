@@ -9,6 +9,7 @@ import java.util.Optional;
 
 
 @RestController
+@RequestMapping(value = "/accounts")
 public class AccountController {
 
 //    @Autowired
