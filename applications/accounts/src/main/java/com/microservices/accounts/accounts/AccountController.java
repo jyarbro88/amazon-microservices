@@ -12,27 +12,27 @@ import java.util.Optional;
 @RequestMapping(value = "/accounts")
 public class AccountController {
 
-//    @Autowired
-//    private AccountRepository accountRepository;
-//
-//    @GetMapping(produces = "application/json")
-//    public String sayHello(){
-//        return "hello";
-//    }
-//
-//    @GetMapping(value = "/all")
-//    @ResponseBody
-//    public List<Account> showAllAccounts(){
-//        return accountRepository.findAll();
-//    }
-//
-//    @GetMapping(value = "/{accountId}", produces = "application/json")
-//    public Optional<Account> searchById(
-//            @Valid
-//            @PathVariable(value = "accountId") Long accountId
-//    ){
-//
-//        return accountRepository.findById(accountId);
-//    }
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @GetMapping(produces = "application/json")
+    public String sayHello(){
+        return "hello";
+    }
+
+    @GetMapping(value = "/all")
+    @ResponseBody
+    public List<Account> showAllAccounts(){
+        return accountRepository.findAll();
+    }
+
+    @GetMapping(value = "/{accountId}", produces = "application/json")
+    public Optional<Account> searchById(
+            @Valid
+            @PathVariable(value = "accountId") Long accountId
+    ){
+
+        return accountRepository.findById(accountId);
+    }
 
 }
