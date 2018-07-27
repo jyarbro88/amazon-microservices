@@ -1,4 +1,4 @@
-package com.microservices.products;
+package com.microservices.shipments.shipments;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,17 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "products")
-public class ProductModel {
+@Table(name = "shipments")
+public class ShipmentModel {
 
     @Id
     @GeneratedValue
     private Long id;
-    private String name;
-    private String description;
-    private Double price;
+    private Long accountId;
+    private Long shippingAddressId;
+    private Long billingAddressId;
+    private Long orderId;
+    private List<Long> orderItemsIds;
+
 
 }
