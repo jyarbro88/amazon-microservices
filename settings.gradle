@@ -2,3 +2,4 @@ rootProject.name = 'microservices'
 
 include "applications/accounts"
 include "applications/addresses"
+include "applications/shipments"
