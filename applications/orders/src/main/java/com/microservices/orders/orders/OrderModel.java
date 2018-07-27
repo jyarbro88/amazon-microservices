@@ -1,6 +1,6 @@
-package com.microservices.orders.Orders;
+package com.microservices.orders.orders;
 
-import com.microservices.orders.LineItems.LineItemModel;
+import com.microservices.orders.lineItems.LineItemModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

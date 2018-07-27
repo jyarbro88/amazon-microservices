@@ -1,4 +1,4 @@
-package com.microservices.orders.Orders;
+package com.microservices.orders.orders;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

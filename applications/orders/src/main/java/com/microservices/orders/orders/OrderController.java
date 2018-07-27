@@ -1,15 +1,17 @@
-package com.microservices.orders.LineItems;
+package com.microservices.orders.orders;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = {"/lineItems"})
-public class LineItemController {
+@RequestMapping(value = {"/orders"})
+public class OrderController {
 
-    @GetMapping
+    @GetMapping(produces = {"application/json"})
     public String sayHello(){
-        return "hello from line items";
+        return "hello from orders";
     }
+
+
 }

@@ -1,5 +1,6 @@
-package com.microservices.orders.LineItems;
+package com.microservices.accounts;
 
+import com.sun.javafx.beans.IDProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,18 +9,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "order_line_items")
-public class LineItemModel {
+@Table(name = "accounts")
+public class AccountModel {
 
     @Id
     @GeneratedValue
     private Long id;
-    private Long productId;
-    private Integer quantity;
-    private Double lineItemTotalPrice;
+
+    private String firstName;
+    private String lastName;
+    private String email;
+    private List<Long> addressIds;
 
 
 }
