@@ -1,6 +1,6 @@
 package com.microservices.orders.orders;
 
-import com.microservices.orders.lineItems.LineItemModel;
+import com.microservices.orders.lineItems.LineItems;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @Table(name = "orders")
-public class OrderModel {
+public class Orders {
 
     @Id
     @GeneratedValue
@@ -24,6 +24,6 @@ public class OrderModel {
     private Double totalPrice;
 
     @OneToMany
-    private List<LineItemModel> lineItemModelList;
+    private List<LineItems> lineItemsList;
 
 }

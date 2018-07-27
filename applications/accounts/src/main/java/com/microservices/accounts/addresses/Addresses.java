@@ -1,4 +1,4 @@
-package com.microservices.accounts.accounts;
+package com.microservices.accounts.addresses;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,21 +8,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "accounts")
-public class AccountModel {
+@Table(name = "addresses")
+public class Addresses {
 
     @Id
     @GeneratedValue
     private Long id;
-
-    private String firstName;
-    private String lastName;
-    private String email;
-    private List<Long> addressIds;
+    private String addressOne;
+    private String addressTwo;
+    private String city;
+    private String state;
+    private String zipCode;
+    private String country;
 
 
 }

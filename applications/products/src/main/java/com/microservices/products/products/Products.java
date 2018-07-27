@@ -12,7 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @Table(name = "products")
-public class ProductModel {
+public class Products {
 
     @Id
     @GeneratedValue
