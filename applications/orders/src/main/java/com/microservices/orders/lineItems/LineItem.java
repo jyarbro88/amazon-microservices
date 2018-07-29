@@ -23,7 +23,5 @@ public class LineItem {
     private Integer quantity;
     private Double singleItemPrice;
     private Double lineItemTotalPrice;
-    private Boolean shipped;
-    private Boolean delivered;
 
 }
