@@ -34,6 +34,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
+//    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-starter-service-registry', version: '2.0.1.RELEASE'
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
     runtime('com.h2database:h2')
