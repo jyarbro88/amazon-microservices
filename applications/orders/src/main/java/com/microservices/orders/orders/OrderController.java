@@ -2,11 +2,11 @@ package com.microservices.orders.orders;
 
 import com.microservices.orders.MicroServiceInstances;
 import com.microservices.orders.lineItems.LineItemRepository;
-import com.microservices.orders.tempModels.OrderLineItemToDisplay;
-import com.microservices.orders.tempModels.OrderProductsModel;
-import com.microservices.orders.tempModels.OrderToDisplay;
+import com.microservices.orders.displayObjects.OrderLineItemToDisplay;
+import com.microservices.orders.displayObjects.OrderProductsToDisplay;
+import com.microservices.orders.displayObjects.OrderToDisplay;
 import com.microservices.orders.lineItems.LineItem;
-import com.microservices.orders.tempModels.OrderAddressModel;
+import com.microservices.orders.displayObjects.OrderAddressToDisplay;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -47,7 +47,7 @@ public class OrderController {
         orderToDisplay.setOrderNumber(foundOrder.getId());
         orderToDisplay.setOrderTotalPrice(foundOrder.getTotalPrice());
 
-        OrderAddressModel orderShippingAddress = restTemplate.getForObject(microServiceInstances.getOrderShippingAddress(foundOrder.getAccountId(), shippingAddressId), OrderAddressModel.class);
+        OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject(microServiceInstances.getOrderShippingAddress(foundOrder.getAccountId(), shippingAddressId), OrderAddressToDisplay.class);
         orderShippingAddress.setShippingAddressId(shippingAddressId);
         orderToDisplay.setShippingAddress(orderShippingAddress);
 
@@ -60,7 +60,7 @@ public class OrderController {
 
             OrderLineItemToDisplay lineItemToDisplay = new OrderLineItemToDisplay();
 
-            OrderProductsModel foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsModel.class);
+            OrderProductsToDisplay foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
 
             lineItemToDisplay.setProductName(foundProduct.getName());
 
@@ -75,7 +75,7 @@ public class OrderController {
 //        List<LineItem> foundLineItemList = foundOrder.getLineItemList();
 //
 //        for (LineItem lineItem : foundLineItemList) {
-//            OrderProductsModel productModels = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsModel.class);
+//            OrderProductsToDisplay productModels = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
 //            productModels.setQuantity(lineItem.getQuantity());
 //            listOfProductsForOrder.add(productModels);
 //        }
@@ -92,7 +92,7 @@ public class OrderController {
 //            Long productId = lineItem.getProductId();
 //            Integer quantity = lineItem.getQuantity();
 //
-//            OrderProductsModel foundProductModel = restTemplate.getForObject(microServiceInstances.getProductName(productId), OrderProductsModel.class);
+//            OrderProductsToDisplay foundProductModel = restTemplate.getForObject(microServiceInstances.getProductName(productId), OrderProductsToDisplay.class);
 //
 //            String productName = foundProductModel.getName();
 //
@@ -102,14 +102,14 @@ public class OrderController {
 //            lineItemsToDisplay.setProductName(productName);
 //        }
 //
-//        OrderShipmentModel[] shipmentsForOrder = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(foundOrder.getShippingAddressId()), OrderShipmentModel[].class);
+//        OrderShipmentToDisplay[] shipmentsForOrder = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(foundOrder.getShippingAddressId()), OrderShipmentToDisplay[].class);
 //
-//        List<OrderShipmentModel> shipmentModels = new ArrayList<>();
+//        List<OrderShipmentToDisplay> shipmentModels = new ArrayList<>();
 //        Collections.addAll(shipmentModels, shipmentsForOrder);
 
 
 
-//        OrderAddressModel orderShipment = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(orderIdToSearch), OrderAddressModel.class);
+//        OrderAddressToDisplay orderShipment = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(orderIdToSearch), OrderAddressToDisplay.class);
 
 
 

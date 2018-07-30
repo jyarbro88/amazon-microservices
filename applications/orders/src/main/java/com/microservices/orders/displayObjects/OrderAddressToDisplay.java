@@ -1,11 +1,11 @@
-package com.microservices.orders.tempModels;
+package com.microservices.orders.displayObjects;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class OrderAddressModel {
+public class OrderAddressToDisplay {
 
     private Long shippingAddressId;
     private String addressOne;

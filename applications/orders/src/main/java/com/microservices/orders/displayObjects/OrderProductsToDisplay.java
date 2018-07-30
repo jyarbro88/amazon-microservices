@@ -1,16 +1,11 @@
-package com.microservices.orders.tempModels;
+package com.microservices.orders.displayObjects;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Getter @Setter @NoArgsConstructor
-public class OrderProductsModel {
+public class OrderProductsToDisplay {
 
     private Long productId;
     private String name;
