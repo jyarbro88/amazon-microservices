@@ -1,5 +1,6 @@
-package com.microservices.orders;
+package com.microservices.orders.tempModels;
 
+import com.microservices.orders.lineItems.LineItem;
 import com.microservices.orders.tempModels.OrderAddressModel;
 import com.microservices.orders.tempModels.OrderShipmentModel;
 import lombok.Getter;
@@ -16,7 +17,10 @@ public class OrderToDisplay {
     private Long orderNumber;
     private Double orderTotalPrice;
     private OrderAddressModel shippingAddress;
+
     private List<OrderShipmentModel> shipmentList;
+
+    private List<OrderLineItemToDisplay> lineItemsToDisplay;
 
 
 

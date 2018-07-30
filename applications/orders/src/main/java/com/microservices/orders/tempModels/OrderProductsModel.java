@@ -1,4 +1,4 @@
-package com.microservices.products.products;
+package com.microservices.orders.tempModels;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,21 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
 @Getter @Setter @NoArgsConstructor
-@Table(name = "products")
-public class Product {
+public class OrderProductsModel {
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    private Long productId;
     private String name;
     private String description;
     private Double price;
+    private Integer quantity;
 
-    public Product(String name, String description, Double price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
 }

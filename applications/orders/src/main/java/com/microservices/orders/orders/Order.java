@@ -26,15 +26,11 @@ public class Order {
     private Long billingAddressId;
     private Double totalPrice;
 
-    @OneToMany
-    private List<LineItem> lineItemList;
-
-    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItemList) {
+    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice) {
         this.accountId = accountId;
         this.orderDate = orderDate;
         this.shippingAddressId = shippingAddressId;
         this.billingAddressId = billingAddressId;
         this.totalPrice = totalPrice;
-        this.lineItemList = lineItemList;
     }
 }
