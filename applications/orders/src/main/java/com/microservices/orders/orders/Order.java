@@ -1,5 +1,6 @@
 package com.microservices.orders.orders;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.microservices.orders.lineItems.LineItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long accountId;
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private Date orderDate;
     private Long shippingAddressId;
     private Long billingAddressId;

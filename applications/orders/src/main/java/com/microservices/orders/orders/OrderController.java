@@ -51,7 +51,7 @@ public class OrderController {
     public List<Order> getAllOrdersForAccountId(
             @RequestParam(value = "accountId") Long accountId
     ){
-        return orderRepository.findAllByAccountId(accountId);
+        return orderRepository.findAllByAccountIdOrderByOrderDate(accountId);
     }
 
 }

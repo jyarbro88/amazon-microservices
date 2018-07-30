@@ -11,6 +11,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 //    @Override
 //    List<Order> findAllById(Iterable<Long> longs);
 
-    List<Order> findAllByAccountId(Long accountId);
+//    List<Order> findAllByAccountIdOrderByOrderDate(Long accountId);
+
+    List<Order> findAllByAccountIdOrderByOrderDate(Long accountId);
 
 }
