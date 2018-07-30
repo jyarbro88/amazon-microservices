@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 public class MicroServiceInstances {
 
 
-    public String getAllShipmentsForOrderId(Long orderId){
-        return "http://shipments-service/shipments/" + orderId;
+    public String getShipmentForLineItemId(Long lineItemId){
+        return "http://shipments-service/shipments/lineItems/" + lineItemId;
     }
 
     public String getOrderShippingAddress(Long accountIdToSearch, Long addressIdToSearch){

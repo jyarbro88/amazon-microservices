@@ -1,11 +1,11 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.tempObjects;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class OrderProductsToDisplay {
+public class TempProductObject {
 
     private Long productId;
     private String name;

@@ -1,14 +1,12 @@
 package com.microservices.orders.orders;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.microservices.orders.lineItems.LineItem;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor

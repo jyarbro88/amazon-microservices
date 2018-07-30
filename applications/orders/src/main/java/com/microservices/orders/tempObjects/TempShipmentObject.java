@@ -1,4 +1,4 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.tempObjects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Getter @Setter @NoArgsConstructor
-public class OrderShipmentToDisplay {
+public class TempShipmentObject {
 
     private Long id;
     private Long accountId;

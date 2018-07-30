@@ -1,12 +1,14 @@
 package com.microservices.orders.orders;
 
 import com.microservices.orders.MicroServiceInstances;
+import com.microservices.orders.displayObjects.OrderShipmentsToDisplay;
 import com.microservices.orders.lineItems.LineItemRepository;
 import com.microservices.orders.displayObjects.OrderLineItemToDisplay;
-import com.microservices.orders.displayObjects.OrderProductsToDisplay;
+import com.microservices.orders.tempObjects.TempProductObject;
 import com.microservices.orders.displayObjects.OrderToDisplay;
 import com.microservices.orders.lineItems.LineItem;
 import com.microservices.orders.displayObjects.OrderAddressToDisplay;
+import com.microservices.orders.tempObjects.TempShipmentObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -34,7 +36,7 @@ public class OrderController {
         return orderRepository.findAllByAccountIdOrderByOrderDate(accountId);
     }
 
-    @GetMapping(value = "/details/{id}")
+    @GetMapping(value = "orders/details/{id}")
     public OrderToDisplay getOrderDetailsForId(
             @PathVariable(value = "id") Long orderIdToSearch
     ) {
@@ -45,7 +47,7 @@ public class OrderController {
 
         getLineItemsForOrder(foundOrder, orderToDisplay);
 
-//        return orderShippingAddress;
+        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = orderToDisplay.getOrderShipmentsToDisplayList();
 
         return orderToDisplay;
     }
@@ -54,16 +56,35 @@ public class OrderController {
         List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
 
         List<OrderLineItemToDisplay> listOfProductsForOrder = new ArrayList<>();
+        List<OrderShipmentsToDisplay> listOfShipmentsForOrder = new ArrayList<>();
+        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = new ArrayList<>();
 
         for (LineItem lineItem : lineItemsForOrderId) {
+
             OrderLineItemToDisplay lineItemToDisplay = new OrderLineItemToDisplay();
-            OrderProductsToDisplay foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
+            OrderShipmentsToDisplay lineItemShipment = new OrderShipmentsToDisplay();
+
+            TempProductObject foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), TempProductObject.class);
+            TempShipmentObject tempShipmentObject = restTemplate.getForObject(microServiceInstances.getShipmentForLineItemId(lineItem.getShipmentId()), TempShipmentObject.class);
+
+            lineItemShipment.setDeliveryDate(tempShipmentObject.getDeliveredDate());
+            lineItemShipment.setShippedDate(tempShipmentObject.getShippedDate());
+            lineItemShipment.setShipmentId(tempShipmentObject.getId());
+
+
             lineItemToDisplay.setProductName(foundProduct.getName());
             lineItemToDisplay.setQuantity(lineItem.getQuantity());
+
+            orderShipmentsToDisplayList.add(lineItemShipment);
             listOfProductsForOrder.add(lineItemToDisplay);
+
+            listOfShipmentsForOrder.add(lineItemShipment);
+
+
         }
 
         orderToDisplay.setLineItemsToDisplay(listOfProductsForOrder);
+        orderToDisplay.setOrderShipmentsToDisplayList(listOfShipmentsForOrder);
     }
 
     private OrderToDisplay getOrderToDisplay(Order foundOrder) {

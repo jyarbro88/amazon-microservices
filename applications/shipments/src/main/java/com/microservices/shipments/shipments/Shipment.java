@@ -1,19 +1,17 @@
 package com.microservices.shipments.shipments;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
 @Table(name = "shipments")
-class Shipment {
+public class Shipment {
 
     @Id
     @GeneratedValue
@@ -22,7 +20,19 @@ class Shipment {
     private Long shippingAddressId;
     private Long orderId;
     private Long lineItemId;
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private Date shippedDate;
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "MM-dd-yyyy")
     private Date deliveredDate;
 
+    public Shipment(Long accountId, Long shippingAddressId, Long orderId, Long lineItemId, Date shippedDate, Date deliveredDate) {
+        this.accountId = accountId;
+        this.shippingAddressId = shippingAddressId;
+        this.orderId = orderId;
+        this.lineItemId = lineItemId;
+        this.shippedDate = shippedDate;
+        this.deliveredDate = deliveredDate;
+    }
 }
