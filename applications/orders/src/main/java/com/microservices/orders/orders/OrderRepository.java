@@ -8,9 +8,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Override
-    List<Order> findAllById(Iterable<Long> longs);
+//    @Override
+//    List<Order> findAllById(Iterable<Long> longs);
 
-
+    List<Order> findAllByAccountId(Long accountId);
 
 }

@@ -12,10 +12,10 @@ import java.util.List;
 @Entity
 @Getter @Setter @NoArgsConstructor
 @Table(name = "orders")
-class Order {
+public class Order {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long accountId;
     private Date orderDate;
@@ -25,4 +25,13 @@ class Order {
 
     @OneToMany
     private List<LineItem> lineItemList;
+
+    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItemList) {
+        this.accountId = accountId;
+        this.orderDate = orderDate;
+        this.shippingAddressId = shippingAddressId;
+        this.billingAddressId = billingAddressId;
+        this.totalPrice = totalPrice;
+        this.lineItemList = lineItemList;
+    }
 }

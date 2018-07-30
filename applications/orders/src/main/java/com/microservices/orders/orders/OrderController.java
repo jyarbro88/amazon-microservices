@@ -15,38 +15,43 @@ public class OrderController {
     OrderRepository orderRepository;
 
 
+//    @GetMapping
+//    public List<Order> showAllOrders(){
+//        return orderRepository.findAll();
+//    }
+//
+//    @PostMapping(consumes = {"application/json"})
+//    public ResponseEntity addNewOrder(
+//            @RequestBody Order order
+//    ){
+//
+//        orderRepository.save(order);
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//
+//    @PutMapping(value = {"/{orderId}"})
+//    public ResponseEntity updateOrder(
+//            @PathVariable(value = "orderId") Long orderid,
+//            @RequestBody Order order
+//    ){
+//
+//        orderRepository.save(order);
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping
+//    public ResponseEntity deleteOrder(){
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+
     @GetMapping
-    public List<Order> showAllOrders(){
-        return orderRepository.findAll();
-    }
-
-    @PostMapping(consumes = {"application/json"})
-    public ResponseEntity addNewOrder(
-            @RequestBody Order order
+    public List<Order> getAllOrdersForAccountId(
+            @RequestParam(value = "accountId") Long accountId
     ){
-
-        orderRepository.save(order);
-
-        return new ResponseEntity(HttpStatus.OK);
+        return orderRepository.findAllByAccountId(accountId);
     }
-
-    @PutMapping(value = {"/{orderId}"})
-    public ResponseEntity updateOrder(
-            @PathVariable(value = "orderId") Long orderid,
-            @RequestBody Order order
-    ){
-
-        orderRepository.save(order);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @DeleteMapping
-    public ResponseEntity deleteOrder(){
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-
 
 }
