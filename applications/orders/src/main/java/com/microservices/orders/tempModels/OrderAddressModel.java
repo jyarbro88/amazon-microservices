@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor
 public class OrderAddressModel {
 
-    private Long id;
+    private Long shippingAddressId;
     private String addressOne;
     private String addressTwo;
     private String city;

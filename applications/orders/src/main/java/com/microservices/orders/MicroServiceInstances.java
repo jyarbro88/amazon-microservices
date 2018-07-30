@@ -12,7 +12,7 @@ public class MicroServiceInstances {
 
     public String getOrderShippingAddress(Long accountIdToSearch, Long addressIdToSearch){
 
-        return "http://accounts-service/accounts/" + accountIdToSearch + "/addresses/" + addressIdToSearch;
+        return "http://accounts-service/accounts/" + accountIdToSearch + "/accountAddresses/" + addressIdToSearch;
     }
 
 }
