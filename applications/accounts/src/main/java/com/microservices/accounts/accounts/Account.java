@@ -14,18 +14,18 @@ import java.util.List;
 public class Account {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String firstName;
     private String lastName;
     private String email;
     @OneToMany
-    private List<Address> addressIds;
+    private List<Address> accountAddresses;
 
-    public Account(String firstName, String lastName, String email, List<Address> addressIds) {
+    public Account(String firstName, String lastName, String email, List<Address> accountAddresses) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.addressIds = addressIds;
+        this.accountAddresses = accountAddresses;
     }
 }

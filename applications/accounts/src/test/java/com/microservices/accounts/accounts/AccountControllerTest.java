@@ -1,43 +1,59 @@
 package com.microservices.accounts.accounts;
 
+import com.microservices.accounts.addresses.Address;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
-import static org.junit.Assert.*;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
-
-import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class AccountControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    TestRestTemplate restTemplate;
 
-    @MockBean
+    @Autowired
     private AccountRepository accountRepository;
+
+    private List<Address> addressList = new ArrayList<>();
 
     @InjectMocks
     private AccountController accountController;
 
-    @Test
-    public void shouldReturnAllAccounts() throws Exception {
+//    @Test
+//    public void testSave(){
+//
+//        Address address = new Address("811 E Stone ct", "apt", "Addison", "IL", "60101", "USA");
+//        Address address2 = new Address("777 e howard", "apt 2", "Elmhurst", "IL", "60777", "USA");
+//        Address address3 = new Address("342 Woodridge Dr", "---", "Wooddale", "IL", "60765", "USA");
+//
+//        addressList.add(address);
+//        addressList.add(address2);
+//        addressList.add(address3);
+//
+//        Account account = new Account("joe", "yarbrough", "email@email.com", addressList);
+//
+//        accountRepository.save(account);
+//
+//        when(restTemplate.getForObject("/accounts/1", Account.class)).thenReturn(account);
+//
+//
+//    }
 
-        this.mockMvc.perform(get("/accounts"));
+    @Test
+    public void findAddressesByAccountId(){
+
     }
 
 }
