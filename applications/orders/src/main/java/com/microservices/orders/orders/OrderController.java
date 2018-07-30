@@ -38,10 +38,36 @@ public class OrderController {
     public OrderToDisplay getOrderDetailsForId(
             @PathVariable(value = "id") Long orderIdToSearch
     ) {
-        OrderToDisplay orderToDisplay = new OrderToDisplay();
-
         Optional<Order> foundOrderList = orderRepository.findById(orderIdToSearch);
         Order foundOrder = foundOrderList.get();
+
+        OrderToDisplay orderToDisplay = getOrderToDisplay(foundOrder);
+
+        getLineItemsForOrder(foundOrder, orderToDisplay);
+
+//        return orderShippingAddress;
+
+        return orderToDisplay;
+    }
+
+    private void getLineItemsForOrder(Order foundOrder, OrderToDisplay orderToDisplay) {
+        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
+
+        List<OrderLineItemToDisplay> listOfProductsForOrder = new ArrayList<>();
+
+        for (LineItem lineItem : lineItemsForOrderId) {
+            OrderLineItemToDisplay lineItemToDisplay = new OrderLineItemToDisplay();
+            OrderProductsToDisplay foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
+            lineItemToDisplay.setProductName(foundProduct.getName());
+            lineItemToDisplay.setQuantity(lineItem.getQuantity());
+            listOfProductsForOrder.add(lineItemToDisplay);
+        }
+
+        orderToDisplay.setLineItemsToDisplay(listOfProductsForOrder);
+    }
+
+    private OrderToDisplay getOrderToDisplay(Order foundOrder) {
+        OrderToDisplay orderToDisplay = new OrderToDisplay();
         Long shippingAddressId = foundOrder.getShippingAddressId();
 
         orderToDisplay.setOrderNumber(foundOrder.getId());
@@ -50,73 +76,6 @@ public class OrderController {
         OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject(microServiceInstances.getOrderShippingAddress(foundOrder.getAccountId(), shippingAddressId), OrderAddressToDisplay.class);
         orderShippingAddress.setShippingAddressId(shippingAddressId);
         orderToDisplay.setShippingAddress(orderShippingAddress);
-
-
-        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
-
-        List<OrderLineItemToDisplay> listOfProductsForOrder = new ArrayList<>();
-
-        for (LineItem lineItem : lineItemsForOrderId) {
-
-            OrderLineItemToDisplay lineItemToDisplay = new OrderLineItemToDisplay();
-
-            OrderProductsToDisplay foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
-
-            lineItemToDisplay.setProductName(foundProduct.getName());
-
-            lineItemToDisplay.setQuantity(lineItem.getQuantity());
-
-            listOfProductsForOrder.add(lineItemToDisplay);
-        }
-
-        orderToDisplay.setLineItemsToDisplay(listOfProductsForOrder);
-
-
-//        List<LineItem> foundLineItemList = foundOrder.getLineItemList();
-//
-//        for (LineItem lineItem : foundLineItemList) {
-//            OrderProductsToDisplay productModels = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), OrderProductsToDisplay.class);
-//            productModels.setQuantity(lineItem.getQuantity());
-//            listOfProductsForOrder.add(productModels);
-//        }
-
-//        orderToDisplay.setOrderLineItems(listOfProductsForOrder);
-
-
-
-
-//        List<LineItem> lineItemList = foundOrder.getLineItemList();
-
-
-//        for (LineItem lineItem : lineItemList) {
-//            Long productId = lineItem.getProductId();
-//            Integer quantity = lineItem.getQuantity();
-//
-//            OrderProductsToDisplay foundProductModel = restTemplate.getForObject(microServiceInstances.getProductName(productId), OrderProductsToDisplay.class);
-//
-//            String productName = foundProductModel.getName();
-//
-//            OrderLineItemsToDisplay lineItemsToDisplay = new OrderLineItemsToDisplay();
-//
-//            lineItemsToDisplay.setQuantity(quantity);
-//            lineItemsToDisplay.setProductName(productName);
-//        }
-//
-//        OrderShipmentToDisplay[] shipmentsForOrder = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(foundOrder.getShippingAddressId()), OrderShipmentToDisplay[].class);
-//
-//        List<OrderShipmentToDisplay> shipmentModels = new ArrayList<>();
-//        Collections.addAll(shipmentModels, shipmentsForOrder);
-
-
-
-//        OrderAddressToDisplay orderShipment = restTemplate.getForObject(microServiceInstances.getAllShipmentsForOrderId(orderIdToSearch), OrderAddressToDisplay.class);
-
-
-
-//        return orderToDisplay;
-
-//        return orderShippingAddress;
-
         return orderToDisplay;
     }
 }
