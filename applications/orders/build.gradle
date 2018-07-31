@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.3.RELEASE'
+        springBootVersion = '2.0.4.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -34,9 +34,11 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-rest')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-    compile group: 'io.pivotal.spring.cloud', name: 'spring-cloud-services-starter-service-registry', version: '2.0.1.RELEASE'
+    compile('org.springframework.cloud:spring-cloud-starter-config')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-eureka-client')
+    compile('org.springframework.cloud:spring-cloud-starter-netflix-hystrix')
     compile('org.springframework.cloud:spring-cloud-starter-netflix-zuul')
+    runtime('org.springframework.boot:spring-boot-devtools')
     runtime('com.h2database:h2')
     runtime('mysql:mysql-connector-java')
     compileOnly('org.projectlombok:lombok')
