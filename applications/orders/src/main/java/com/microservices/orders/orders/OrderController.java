@@ -9,7 +9,6 @@ import com.microservices.orders.displayObjects.OrderToDisplay;
 import com.microservices.orders.lineItems.LineItem;
 import com.microservices.orders.displayObjects.OrderAddressToDisplay;
 import com.microservices.orders.tempObjects.TempShipmentObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,14 +19,17 @@ import java.util.Optional;
 @RestController
 public class OrderController {
 
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private LineItemRepository lineItemRepository;
-    @Autowired
-    private RestTemplate restTemplate;
-    @Autowired
-    private MicroServiceInstances microServiceInstances;
+    private final OrderRepository orderRepository;
+    private final LineItemRepository lineItemRepository;
+    private final RestTemplate restTemplate;
+    private final MicroServiceInstances microServiceInstances;
+
+    public OrderController(OrderRepository orderRepository, LineItemRepository lineItemRepository, RestTemplate restTemplate, MicroServiceInstances microServiceInstances) {
+        this.orderRepository = orderRepository;
+        this.lineItemRepository = lineItemRepository;
+        this.restTemplate = restTemplate;
+        this.microServiceInstances = microServiceInstances;
+    }
 
     @GetMapping(value = "orders/accountLookup")
     public List<Order> getAllOrdersForAccountId(
