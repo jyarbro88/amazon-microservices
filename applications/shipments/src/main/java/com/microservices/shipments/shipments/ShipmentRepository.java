@@ -9,14 +9,6 @@ import java.util.Optional;
 @Repository
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
-
     List<Shipment> findAllByAccountId(Long accountId);
-//
-//    Shipment findAllById(Long accountId);
-
-//    Shipment findAllById(Long id);
-
     Optional<Shipment> findById(Long shipmentId);
-
-    Shipment findByLineItemId(Long lineItemId);
 }

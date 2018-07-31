@@ -26,6 +26,5 @@ public class ShipmentsController {
             @PathVariable(value = "shipmentId") Long shipmentId
     ){
         return shipmentRepository.findById(shipmentId);
-//        return shipmentRepository.findByLineItemId(shipmentId);
     }
 }
