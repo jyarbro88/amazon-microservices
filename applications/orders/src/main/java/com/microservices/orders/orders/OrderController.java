@@ -16,6 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+//Todo:  Create operations for new Order which links the address, account id when saving
+//Todo:  Calculate Total Prices with utility class and not manually
+//Todo:  Order Total Price is null
+//Todo:  OrderShipmentToDisplay needs order line item id and order id
 @RestController
 public class OrderController {
 
@@ -44,63 +48,55 @@ public class OrderController {
     ) {
         Optional<Order> foundOrderList = orderRepository.findById(orderIdToSearch);
         Order foundOrder = foundOrderList.get();
-
-        OrderToDisplay orderToDisplay = getOrderToDisplay(foundOrder);
-
-        getLineItemsForOrder(foundOrder, orderToDisplay);
-
-        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = orderToDisplay.getOrderShipmentsToDisplayList();
-
-        return orderToDisplay;
-    }
-
-    private void getLineItemsForOrder(Order foundOrder, OrderToDisplay orderToDisplay) {
-        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
-
-        List<OrderLineItemToDisplay> listOfProductsForOrder = new ArrayList<>();
-        List<OrderShipmentsToDisplay> listOfShipmentsForOrder = new ArrayList<>();
-        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = new ArrayList<>();
-
-        for (LineItem lineItem : lineItemsForOrderId) {
-
-            OrderLineItemToDisplay lineItemToDisplay = new OrderLineItemToDisplay();
-            OrderShipmentsToDisplay lineItemShipment = new OrderShipmentsToDisplay();
-
-            TempProductObject foundProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), TempProductObject.class);
-            TempShipmentObject tempShipmentObject = restTemplate.getForObject(microServiceInstances.getShipmentForLineItemId(lineItem.getShipmentId()), TempShipmentObject.class);
-
-            lineItemShipment.setDeliveryDate(tempShipmentObject.getDeliveredDate());
-            lineItemShipment.setShippedDate(tempShipmentObject.getShippedDate());
-            lineItemShipment.setShipmentId(tempShipmentObject.getId());
-
-
-            lineItemToDisplay.setProductName(foundProduct.getName());
-            lineItemToDisplay.setQuantity(lineItem.getQuantity());
-
-            orderShipmentsToDisplayList.add(lineItemShipment);
-            listOfProductsForOrder.add(lineItemToDisplay);
-
-            listOfShipmentsForOrder.add(lineItemShipment);
-
-
-        }
-
-        orderToDisplay.setLineItemsToDisplay(listOfProductsForOrder);
-        orderToDisplay.setOrderShipmentsToDisplayList(listOfShipmentsForOrder);
-    }
-
-    private OrderToDisplay getOrderToDisplay(Order foundOrder) {
-        OrderToDisplay orderToDisplay = new OrderToDisplay();
         Long shippingAddressId = foundOrder.getShippingAddressId();
 
+        OrderToDisplay orderToDisplay = new OrderToDisplay();
         orderToDisplay.setOrderNumber(foundOrder.getId());
         orderToDisplay.setOrderTotalPrice(foundOrder.getTotalPrice());
 
         OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject(microServiceInstances.getOrderShippingAddress(foundOrder.getAccountId(), shippingAddressId), OrderAddressToDisplay.class);
+
         orderShippingAddress.setShippingAddressId(shippingAddressId);
         orderToDisplay.setShippingAddress(orderShippingAddress);
+
+        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
+
+
+
+
+        List<OrderLineItemToDisplay> lineItemsForOrderList = new ArrayList<>();
+        List<OrderShipmentsToDisplay> shipmentItemsForOrderList = new ArrayList<>();
+
+        for (LineItem lineItem : lineItemsForOrderId) {
+            OrderLineItemToDisplay orderLineItemToDisplay = new OrderLineItemToDisplay();
+            OrderShipmentsToDisplay shipmentLineItemToDisplay = new OrderShipmentsToDisplay();
+
+            TempProductObject tempProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), TempProductObject.class);
+            TempShipmentObject tempShipment = restTemplate.getForObject(microServiceInstances.getShipmentForLineItemId(lineItem.getShipmentId()), TempShipmentObject.class);
+
+            shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
+            shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());
+            shipmentLineItemToDisplay.setShipmentId(tempShipment.getId());
+            shipmentLineItemToDisplay.setOrderLineItemId(lineItem.getId());
+
+
+            orderLineItemToDisplay.setOrderLineItemId(lineItem.getId());
+            orderLineItemToDisplay.setProductName(tempProduct.getName());
+            orderLineItemToDisplay.setQuantity(lineItem.getQuantity());
+
+            lineItem.getOrderId();
+
+            lineItemsForOrderList.add(orderLineItemToDisplay);
+            shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
+        }
+
+
+
+
+
+        orderToDisplay.setOrderLineItemsList(lineItemsForOrderList);
+        orderToDisplay.setOrderShipmentsList(shipmentItemsForOrderList);
+
         return orderToDisplay;
     }
-
-    //Todo:  Create operations for new Order which links the address, account id when saving
 }

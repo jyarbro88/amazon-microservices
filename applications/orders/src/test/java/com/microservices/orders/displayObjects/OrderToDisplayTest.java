@@ -55,7 +55,7 @@ public class OrderToDisplayTest {
         final Field field = testOrderItem.getClass().getDeclaredField("lineItemsToDisplay");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderLineItemToDisplay> lineItemsToDisplay = testOrderItem.getLineItemsToDisplay();
+        List<OrderLineItemToDisplay> lineItemsToDisplay = testOrderItem.getOrderLineItemsList();
         assertEquals("", mockList, lineItemsToDisplay);
     }
 
@@ -73,7 +73,7 @@ public class OrderToDisplayTest {
         final Field field = testOrderItem.getClass().getDeclaredField("orderShipmentsToDisplayList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = testOrderItem.getOrderShipmentsToDisplayList();
+        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = testOrderItem.getOrderShipmentsList();
         assertEquals("", mockList, orderShipmentsToDisplayList);
     }
 }

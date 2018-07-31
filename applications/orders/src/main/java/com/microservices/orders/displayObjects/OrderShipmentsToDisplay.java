@@ -12,11 +12,14 @@ import java.util.Date;
 @Getter @Setter @NoArgsConstructor
 public class OrderShipmentsToDisplay {
 
+    private Long accountId;
     private Long shipmentId;
+    private Long orderLineItemId;
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date shippedDate;
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date deliveryDate;
+
 }

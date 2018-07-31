@@ -6,14 +6,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class OrderToDisplay {
 
     private Long orderNumber;
     private Double orderTotalPrice;
     private OrderAddressToDisplay shippingAddress;
-    private List<OrderLineItemToDisplay> lineItemsToDisplay;
-    private List<OrderShipmentsToDisplay> orderShipmentsToDisplayList;
+    private List<OrderLineItemToDisplay> orderLineItemsList;
+    private List<OrderShipmentsToDisplay> orderShipmentsList;
 }

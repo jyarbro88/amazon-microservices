@@ -24,12 +24,4 @@ public class LineItem {
     private Double singleItemPrice;
     private Double lineItemTotalPrice;
 
-    public LineItem(Long productId, Long shipmentId, Long orderId, Integer quantity, Double singleItemPrice, Double lineItemTotalPrice) {
-        this.productId = productId;
-        this.shipmentId = shipmentId;
-        this.orderId = orderId;
-        this.quantity = quantity;
-        this.singleItemPrice = singleItemPrice;
-        this.lineItemTotalPrice = lineItemTotalPrice;
-    }
 }
