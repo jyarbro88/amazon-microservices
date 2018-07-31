@@ -1,6 +1,5 @@
 package com.microservices.shipments.shipments;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,8 +10,11 @@ import java.util.Optional;
 @RestController
 public class ShipmentsController {
 
-    @Autowired
-    private ShipmentRepository shipmentRepository;
+    private final ShipmentRepository shipmentRepository;
+
+    public ShipmentsController(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
+    }
 
     @GetMapping(value = "/shipments/{accountId}", produces = "application/json")
     public List<Shipment> getAllShipmentsForAccountId(
