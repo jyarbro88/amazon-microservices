@@ -1,4 +1,4 @@
-package com.microservices.orders.orders;
+package com.microservices.orders.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

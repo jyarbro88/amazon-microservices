@@ -1,9 +1,9 @@
 package com.microservices.accounts;
 
-import com.microservices.accounts.accounts.Account;
-import com.microservices.accounts.accounts.AccountRepository;
-import com.microservices.accounts.addresses.Address;
-import com.microservices.accounts.addresses.AddressRepository;
+import com.microservices.accounts.models.Account;
+import com.microservices.accounts.repositories.AccountRepository;
+import com.microservices.accounts.models.Address;
+import com.microservices.accounts.repositories.AddressRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

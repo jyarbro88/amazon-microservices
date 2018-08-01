@@ -1,6 +1,5 @@
-package com.microservices.accounts.accounts;
+package com.microservices.accounts.models;
 
-import com.microservices.accounts.addresses.Address;
 import lombok.*;
 
 import javax.persistence.*;

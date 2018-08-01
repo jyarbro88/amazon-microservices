@@ -1,4 +1,4 @@
-package com.microservices.orders;
+package com.microservices.orders.services;
 
 public class CalculateUtil {
 

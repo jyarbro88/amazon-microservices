@@ -1,4 +1,4 @@
-package com.microservices.orders.lineItems;
+package com.microservices.orders.controllers;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,5 +1,6 @@
-package com.microservices.accounts.accounts;
+package com.microservices.accounts.repositories;
 
+import com.microservices.accounts.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

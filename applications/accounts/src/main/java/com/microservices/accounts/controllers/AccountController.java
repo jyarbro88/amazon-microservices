@@ -1,4 +1,4 @@
-package com.microservices.accounts.accounts;
+package com.microservices.accounts.controllers;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package com.microservices.accounts.addresses;
+package com.microservices.accounts.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
