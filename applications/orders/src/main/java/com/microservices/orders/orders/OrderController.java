@@ -2,9 +2,8 @@ package com.microservices.orders.orders;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microservices.orders.MicroServiceInstances;
 import com.microservices.orders.models.display.OrderShipmentsToDisplay;
-import com.microservices.orders.lineItems.LineItemRepository;
+import com.microservices.orders.repositories.LineItemRepository;
 import com.microservices.orders.models.display.OrderLineItemToDisplay;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.temp.TempProductObject;
@@ -12,6 +11,7 @@ import com.microservices.orders.models.display.OrderToDisplay;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.display.OrderAddressToDisplay;
 import com.microservices.orders.models.temp.TempShipmentObject;
+import com.microservices.orders.repositories.OrderRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +35,13 @@ public class OrderController {
     private final OrderRepository orderRepository;
     private final LineItemRepository lineItemRepository;
     private final RestTemplate restTemplate;
-    private final MicroServiceInstances microServiceInstances;
+//    private final MicroServiceInstances microServiceInstances;
 
-    public OrderController(OrderRepository orderRepository, LineItemRepository lineItemRepository, RestTemplate restTemplate, MicroServiceInstances microServiceInstances) {
+    public OrderController(OrderRepository orderRepository, LineItemRepository lineItemRepository, RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
         this.lineItemRepository = lineItemRepository;
         this.restTemplate = restTemplate;
-        this.microServiceInstances = microServiceInstances;
+//        this.microServiceInstances = microServiceInstances;
     }
 
     @GetMapping(value = "orders/accountLookup")
@@ -63,7 +63,7 @@ public class OrderController {
         orderToDisplay.setOrderNumber(foundOrder.getId());
         orderToDisplay.setOrderTotalPrice(foundOrder.getTotalPrice());
 
-        OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject(microServiceInstances.getOrderShippingAddress(foundOrder.getAccountId(), shippingAddressId), OrderAddressToDisplay.class);
+        OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject("http://accounts-service/accounts/" + foundOrder.getAccountId() + "/accountAddresses/" + shippingAddressId, OrderAddressToDisplay.class);
 
         orderShippingAddress.setShippingAddressId(shippingAddressId);
         orderToDisplay.setShippingAddress(orderShippingAddress);
@@ -77,8 +77,11 @@ public class OrderController {
             OrderLineItemToDisplay orderLineItemToDisplay = new OrderLineItemToDisplay();
             OrderShipmentsToDisplay shipmentLineItemToDisplay = new OrderShipmentsToDisplay();
 
-            TempProductObject tempProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), TempProductObject.class);
-            TempShipmentObject tempShipment = restTemplate.getForObject(microServiceInstances.getShipmentForLineItemId(lineItem.getShipmentId()), TempShipmentObject.class);
+//            TempProductObject tempProduct = restTemplate.getForObject(microServiceInstances.getProductName(lineItem.getProductId()), TempProductObject.class);
+//            TempShipmentObject tempShipment = restTemplate.getForObject(microServiceInstances.getShipmentForLineItemId(lineItem.getShipmentId()), TempShipmentObject.class);
+
+            TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + lineItem.getProductId(), TempProductObject.class);
+            TempShipmentObject tempShipment = restTemplate.getForObject("http://shipments-service/shipments/lineItems/" + lineItem.getShipmentId(), TempShipmentObject.class);
 
             shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
             shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());

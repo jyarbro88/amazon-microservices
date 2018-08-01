@@ -1,4 +1,4 @@
-package com.microservices.orders.lineItems;
+package com.microservices.orders.repositories;
 
 import com.microservices.orders.models.LineItem;
 import org.springframework.data.jpa.repository.JpaRepository;
