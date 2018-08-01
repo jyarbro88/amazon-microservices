@@ -28,17 +28,20 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(Long id, Order order){
-        Optional<Order> passedInOrder = orderRepository.findById(id);
-        Order foundOrderToUpdate = passedInOrder.get();
-        foundOrderToUpdate.setAccountId(order.getAccountId());
-        foundOrderToUpdate.setBillingAddressId(order.getBillingAddressId());
-        foundOrderToUpdate.setLineItems(order.getLineItems());
-        foundOrderToUpdate.setOrderDate(order.getOrderDate());
-        foundOrderToUpdate.setShippingAddressId(order.getShippingAddressId());
-        foundOrderToUpdate.setTotalPrice(order.getTotalPrice());
+    public Order updateOrder(Long id, Order passedInOrder){
+        Optional<Order> orderById = orderRepository.findById(id);
+        Order orderToUpdate = orderById.get();
+        orderToUpdate.setAccountId(passedInOrder.getAccountId());
+        orderToUpdate.setBillingAddressId(passedInOrder.getBillingAddressId());
+        orderToUpdate.setLineItems(passedInOrder.getLineItems());
+        orderToUpdate.setOrderDate(passedInOrder.getOrderDate());
+        orderToUpdate.setShippingAddressId(passedInOrder.getShippingAddressId());
+        orderToUpdate.setTotalPrice(passedInOrder.getTotalPrice());
 
-        return orderRepository.save(foundOrderToUpdate);
+        return orderRepository.save(orderToUpdate);
     }
 
+    public void deleteOrder(Long id){
+        orderRepository.deleteById(id);
+    }
 }
