@@ -4,6 +4,7 @@ import com.microservices.orders.models.Order;
 import com.microservices.orders.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,12 +25,16 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
+    public List<Order> getAllOrdersForIdOrderByDate(Long id){
+        return orderRepository.findAllByAccountIdOrderByOrderDate(id);
+    }
+
     public Order createNewOrder(Order order){
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(Long id, Order passedInOrder){
-        Optional<Order> orderById = orderRepository.findById(id);
+    public Order updateOrder(Order passedInOrder){
+        Optional<Order> orderById = orderRepository.findById(passedInOrder.getId());
         Order orderToUpdate = orderById.get();
         orderToUpdate.setAccountId(passedInOrder.getAccountId());
         orderToUpdate.setBillingAddressId(passedInOrder.getBillingAddressId());

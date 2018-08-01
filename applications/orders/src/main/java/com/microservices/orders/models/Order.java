@@ -1,6 +1,7 @@
 package com.microservices.orders.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,16 +26,8 @@ public class Order {
     private Long billingAddressId;
     private Double totalPrice;
     @OneToMany
+    @JsonManagedReference
     private List<LineItem> lineItems;
-
-    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice) {
-        this.accountId = accountId;
-        this.orderDate = orderDate;
-        this.shippingAddressId = shippingAddressId;
-        this.billingAddressId = billingAddressId;
-        this.totalPrice = totalPrice;
-    }
-
 
     public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItems) {
         this.accountId = accountId;

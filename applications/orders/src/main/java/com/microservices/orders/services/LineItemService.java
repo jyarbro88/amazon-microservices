@@ -35,7 +35,7 @@ public class LineItemService {
         foundLineItem.setLineItemTotalPrice(passedInLineItem.getLineItemTotalPrice());
         foundLineItem.setQuantity(passedInLineItem.getQuantity());
         foundLineItem.setShipmentId(passedInLineItem.getShipmentId());
-        foundLineItem.setOrderId(passedInLineItem.getOrderId());
+        foundLineItem.setOrder(passedInLineItem.getOrder());
         foundLineItem.setSingleItemPrice(passedInLineItem.getSingleItemPrice());
 
         return lineItemRepository.save(foundLineItem);

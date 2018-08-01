@@ -5,151 +5,115 @@ import com.microservices.orders.controllers.OrderController;
 import com.microservices.orders.repositories.LineItemRepository;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.repositories.OrderRepository;
+import com.microservices.orders.services.OrderService;
+import org.apache.catalina.security.SecurityConfig;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@SpringBootTest
-//@RunWith(SpringJUnit4ClassRunner.class)
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
+@ContextConfiguration(classes = SecurityConfig.class)
 public class OrderControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private OrderRepository orderRepository;
-    @MockBean
-    private LineItemRepository lineItemRepository;
-
-    private JacksonTester<Order> jsonOrder;
-
-    @MockBean
+    @Mock
+    private OrderService orderService;
+    @InjectMocks
     private OrderController orderController;
 
+    private JSONObject testJsonOrderObject = new JSONObject();
+    private JSONObject testJsonLineItemsObject = new JSONObject();
+
     @Before
-    public void setup(){
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
+    public void setup() throws JSONException, ParseException {
+        MockitoAnnotations.initMocks(this);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(this.orderController).build();
 
-    @Test
-    public void testOrderDetailsForId() throws Exception {
+        testJsonLineItemsObject.put("productId", 1L);
+        testJsonLineItemsObject.put("shipmentId", 1L);
+        testJsonLineItemsObject.put("orderId", 1L);
+        testJsonLineItemsObject.put("quantity", 3);
+        testJsonLineItemsObject.put("singleItemPrice", 3.00);
+        testJsonLineItemsObject.put("lineItemTotalPrice", 9.00);
 
-//        List<LineItem> lineItemList = new ArrayList<>();
-//        List<Order> orderList = new ArrayList<>();
-
-//        LineItem lineItem = new LineItem(1L, 1L, 1L, 4, 4.00, 16.00);
-//        LineItem lineItem2 = new LineItem(2L, 1L, 1L, 3, 2.00, 6.00);
-//        lineItem.setProductId(1L);
-//        lineItem2.setProductId(2L);
-//        lineItemList.add(lineItem);
-//        lineItemList.add(lineItem2);
-//        lineItemRepository.save(lineItem);
-//        lineItemRepository.save(lineItem2);
-//
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-//        Date newDate = dateFormat.parse("05-12-2018");
-//        Order order = new Order(1L, newDate, 1L, 2L, 20.23, lineItemList);
-//
-//        List<Order> orderList = Collections.singletonList(order);
-
-//        orderList.add(order);
-//        orderRepository.save(order);
-
-        // given
-
-//        given(orderRepository.findAllById(orderList.get(0).getId())).willReturn(orderList);
-//
-//        MockHttpServletResponse response = mockMvc.perform(get("http://localhost:8082/orders")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-
-        mockMvc.perform(get("http://localhost:8082/orders").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
-
-
-        // then
-//        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-//        assertThat(response.getContentAsString()).isEqualTo(
-//                jsonOrder.write(order).getJson()
-//        );
-    }
-
-
-//    @InjectMocks
-//    private OrderController orderController;
-
-//    @Autowired
-//    private WebApplicationContext applicationContext;
-
-//    private MockMvc mockMvc;
-
-//    @Before
-//    public void initTests(){
-//        MockitoAnnotations.initMocks(this);
-//        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
-//    }
-
-//    @Test
-//    public void shouldHaveEmptyDataBaseOnLoad() throws Exception {
-//        mockMvc.perform(get("/orders/accountLookup?accountId=1")
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(0)));
-//    }
-
-    @Test
-    public void getOrderDetailsForId() throws ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-        Date newDate = dateFormat.parse("05-12-2018");
-        Order order = new Order(1L, newDate, 1L, 2L, 20.23);
+        Date testDate = dateFormat.parse("05-12-2018");
 
-        when(orderRepository.save(order)).thenReturn(order);
+        testJsonOrderObject.put("productId", 1L);
+        testJsonOrderObject.put("orderDate", testDate);
+        testJsonOrderObject.put("shippingAddressId", 1L);
+        testJsonOrderObject.put("billingAddressId", 2L);
+        testJsonOrderObject.put("totalPrice", 20.23);
+        testJsonOrderObject.put("lineItems", testJsonLineItemsObject);
     }
 
+    @Test
+    public void testGetAllOrders() throws Exception {
+        mockMvc.perform(get("/orders"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
+    @Test
+    public void testGetAllOrdersForAccountId() throws Exception {
+        mockMvc.perform(get("/orders/accountLookup?accountId=1"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
-
-
-
-
+//    @Test
+//    public void testCreateNewOrder() throws Exception {
+//        mockMvc.perform(post("/orders")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(String.valueOf(testJsonOrderObject)))
+//                .andExpect(status().isCreated())
+//                .andDo(print());
+//    }
 //
 //    @Test
-//    public void shouldGetOrderToDisplay() throws Exception {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
-//        Date newDate = dateFormat.parse("05-12-2018");
-//
-//        OrderToDisplay testOrderToDisplay = Mockito.mock(OrderToDisplay.class);
-//        Order testOrder = Mockito.mock(Order.class);
-////        Order testOrder = new Order(1L, newDate, 1L, 2L, 20.23);
-//
-//        orderRepository.save(testOrder);
-//
-//        mockMvc.perform(get("/orders/details/" + testOrder.getId())
-//                .accept(MediaType.APPLICATION_JSON))
+//    public void testUpdateOrder() throws Exception {
+//        mockMvc.perform(put("/orders/update")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(String.valueOf(testJsonOrderObject)))
 //                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$", hasSize(1)));
-//
+//                .andDo(print());
 //    }
+
+    @Test
+    public void testDeleteOrder() throws Exception {
+        mockMvc.perform(delete("/orders/{id}", 1L)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andDo(print());
+    }
+
 
 }
