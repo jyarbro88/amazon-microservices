@@ -1,9 +1,9 @@
 package com.microservices.orders;
 
 import com.microservices.orders.models.LineItem;
-import com.microservices.orders.lineItems.LineItemRepository;
+import com.microservices.orders.repositories.LineItemRepository;
 import com.microservices.orders.models.Order;
-import com.microservices.orders.orders.OrderRepository;
+import com.microservices.orders.repositories.OrderRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package com.microservices.orders.orders;
+package com.microservices.orders.repositories;
 
 import com.microservices.orders.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
