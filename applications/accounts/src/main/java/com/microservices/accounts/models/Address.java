@@ -1,11 +1,9 @@
 package com.microservices.accounts.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -23,6 +21,9 @@ public class Address {
     private String state;
     private String zipCode;
     private String country;
+    @ManyToOne
+    @JsonBackReference
+    private Account account;
 
     public Address(String addressOne, String addressTwo, String city, String state, String zipCode, String country) {
         this.addressOne = addressOne;
