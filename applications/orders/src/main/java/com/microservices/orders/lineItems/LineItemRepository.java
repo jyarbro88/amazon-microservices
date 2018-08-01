@@ -1,5 +1,6 @@
 package com.microservices.orders.lineItems;
 
+import com.microservices.orders.models.LineItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

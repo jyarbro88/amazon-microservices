@@ -1,4 +1,4 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.models.display;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

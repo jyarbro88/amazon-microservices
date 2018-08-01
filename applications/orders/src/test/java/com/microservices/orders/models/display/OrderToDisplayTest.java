@@ -1,5 +1,9 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.models.display;
 
+import com.microservices.orders.models.display.OrderAddressToDisplay;
+import com.microservices.orders.models.display.OrderLineItemToDisplay;
+import com.microservices.orders.models.display.OrderShipmentsToDisplay;
+import com.microservices.orders.models.display.OrderToDisplay;
 import org.junit.Test;
 import org.mockito.Mockito;
 

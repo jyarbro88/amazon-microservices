@@ -1,4 +1,4 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.models.display;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -12,7 +12,6 @@ import java.util.Date;
 @Getter @Setter @NoArgsConstructor
 public class OrderShipmentsToDisplay {
 
-    private Long accountId;
     private Long shipmentId;
     private Long orderLineItemId;
     @Temporal(TemporalType.DATE)

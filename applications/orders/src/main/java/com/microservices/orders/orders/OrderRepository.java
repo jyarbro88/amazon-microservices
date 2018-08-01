@@ -1,5 +1,6 @@
 package com.microservices.orders.orders;
 
+import com.microservices.orders.models.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

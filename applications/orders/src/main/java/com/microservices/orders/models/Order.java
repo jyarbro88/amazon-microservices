@@ -1,4 +1,4 @@
-package com.microservices.orders.orders;
+package com.microservices.orders.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -23,6 +24,8 @@ public class Order {
     private Long shippingAddressId;
     private Long billingAddressId;
     private Double totalPrice;
+    @OneToMany
+    private List<LineItem> lineItems;
 
     public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice) {
         this.accountId = accountId;
@@ -30,5 +33,15 @@ public class Order {
         this.shippingAddressId = shippingAddressId;
         this.billingAddressId = billingAddressId;
         this.totalPrice = totalPrice;
+    }
+
+
+    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItems) {
+        this.accountId = accountId;
+        this.orderDate = orderDate;
+        this.shippingAddressId = shippingAddressId;
+        this.billingAddressId = billingAddressId;
+        this.totalPrice = totalPrice;
+        this.lineItems = lineItems;
     }
 }

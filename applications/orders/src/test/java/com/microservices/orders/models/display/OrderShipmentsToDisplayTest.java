@@ -1,5 +1,6 @@
-package com.microservices.orders.displayObjects;
+package com.microservices.orders.models.display;
 
+import com.microservices.orders.models.display.OrderShipmentsToDisplay;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

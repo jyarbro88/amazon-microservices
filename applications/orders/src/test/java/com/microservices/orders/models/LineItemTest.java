@@ -1,5 +1,6 @@
-package com.microservices.orders.lineItems;
+package com.microservices.orders.models;
 
+import com.microservices.orders.models.LineItem;
 import org.junit.Test;
 
 import java.lang.reflect.Field;

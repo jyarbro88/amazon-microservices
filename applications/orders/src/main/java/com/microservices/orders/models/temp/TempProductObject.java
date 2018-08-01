@@ -1,4 +1,4 @@
-package com.microservices.orders.tempObjects;
+package com.microservices.orders.models.temp;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

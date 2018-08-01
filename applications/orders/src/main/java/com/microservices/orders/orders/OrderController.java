@@ -1,17 +1,23 @@
 package com.microservices.orders.orders;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservices.orders.MicroServiceInstances;
-import com.microservices.orders.displayObjects.OrderShipmentsToDisplay;
+import com.microservices.orders.models.display.OrderShipmentsToDisplay;
 import com.microservices.orders.lineItems.LineItemRepository;
-import com.microservices.orders.displayObjects.OrderLineItemToDisplay;
-import com.microservices.orders.tempObjects.TempProductObject;
-import com.microservices.orders.displayObjects.OrderToDisplay;
-import com.microservices.orders.lineItems.LineItem;
-import com.microservices.orders.displayObjects.OrderAddressToDisplay;
-import com.microservices.orders.tempObjects.TempShipmentObject;
+import com.microservices.orders.models.display.OrderLineItemToDisplay;
+import com.microservices.orders.models.Order;
+import com.microservices.orders.models.temp.TempProductObject;
+import com.microservices.orders.models.display.OrderToDisplay;
+import com.microservices.orders.models.LineItem;
+import com.microservices.orders.models.display.OrderAddressToDisplay;
+import com.microservices.orders.models.temp.TempShipmentObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +26,9 @@ import java.util.Optional;
 //Todo:  Calculate Total Prices with utility class and not manually
 //Todo:  Order Total Price is null
 //Todo:  OrderShipmentToDisplay needs order line item id and order id
+//Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
+
+
 @RestController
 public class OrderController {
 
@@ -61,9 +70,6 @@ public class OrderController {
 
         List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
 
-
-
-
         List<OrderLineItemToDisplay> lineItemsForOrderList = new ArrayList<>();
         List<OrderShipmentsToDisplay> shipmentItemsForOrderList = new ArrayList<>();
 
@@ -79,24 +85,37 @@ public class OrderController {
             shipmentLineItemToDisplay.setShipmentId(tempShipment.getId());
             shipmentLineItemToDisplay.setOrderLineItemId(lineItem.getId());
 
-
             orderLineItemToDisplay.setOrderLineItemId(lineItem.getId());
             orderLineItemToDisplay.setProductName(tempProduct.getName());
             orderLineItemToDisplay.setQuantity(lineItem.getQuantity());
-
-            lineItem.getOrderId();
-
+//            lineItem.getOrderId();
             lineItemsForOrderList.add(orderLineItemToDisplay);
             shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
         }
-
-
-
-
 
         orderToDisplay.setOrderLineItemsList(lineItemsForOrderList);
         orderToDisplay.setOrderShipmentsList(shipmentItemsForOrderList);
 
         return orderToDisplay;
+    }
+
+    @PostMapping(value = "orders/newOrder", consumes = "application/json")
+    public ResponseEntity addNewOrder(
+            @RequestBody String orderJson
+    ) throws IOException {
+
+        List<JsonNode> newOrderLineItems = new ArrayList<>();
+
+//        ResponseEntity<String> response = restTemplate.getForEntity(stockKeyUrl, String.class);
+        ObjectMapper mapper = new ObjectMapper();
+//        JsonNode root = mapper.readTree(orderJson.get());
+
+//        JsonNode lineItems = root.path("lineItems");
+//        root.path("")
+//
+//        JsonNode companySymbol = root.path("symbol");
+//        JsonNode companyName = root.path("companyName");
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package com.microservices.orders.tempObjects;
+package com.microservices.orders.models.temp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

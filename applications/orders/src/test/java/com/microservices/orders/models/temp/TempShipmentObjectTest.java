@@ -1,5 +1,6 @@
-package com.microservices.orders.tempObjects;
+package com.microservices.orders.models.temp;
 
+import com.microservices.orders.models.temp.TempShipmentObject;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
