@@ -1,15 +1,15 @@
 package com.microservices.shipments.shipments;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "shipments")
 public class Shipment {
 

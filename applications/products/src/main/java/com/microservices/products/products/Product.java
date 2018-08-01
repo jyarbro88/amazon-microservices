@@ -1,8 +1,6 @@
 package com.microservices.products.products;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "products")
 public class Product {
 
@@ -20,10 +20,4 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-
-    public Product(String name, String description, Double price) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-    }
 }

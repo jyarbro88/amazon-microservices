@@ -1,15 +1,13 @@
 package com.microservices.accounts.accounts;
 
 import com.microservices.accounts.addresses.Address;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
-@Getter @Setter @NoArgsConstructor
+@Entity @Data
+@NoArgsConstructor @AllArgsConstructor
 @Table(name = "accounts")
 public class Account {
 
