@@ -24,12 +24,21 @@ public class LineItem {
     @JsonBackReference
     private Order order;
 
-    public LineItem(Long productId, Long shipmentId, Integer quantity, Double singleItemPrice, Double lineItemTotalPrice, Order order) {
-        this.productId = productId;
-        this.shipmentId = shipmentId;
-        this.quantity = quantity;
-        this.singleItemPrice = singleItemPrice;
+//    public LineItem(Long productId, Long shipmentId, Integer quantity, Double singleItemPrice, Double lineItemTotalPrice, Order order) {
+//        this.productId = productId;
+//        this.shipmentId = shipmentId;
+//        this.quantity = quantity;
+//        this.singleItemPrice = singleItemPrice;
+//        this.lineItemTotalPrice = lineItemTotalPrice;
+//        this.order = order;
+//    }
+
+    public Double getLineItemTotalPrice(){
+        lineItemTotalPrice = singleItemPrice * quantity;
+        return lineItemTotalPrice;
+    }
+
+    public void setLineItemTotalPrice(Double lineItemTotalPrice){
         this.lineItemTotalPrice = lineItemTotalPrice;
-        this.order = order;
     }
 }

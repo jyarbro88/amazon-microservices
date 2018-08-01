@@ -38,14 +38,14 @@ public class LineItemTest {
         assertEquals(5L, shipmentId, 5L);
     }
 
-    @Test
-    public void setOrderId() throws NoSuchFieldException, IllegalAccessException {
-        final Field field = testLineItem.getClass().getDeclaredField("orderId");
-        field.setAccessible(true);
-        field.set(testLineItem, 5L);
-        Long orderId = testLineItem.getOrderId();
-        assertEquals(5L, orderId, 5L);
-    }
+//    @Test
+//    public void setOrderId() throws NoSuchFieldException, IllegalAccessException {
+//        final Field field = testLineItem.getClass().getDeclaredField("orderId");
+//        field.setAccessible(true);
+//        field.set(testLineItem, 5L);
+//        Long orderId = testLineItem.getOrderId();
+//        assertEquals(5L, orderId, 5L);
+//    }
 
     @Test
     public void setQuantity() throws NoSuchFieldException, IllegalAccessException {

@@ -88,23 +88,23 @@ public class OrderControllerTest {
                 .andDo(print());
     }
 
-//    @Test
-//    public void testCreateNewOrder() throws Exception {
-//        mockMvc.perform(post("/orders")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(String.valueOf(testJsonOrderObject)))
-//                .andExpect(status().isCreated())
-//                .andDo(print());
-//    }
-//
-//    @Test
-//    public void testUpdateOrder() throws Exception {
-//        mockMvc.perform(put("/orders/update")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(String.valueOf(testJsonOrderObject)))
-//                .andExpect(status().isOk())
-//                .andDo(print());
-//    }
+    @Test
+    public void testCreateNewOrder() throws Exception {
+        mockMvc.perform(post("/orders")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(testJsonOrderObject)))
+                .andExpect(status().isCreated())
+                .andDo(print());
+    }
+
+    @Test
+    public void testUpdateOrder() throws Exception {
+        mockMvc.perform(put("/orders/update")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(testJsonOrderObject)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 
     @Test
     public void testDeleteOrder() throws Exception {
