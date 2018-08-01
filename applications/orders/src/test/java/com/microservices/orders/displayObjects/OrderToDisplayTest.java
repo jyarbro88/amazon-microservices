@@ -52,7 +52,7 @@ public class OrderToDisplayTest {
         mockList.add(mockLineItems2);
         mockList.add(mockLineItems3);
 
-        final Field field = testOrderItem.getClass().getDeclaredField("lineItemsToDisplay");
+        final Field field = testOrderItem.getClass().getDeclaredField("orderLineItemsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
         List<OrderLineItemToDisplay> lineItemsToDisplay = testOrderItem.getOrderLineItemsList();
@@ -70,7 +70,7 @@ public class OrderToDisplayTest {
         mockList.add(mockOrderShipments2);
         mockList.add(mockOrderShipments3);
 
-        final Field field = testOrderItem.getClass().getDeclaredField("orderShipmentsToDisplayList");
+        final Field field = testOrderItem.getClass().getDeclaredField("orderShipmentsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
         List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = testOrderItem.getOrderShipmentsList();

@@ -23,6 +23,15 @@ public class OrderShipmentsToDisplayTest {
     }
 
     @Test
+    public void setOrderLineItemId() throws NoSuchFieldException, IllegalAccessException {
+        final Field field = testOrderShipmentItem.getClass().getDeclaredField("orderLineItemId");
+        field.setAccessible(true);
+        field.set(testOrderShipmentItem, 1L);
+        Long orderLineItemId = testOrderShipmentItem.getOrderLineItemId();
+        assertEquals(1L, orderLineItemId, 1L);
+    }
+
+    @Test
     public void setShippedDate() throws NoSuchFieldException, IllegalAccessException, ParseException {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
