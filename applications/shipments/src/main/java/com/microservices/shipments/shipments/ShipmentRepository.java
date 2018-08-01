@@ -10,5 +10,8 @@ import java.util.Optional;
 public interface ShipmentRepository extends JpaRepository<Shipment, Long> {
 
     List<Shipment> findAllByAccountId(Long accountId);
+
     Optional<Shipment> findById(Long shipmentId);
+
+    List<Shipment> findAllByAccountIdOrderByDeliveredDate(Long accountId);
 }

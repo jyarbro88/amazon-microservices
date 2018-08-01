@@ -112,5 +112,10 @@ public class OrderService {
         return orderToDisplay;
     }
 
-
+    public TempProductObject getProductInformation(Long lineItemId) {
+        Optional<LineItem> byId = lineItemRepository.findById(lineItemId);
+        LineItem foundLineItem = byId.get();
+        Long productId = foundLineItem.getProductId();
+        return restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
+    }
 }

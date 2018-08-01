@@ -2,6 +2,7 @@ package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.OrderToDisplay;
+import com.microservices.orders.models.temp.TempProductObject;
 import com.microservices.orders.services.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,13 @@ public class OrderController {
             @PathVariable(value = "id") Long orderId
     ){
         return orderService.getOrderDetailsById(orderId);
+    }
+
+    @GetMapping(value = "/orders/getProductInfo/{lineItemId}")
+    public TempProductObject getInformationForProduct(
+            @PathVariable(value = "lineItemId") Long lineItemId
+    ){
+        return orderService.getProductInformation(lineItemId);
     }
 
     @PostMapping(value = "/orders")
