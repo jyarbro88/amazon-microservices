@@ -4,7 +4,6 @@ import com.microservices.orders.models.LineItem;
 import com.microservices.orders.repositories.LineItemRepository;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Line;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +19,11 @@ public class LineItemService {
     public Iterable<LineItem> getAllLineItems(){
         return lineItemRepository.findAll();
     }
+
+    public List<LineItem> findByOrderId(Long id){
+        return lineItemRepository.findAllByOrderId(id);
+    }
+
 
     public Optional<LineItem> findLineItemById(Long id){
         return lineItemRepository.findById(id);

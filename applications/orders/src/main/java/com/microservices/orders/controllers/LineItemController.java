@@ -5,6 +5,7 @@ import com.microservices.orders.services.LineItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -26,6 +27,13 @@ public class LineItemController {
             @PathVariable(value = "id") Long lineItemId
     ){
         return lineItemService.findLineItemById(lineItemId);
+    }
+
+    @GetMapping(value = "/lineItems/{orderId}/lookup")
+    public List<LineItem> findLineItemsForOrderId(
+            @PathVariable(value = "orderId") Long orderId
+    ){
+        return lineItemService.findByOrderId(orderId);
     }
 
     @PostMapping(value = "/lineItems")

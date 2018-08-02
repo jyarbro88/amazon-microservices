@@ -26,20 +26,20 @@ public class OrdersApplication {
         SpringApplication.run(OrdersApplication.class, args);
     }
 
-    @Bean
-    public CommandLineRunner run(OrderRepository orderRepository, LineItemRepository lineItemRepository){
-        return args -> {
+//    @Bean
+//    public CommandLineRunner run(OrderRepository orderRepository, LineItemRepository lineItemRepository){
+//        return args -> {
 
-            List<LineItem> lineItemList = new ArrayList<>();
+//            List<LineItem> lineItemList = new ArrayList<>();
 
 //            LineItem lineItem = new LineItem(1L, 1L, 1L, 4, 4.00, 16.00, );
 //            LineItem lineItem2 = new LineItem(2L, 1L, 1L, 3, 2.00, 6.00);
 //            LineItem lineItem3 = new LineItem(1L, 1L, 2L, 3, 3.00, 9.00);
 
-            LineItem lineItem = new LineItem();
-            Order order = new Order();
-
-            orderRepository.save(order);
+//            LineItem lineItem = new LineItem();
+//            Order order = new Order();
+//
+//            orderRepository.save(order);
 
 
 //            lineItem.setProductId(1L);
@@ -59,8 +59,8 @@ public class OrdersApplication {
 //            Order order = new Order(1L, newDate, 1L, 2L, 20.23, lineItemList);
 //
 //            orderRepository.save(order);
-        };
-    }
+//        };
+//    }
 
     @Bean
     @LoadBalanced

@@ -23,11 +23,13 @@ public class OrderService {
 
     private OrderRepository orderRepository;
     private LineItemRepository lineItemRepository;
+    private LineItemService lineItemService;
     private RestTemplate restTemplate;
 
-    public OrderService(OrderRepository orderRepository, LineItemRepository lineItemRepository, RestTemplate restTemplate) {
+    public OrderService(OrderRepository orderRepository, LineItemRepository lineItemRepository, LineItemService lineItemService, RestTemplate restTemplate) {
         this.orderRepository = orderRepository;
         this.lineItemRepository = lineItemRepository;
+        this.lineItemService = lineItemService;
         this.restTemplate = restTemplate;
     }
 
@@ -98,7 +100,9 @@ public class OrderService {
         orderShippingAddress.setShippingAddressId(shippingAddressId);
         orderToDisplay.setShippingAddress(orderShippingAddress);
 
-        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
+//        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
+
+        List<LineItem> lineItemsForOrderId = lineItemService.findByOrderId(foundOrder.getId());
 
         List<OrderLineItemToDisplay> lineItemsForOrderList = new ArrayList<>();
         List<OrderShipmentsToDisplay> shipmentItemsForOrderList = new ArrayList<>();
@@ -108,7 +112,7 @@ public class OrderService {
             OrderShipmentsToDisplay shipmentLineItemToDisplay = new OrderShipmentsToDisplay();
 
             TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + lineItem.getProductId(), TempProductObject.class);
-            TempShipmentObject tempShipment = restTemplate.getForObject("http://shipments-service/shipments/lineItems/" + lineItem.getShipmentId(), TempShipmentObject.class);
+            TempShipmentObject tempShipment = restTemplate.getForObject("http://shipments-service/shipments/" + lineItem.getShipmentId(), TempShipmentObject.class);
 
             shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
             shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());

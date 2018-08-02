@@ -65,7 +65,7 @@ public class OrderController {
         orderService.deleteOrder(orderId);
     }
 
-    @GetMapping(value = "/getProductInfo/{lineItemId}", produces = "application/json")
+    @GetMapping(value = "/orders/getProductInfo/{lineItemId}", produces = "application/json")
     public TempProductObject getInformationForProduct(
             @PathVariable(value = "lineItemId") Long lineItemId
     ){
