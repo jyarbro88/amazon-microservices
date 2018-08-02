@@ -3,8 +3,8 @@ pipeline {
 
     environment {
       CFAPI = 'https://api.run.pivotal.io'
-      CFUSERNAME = credentials('jyarbrough@solstice.com')
-      CFPASS = credentials('Pivotal123!!')
+      CFUSERNAME = credentials('PCFUSER')
+      CFPASS = credentials('PCFPASS')
     }
     stages {
         stage('Build') {
