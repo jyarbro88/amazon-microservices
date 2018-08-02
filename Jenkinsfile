@@ -10,13 +10,13 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building Application: accounts...'
-                sh './gradlew applications/accounts:build.gradle'
+                sh './gradlew -p applications/accounts/'
                 echo 'Building Application: orders...'
-                sh './gradlew applications/orders:build.gradle'
+                sh './gradlew -p applications/orders/'
                 echo 'Building Application: products...'
-                sh './gradlew applications/products:build.gradle'
+                sh './gradlew -p applications/products/'
                 echo 'Building Application: shipments...'
-                sh './gradlew applications/shipments:build.gradle'
+                sh './gradlew -p applications/shipments/'
             }
         }
         stage('Deploy') {
