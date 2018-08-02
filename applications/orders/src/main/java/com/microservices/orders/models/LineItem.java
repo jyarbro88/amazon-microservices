@@ -1,6 +1,7 @@
 package com.microservices.orders.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,12 +18,11 @@ public class LineItem {
     private Long id;
     private Long productId;
     private Long shipmentId;
+    private Long orderId;
+
     private Integer quantity;
     private Double singleItemPrice;
     private Double lineItemTotalPrice;
-    @ManyToOne
-    @JsonBackReference
-    private Order order;
 
 //    public LineItem(Long productId, Long shipmentId, Integer quantity, Double singleItemPrice, Double lineItemTotalPrice, Order order) {
 //        this.productId = productId;
@@ -33,12 +33,13 @@ public class LineItem {
 //        this.order = order;
 //    }
 
+
     public Double getLineItemTotalPrice(){
-        lineItemTotalPrice = singleItemPrice * quantity;
         return lineItemTotalPrice;
     }
 
     public void setLineItemTotalPrice(Double lineItemTotalPrice){
+        lineItemTotalPrice = singleItemPrice * quantity;
         this.lineItemTotalPrice = lineItemTotalPrice;
     }
 }

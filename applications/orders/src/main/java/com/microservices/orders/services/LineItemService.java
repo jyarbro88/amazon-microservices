@@ -4,6 +4,7 @@ import com.microservices.orders.models.LineItem;
 import com.microservices.orders.repositories.LineItemRepository;
 import org.springframework.stereotype.Service;
 
+import javax.sound.sampled.Line;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,18 +25,18 @@ public class LineItemService {
         return lineItemRepository.findById(id);
     }
 
-    public List<LineItem> createNewListOfLineItems(List<LineItem> lineItem){
-        return lineItemRepository.saveAll(lineItem);
+    public LineItem createNewLineItem(LineItem lineItem){
+        return lineItemRepository.save(lineItem);
     }
 
-    public LineItem updateLineItem(Long id, LineItem passedInLineItem){
-        Optional<LineItem> lineItemById = lineItemRepository.findById(id);
+    public LineItem updateLineItem(LineItem passedInLineItem){
+        Optional<LineItem> lineItemById = lineItemRepository.findById(passedInLineItem.getId());
         LineItem foundLineItem = lineItemById.get();
         foundLineItem.setProductId(passedInLineItem.getProductId());
         foundLineItem.setLineItemTotalPrice(passedInLineItem.getLineItemTotalPrice());
         foundLineItem.setQuantity(passedInLineItem.getQuantity());
         foundLineItem.setShipmentId(passedInLineItem.getShipmentId());
-        foundLineItem.setOrder(passedInLineItem.getOrder());
+//        foundLineItem.setOrder(passedInLineItem.getOrder());
         foundLineItem.setSingleItemPrice(passedInLineItem.getSingleItemPrice());
 
         return lineItemRepository.save(foundLineItem);

@@ -31,41 +31,59 @@ public class OrderService {
         this.restTemplate = restTemplate;
     }
 
-    public Iterable<Order> getAll(){
+    public Iterable<Order> getAll() {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> findById(Long id){
+    public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
     }
 
-    public List<Order> getAllOrdersForIdOrderByDate(Long id){
+    public List<Order> getAllOrdersForIdOrderByDate(Long id) {
         return orderRepository.findAllByAccountIdOrderByOrderDate(id);
     }
 
-    public Order createNewOrder(Order order){
+    public Order createNewOrder(Order order) {
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(Order passedInOrder){
+    public Order updateOrder(Order passedInOrder) {
         Optional<Order> orderById = orderRepository.findById(passedInOrder.getId());
         Order orderToUpdate = orderById.get();
-        orderToUpdate.setAccountId(passedInOrder.getAccountId());
-        orderToUpdate.setBillingAddressId(passedInOrder.getBillingAddressId());
-        orderToUpdate.setLineItems(passedInOrder.getLineItems());
-        orderToUpdate.setOrderDate(passedInOrder.getOrderDate());
-        orderToUpdate.setShippingAddressId(passedInOrder.getShippingAddressId());
-        orderToUpdate.setTotalPrice(passedInOrder.getTotalPrice());
+
+        if (passedInOrder.getAccountId() != null) {
+            orderToUpdate.setAccountId(passedInOrder.getAccountId());
+        }
+
+        if (passedInOrder.getBillingAddressId() != null) {
+            orderToUpdate.setBillingAddressId(passedInOrder.getBillingAddressId());
+        }
+
+        if (passedInOrder.getLineItems() != null) {
+            orderToUpdate.setLineItems(passedInOrder.getLineItems());
+        }
+
+        if (passedInOrder.getOrderDate() != null) {
+            orderToUpdate.setOrderDate(passedInOrder.getOrderDate());
+        }
+
+        if (passedInOrder.getShippingAddressId() != null){
+            orderToUpdate.setShippingAddressId(passedInOrder.getShippingAddressId());
+        }
+
+        if (passedInOrder.getTotalPrice() != null){
+            orderToUpdate.setTotalPrice(passedInOrder.getTotalPrice());
+        }
 
         return orderRepository.save(orderToUpdate);
     }
 
-    public void deleteOrder(Long id){
+    public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
 
 
-    public OrderToDisplay getOrderDetailsById(Long orderId){
+    public OrderToDisplay getOrderDetailsById(Long orderId) {
 
         Optional<Order> foundOrderList = orderRepository.findById(orderId);
         Order foundOrder = foundOrderList.get();
@@ -101,7 +119,7 @@ public class OrderService {
             orderLineItemToDisplay.setProductName(tempProduct.getName());
             orderLineItemToDisplay.setQuantity(lineItem.getQuantity());
 
-            lineItem.getOrder();
+//            lineItem.getOrder();
             lineItemsForOrderList.add(orderLineItemToDisplay);
             shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
         }

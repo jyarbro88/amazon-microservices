@@ -24,30 +24,23 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(value = "/orders")
+    @GetMapping(value = "/orders/all")
     public Iterable<Order> getAllOrders(){
         return orderService.getAll();
     }
 
-    @GetMapping(value = "/orders/accountLookup")
+    @GetMapping(value = "/orders")
     public List<Order> getAllOrdersForAccountId(
             @RequestParam(value = "accountId") Long accountId
     ) {
         return orderService.getAllOrdersForIdOrderByDate(accountId);
     }
 
-    @GetMapping(value = "/orders/details/{id}")
+    @GetMapping(value = "/orders/{id}")
     public OrderToDisplay getDetailsForOrder(
             @PathVariable(value = "id") Long orderId
     ){
         return orderService.getOrderDetailsById(orderId);
-    }
-
-    @GetMapping(value = "/orders/getProductInfo/{lineItemId}")
-    public TempProductObject getInformationForProduct(
-            @PathVariable(value = "lineItemId") Long lineItemId
-    ){
-        return orderService.getProductInformation(lineItemId);
     }
 
     @PostMapping(value = "/orders")
@@ -70,5 +63,12 @@ public class OrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable(value = "id") Long orderId){
         orderService.deleteOrder(orderId);
+    }
+
+    @GetMapping(value = "/getProductInfo/{lineItemId}", produces = "application/json")
+    public TempProductObject getInformationForProduct(
+            @PathVariable(value = "lineItemId") Long lineItemId
+    ){
+        return orderService.getProductInformation(lineItemId);
     }
 }

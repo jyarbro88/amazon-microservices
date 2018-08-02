@@ -26,7 +26,6 @@ public class Order {
     private Long billingAddressId;
     private Double totalPrice;
     @OneToMany
-    @JsonManagedReference
     private List<LineItem> lineItems;
 
     public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItems) {
