@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@NoArgsConstructor
+//@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "shipments")
 public class Shipment {
@@ -26,4 +26,13 @@ public class Shipment {
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date deliveredDate;
+
+    public Shipment(Long accountId, Long shippingAddressId, Long orderId, Long lineItemId, Date shippedDate, Date deliveredDate) {
+        this.accountId = accountId;
+        this.shippingAddressId = shippingAddressId;
+        this.orderId = orderId;
+        this.lineItemId = lineItemId;
+        this.shippedDate = shippedDate;
+        this.deliveredDate = deliveredDate;
+    }
 }

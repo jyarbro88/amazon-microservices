@@ -1,5 +1,8 @@
 package com.microservices.orders.services;
 
+import com.microservices.orders.AddressCircuitBreaker;
+import com.microservices.orders.ProductCircuitBreaker;
+import com.microservices.orders.ShipmentCircuitBreaker;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.OrderAddressToDisplay;
@@ -25,12 +28,18 @@ public class OrderService {
     private LineItemRepository lineItemRepository;
     private LineItemService lineItemService;
     private RestTemplate restTemplate;
+    private AddressCircuitBreaker addressCircuitBreaker;
+    private ProductCircuitBreaker productCircuitBreaker;
+    private ShipmentCircuitBreaker shipmentCircuitBreaker;
 
-    public OrderService(OrderRepository orderRepository, LineItemRepository lineItemRepository, LineItemService lineItemService, RestTemplate restTemplate) {
+    public OrderService(OrderRepository orderRepository, LineItemRepository lineItemRepository, LineItemService lineItemService, RestTemplate restTemplate, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
         this.orderRepository = orderRepository;
         this.lineItemRepository = lineItemRepository;
         this.lineItemService = lineItemService;
         this.restTemplate = restTemplate;
+        this.addressCircuitBreaker = addressCircuitBreaker;
+        this.productCircuitBreaker = productCircuitBreaker;
+        this.shipmentCircuitBreaker = shipmentCircuitBreaker;
     }
 
     public Iterable<Order> getAll() {
@@ -105,12 +114,10 @@ public class OrderService {
         OrderToDisplay orderToDisplay = new OrderToDisplay();
         orderToDisplay.setOrderNumber(foundOrder.getId());
 
-        OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject("http://accounts-service/accounts/" + foundOrder.getAccountId() + "/address/" + shippingAddressId, OrderAddressToDisplay.class);
+        OrderAddressToDisplay addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder, shippingAddressId);
 
-        orderShippingAddress.setShippingAddressId(shippingAddressId);
-        orderToDisplay.setShippingAddress(orderShippingAddress);
-
-//        List<LineItem> lineItemsForOrderId = lineItemRepository.findAllByOrderId(foundOrder.getId());
+        addressToDisplay.setShippingAddressId(shippingAddressId);
+        orderToDisplay.setShippingAddress(addressToDisplay);
 
         List<LineItem> lineItemsForOrderId = lineItemService.findByOrderId(foundOrder.getId());
 
@@ -121,8 +128,8 @@ public class OrderService {
             OrderLineItemToDisplay orderLineItemToDisplay = new OrderLineItemToDisplay();
             OrderShipmentsToDisplay shipmentLineItemToDisplay = new OrderShipmentsToDisplay();
 
-            TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + lineItem.getProductId(), TempProductObject.class);
-            TempShipmentObject tempShipment = restTemplate.getForObject("http://shipments-service/shipments/" + lineItem.getShipmentId(), TempShipmentObject.class);
+            TempProductObject tempProduct = productCircuitBreaker.getTempProductObject(lineItem);
+            TempShipmentObject tempShipment = shipmentCircuitBreaker.getShipmentInformation(lineItem);
 
             shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
             shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());
@@ -133,7 +140,6 @@ public class OrderService {
             orderLineItemToDisplay.setProductName(tempProduct.getName());
             orderLineItemToDisplay.setQuantity(lineItem.getQuantity());
 
-//            lineItem.getOrder();
             lineItemsForOrderList.add(orderLineItemToDisplay);
             shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
         }

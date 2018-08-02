@@ -28,12 +28,4 @@ public class Order {
     @OneToMany
     private List<LineItem> lineItems;
 
-    public Order(Long accountId, Date orderDate, Long shippingAddressId, Long billingAddressId, Double totalPrice, List<LineItem> lineItems) {
-        this.accountId = accountId;
-        this.orderDate = orderDate;
-        this.shippingAddressId = shippingAddressId;
-        this.billingAddressId = billingAddressId;
-        this.totalPrice = totalPrice;
-        this.lineItems = lineItems;
-    }
 }
