@@ -2,6 +2,7 @@ package com.microservices.shipments.shipments;
 
 import com.microservices.shipments.models.LineItemToDisplay;
 import com.microservices.shipments.models.ShipmentToDisplay;
+import com.microservices.shipments.models.TempLineItem;
 import com.microservices.shipments.models.TempProduct;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -47,8 +48,10 @@ public class ShipmentService {
 
             TempProduct tempProduct = restTemplate.getForObject("http://orders-service/orders/getProductInfo/" + lineItemId, TempProduct.class);
 
+            TempLineItem tempLineItem = restTemplate.getForObject("http://orders-service/lineItems/" + lineItemId, TempLineItem.class);
+
             lineItemToDisplay.setProductName(tempProduct.getName());
-            lineItemToDisplay.setQuantity(tempProduct.getQuantity());
+            lineItemToDisplay.setQuantity(tempLineItem.getQuantity());
 
             lineItemsList.add(lineItemToDisplay);
 
