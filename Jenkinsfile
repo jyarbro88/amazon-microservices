@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Logging in to CF...'
-                sh 'cf login -a $CFAPI -u $CFUSERNAME -p $CFPASS -o solstice-org -s jyarbrough-cnt'
+                sh 'cf login -a https://api.run.pivotal.io -u jyarbrough@solstice.com -p Pivotal123!! -o solstice-org -s jyarbrough-cnt'
                 echo 'Deploying....'
 
                 sh 'cf push accounts -t 180 -p applications/accounts/build/libs/accounts-0.0.1-SNAPSHOT.jar'
