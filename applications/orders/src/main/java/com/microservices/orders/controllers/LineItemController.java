@@ -1,9 +1,11 @@
 package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.LineItem;
+import com.microservices.orders.models.temp.TempProductObject;
 import com.microservices.orders.services.LineItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +14,11 @@ import java.util.Optional;
 public class LineItemController {
 
     private LineItemService lineItemService;
+    private RestTemplate restTemplate;
 
-    public LineItemController(LineItemService lineItemService) {
+    public LineItemController(LineItemService lineItemService, RestTemplate restTemplate) {
         this.lineItemService = lineItemService;
+        this.restTemplate = restTemplate;
     }
 
     @GetMapping(value = "/lineItems")
@@ -41,6 +45,14 @@ public class LineItemController {
     public LineItem createNewLineItem(
             @RequestBody LineItem lineItem
     ){
+        Long productId = lineItem.getProductId();
+
+        TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
+
+        Double productPrice = tempProduct.getPrice();
+
+        lineItem.setSingleItemPrice(productPrice);
+
         return lineItemService.createNewLineItem(lineItem);
     }
 

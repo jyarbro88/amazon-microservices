@@ -52,6 +52,21 @@ public class OrderService {
     public Order updateOrder(Order passedInOrder) {
         Optional<Order> orderById = orderRepository.findById(passedInOrder.getId());
         Order orderToUpdate = orderById.get();
+        Double orderTotal = 0.00;
+        List<LineItem> lineItemsToUpdate = passedInOrder.getLineItems();
+
+        for (LineItem lineItem : lineItemsToUpdate) {
+            Long lineItemId = lineItem.getId();
+
+            Optional<LineItem> foundLineItemList = lineItemService.findLineItemById(lineItemId);
+            LineItem foundLineItem = foundLineItemList.get();
+
+            Double lineItemTotalPrice = foundLineItem.getLineItemTotalPrice();
+
+            orderTotal += lineItemTotalPrice;
+        }
+
+        orderToUpdate.setTotalPrice(orderTotal);
 
         if (passedInOrder.getAccountId() != null) {
             orderToUpdate.setAccountId(passedInOrder.getAccountId());
@@ -73,10 +88,6 @@ public class OrderService {
             orderToUpdate.setShippingAddressId(passedInOrder.getShippingAddressId());
         }
 
-        if (passedInOrder.getTotalPrice() != null){
-            orderToUpdate.setTotalPrice(passedInOrder.getTotalPrice());
-        }
-
         return orderRepository.save(orderToUpdate);
     }
 
@@ -93,7 +104,6 @@ public class OrderService {
 
         OrderToDisplay orderToDisplay = new OrderToDisplay();
         orderToDisplay.setOrderNumber(foundOrder.getId());
-        orderToDisplay.setOrderTotalPrice(foundOrder.getTotalPrice());
 
         OrderAddressToDisplay orderShippingAddress = restTemplate.getForObject("http://accounts-service/accounts/" + foundOrder.getAccountId() + "/address/" + shippingAddressId, OrderAddressToDisplay.class);
 

@@ -34,11 +34,11 @@ public class LineItem {
 //    }
 
 
-//    public Double getLineItemTotalPrice(){
-//        return lineItemTotalPrice = singleItemPrice * quantity;
-//    }
-//
-//    public void setLineItemTotalPrice(Double lineItemTotalPrice){
-//        this.lineItemTotalPrice = lineItemTotalPrice;
-//    }
+    public Double getLineItemTotalPrice(){
+        return lineItemTotalPrice = singleItemPrice * quantity;
+    }
+
+    public void setLineItemTotalPrice(Double lineItemTotalPrice){
+        this.lineItemTotalPrice = lineItemTotalPrice;
+    }
 }
