@@ -94,12 +94,25 @@ public class ShipmentService {
     Shipment updateShipment(Shipment shipment) {
         Optional<Shipment> byId = shipmentRepository.findById(shipment.getId());
         Shipment foundShipment = byId.get();
-        foundShipment.setAccountId(shipment.getAccountId());
-        foundShipment.setOrderId(shipment.getOrderId());
-        foundShipment.setDeliveredDate(shipment.getDeliveredDate());
-        foundShipment.setOrderId(shipment.getOrderId());
-        foundShipment.setShippedDate(shipment.getShippedDate());
-        foundShipment.setShippingAddressId(shipment.getShippingAddressId());
+
+        if (shipment.getAccountId() != null) {
+            foundShipment.setAccountId(shipment.getAccountId());
+        }
+        if (shipment.getDeliveredDate() != null) {
+            foundShipment.setDeliveredDate(shipment.getDeliveredDate());
+        }
+        if (shipment.getOrderId() != null) {
+            foundShipment.setOrderId(shipment.getOrderId());
+        }
+        if (shipment.getShippedDate() != null) {
+            foundShipment.setShippedDate(shipment.getShippedDate());
+        }
+        if (shipment.getOrderId() != null) {
+            foundShipment.setOrderId(shipment.getOrderId());
+        }
+        if (shipment.getShippingAddressId() != null) {
+            foundShipment.setShippingAddressId(shipment.getShippingAddressId());
+        }
 
         return shipmentRepository.save(foundShipment);
     }
