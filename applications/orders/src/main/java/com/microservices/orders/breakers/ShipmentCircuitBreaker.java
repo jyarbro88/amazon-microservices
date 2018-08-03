@@ -1,4 +1,4 @@
-package com.microservices.orders;
+package com.microservices.orders.breakers;
 
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempShipmentObject;
@@ -17,13 +17,13 @@ public class ShipmentCircuitBreaker {
 
     @HystrixCommand(fallbackMethod = "shipmentFallBack")
     public TempShipmentObject getShipmentInformation(LineItem lineItem) {
+
         return restTemplate.getForObject("http://shipments-service/shipments/" + lineItem.getShipmentId(), TempShipmentObject.class);
     }
 
     @SuppressWarnings("unused")
-    public TempShipmentObject shipmentFallBack(LineItem lineItem){
-        TempShipmentObject blankShipment = new TempShipmentObject();
+    public TempShipmentObject shipmentFallBack(LineItem lineItem) {
 
-        return blankShipment;
+        return new TempShipmentObject();
     }
 }

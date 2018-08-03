@@ -1,4 +1,4 @@
-package com.microservices.orders;
+package com.microservices.orders.breakers;
 
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempProductObject;
@@ -22,9 +22,8 @@ public class ProductCircuitBreaker {
 
     @SuppressWarnings("unused")
     private TempProductObject productFallBack(LineItem lineItem){
-        TempProductObject blankProduct = new TempProductObject();
 
-        return blankProduct;
+        return new TempProductObject();
     }
 
 }
