@@ -20,23 +20,23 @@ public class ShipmentService {
         this.restTemplate = restTemplate;
     }
 
-    public Iterable<Shipment> getAllShipments(){
+    Iterable<Shipment> getAllShipments() {
         return shipmentRepository.findAll();
     }
 
-    public Shipment createNewShipment(Shipment shipment){
+    Shipment createNewShipment(Shipment shipment) {
         return shipmentRepository.save(shipment);
     }
 
-    public void deleteShipment(Long id){
+    void deleteShipment(Long id) {
         shipmentRepository.deleteById(id);
     }
 
-    public Optional<Shipment> getShipmentById(Long id){
+    Optional<Shipment> getShipmentById(Long id) {
         return shipmentRepository.findById(id);
     }
 
-    public List<ShipmentToDisplay> getShipmentByAccountId(Long id){
+    List<ShipmentToDisplay> getShipmentByAccountId(Long id) {
 
         List<LineItemToDisplay> lineItemsToDisplayList = new ArrayList<>();
         List<ShipmentToDisplay> shipmentToDisplayList = new ArrayList<>();
@@ -91,7 +91,7 @@ public class ShipmentService {
         return shipmentToDisplayList;
     }
 
-    public Shipment updateShipment(Shipment shipment){
+    Shipment updateShipment(Shipment shipment) {
         Optional<Shipment> byId = shipmentRepository.findById(shipment.getId());
         Shipment foundShipment = byId.get();
         foundShipment.setAccountId(shipment.getAccountId());
