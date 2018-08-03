@@ -28,27 +28,26 @@ public class LineItemService {
         return lineItemRepository.findAllByOrderId(id);
     }
 
-
     public Optional<LineItem> findLineItemById(Long id){
         return lineItemRepository.findById(id);
     }
 
     public LineItem createNewLineItem(LineItem lineItem){
 
-        getSingleItemPrice(lineItem);
+        LineItem lineItemWithPrices = calculatePrices(lineItem);
 
-        return lineItemRepository.save(lineItem);
+        return lineItemRepository.save(lineItemWithPrices);
     }
 
-    public LineItem updateLineItem(LineItem passedInLineItem){
-        Optional<LineItem> lineItemById = lineItemRepository.findById(passedInLineItem.getId());
+    public LineItem updateLineItem(LineItem lineItem){
+        Optional<LineItem> lineItemById = lineItemRepository.findById(lineItem.getId());
         LineItem foundLineItem = lineItemById.get();
-        foundLineItem.setProductId(passedInLineItem.getProductId());
-        foundLineItem.setQuantity(passedInLineItem.getQuantity());
-        foundLineItem.setShipmentId(passedInLineItem.getShipmentId());
-//        foundLineItem.setOrder(passedInLineItem.getOrder());
-        foundLineItem.setSingleItemPrice(passedInLineItem.getSingleItemPrice());
-        foundLineItem.setLineItemTotalPrice(passedInLineItem.getLineItemTotalPrice());
+
+        foundLineItem.setProductId(lineItem.getProductId());
+        foundLineItem.setQuantity(lineItem.getQuantity());
+        foundLineItem.setShipmentId(lineItem.getShipmentId());
+        foundLineItem.setSingleItemPrice(lineItem.getSingleItemPrice());
+        foundLineItem.setLineItemTotalPrice(lineItem.getLineItemTotalPrice());
 
         return lineItemRepository.save(foundLineItem);
     }
@@ -57,13 +56,19 @@ public class LineItemService {
         lineItemRepository.deleteById(id);
     }
 
-    private void getSingleItemPrice(LineItem lineItem) {
-        Long productId = lineItem.getProductId();
+    private LineItem calculatePrices(LineItem lineItem) {
+        CalculateUtil calculateUtil = new CalculateUtil();
 
+        Long productId = lineItem.getProductId();
+        Integer quantity = lineItem.getQuantity();
         TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
 
         Double productPrice = tempProduct.getPrice();
+        Double totalPrice = calculateUtil.calculatePriceBeforeTax(productPrice, quantity);
 
         lineItem.setSingleItemPrice(productPrice);
+        lineItem.setLineItemTotalPrice(totalPrice);
+
+        return lineItem;
     }
 }

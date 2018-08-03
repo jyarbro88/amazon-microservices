@@ -16,7 +16,6 @@ public class TempShipmentObject {
     private Long accountId;
     private Long shippingAddressId;
     private Long orderId;
-    private Long lineItemId;
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date shippedDate;

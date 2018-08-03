@@ -50,11 +50,11 @@ public class OrderController {
         return orderDetailsService.getOrderDetailsById(orderId);
     }
 
-    @GetMapping(value = "/getProductInfo/{lineItemId}", produces = "application/json")
-    public TempProductObject getInformationForProduct(
-            @PathVariable(value = "lineItemId") Long lineItemId
+    @GetMapping(value = "/getProductInfo/{orderId}", produces = "application/json")
+    public List<TempProductObject> getInformationForProduct(
+            @PathVariable(value = "orderId") Long orderId
     ){
-        return orderService.getProductInformation(lineItemId);
+        return orderService.getProductInformation(orderId);
     }
 
     @PostMapping

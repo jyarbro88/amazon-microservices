@@ -13,7 +13,7 @@ import java.util.Date;
 public class OrderShipmentsToDisplay {
 
     private Long shipmentId;
-    private Long orderLineItemId;
+    private Long orderId;
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date shippedDate;

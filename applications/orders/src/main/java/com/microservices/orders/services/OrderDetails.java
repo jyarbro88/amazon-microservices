@@ -11,10 +11,8 @@ import com.microservices.orders.models.display.OrderShipmentsToDisplay;
 import com.microservices.orders.models.display.OrderToDisplay;
 import com.microservices.orders.models.temp.TempProductObject;
 import com.microservices.orders.models.temp.TempShipmentObject;
-import com.microservices.orders.repositories.LineItemRepository;
 import com.microservices.orders.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,14 @@ public class OrderDetails {
             shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
             shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());
             shipmentLineItemToDisplay.setShipmentId(tempShipment.getId());
-            shipmentLineItemToDisplay.setOrderLineItemId(lineItem.getId());
+
+
+
+            shipmentLineItemToDisplay.setOrderId(lineItem.getOrderId());
+
+
+
+
 
             orderLineItemToDisplay.setOrderLineItemId(lineItem.getId());
             orderLineItemToDisplay.setProductName(tempProduct.getName());

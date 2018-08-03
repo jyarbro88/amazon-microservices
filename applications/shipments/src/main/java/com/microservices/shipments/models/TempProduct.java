@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TempProduct {
 
-    private Long productId;
+    private Long id;
     private String name;
     private String description;
     private Double price;
-    private Integer quantity;
+
 }

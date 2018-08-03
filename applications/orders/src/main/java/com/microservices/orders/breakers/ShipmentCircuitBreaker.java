@@ -3,8 +3,6 @@ package com.microservices.orders.breakers;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempShipmentObject;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,26 +31,24 @@ public class ShipmentCircuitBreaker {
     }
 
     @HystrixCommand(fallbackMethod = "newShipmentFallBack")
-    public void postNewShipment(List<TempShipmentObject> shipmentObjectsToPost){
+    public TempShipmentObject postNewShipment(TempShipmentObject shipmentObjectsToPost) {
 
-//        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-//        headers.add("Content-Type", "application/json");
-//
-//        restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-//        restTemplate.getMessageConverters().add(new StringHttpMessageConverter());
-
-        for (TempShipmentObject tempShipmentObject : shipmentObjectsToPost) {
-
-            restTemplate.postForObject(SHIPMENT_SERVICE_URL, tempShipmentObject, TempShipmentObject.class);
-//            ResponseEntity<String> response = restTemplate.postForEntity(SHIPMENT_SERVICE_URL, tempShipmentObject, String.class);
-//            HttpStatus returnStatus = response.getStatusCode();
-//            String status = response.getBody();
-        }
+        return restTemplate.postForObject(SHIPMENT_SERVICE_URL, shipmentObjectsToPost, TempShipmentObject.class);
     }
 
     @SuppressWarnings("unused")
-    public void newShipmentFallBack(List<TempShipmentObject> shipment){
-
-
+    public TempShipmentObject newShipmentFallBack(TempShipmentObject shipment) {
+        return new TempShipmentObject();
     }
+
+    @HystrixCommand(fallbackMethod = "updateShipmentFallBack")
+    public void updateShipment(TempShipmentObject shipment) {
+        restTemplate.put(SHIPMENT_SERVICE_URL, shipment);
+    }
+
+    @SuppressWarnings("unused")
+    public void updateShipmentFallBack() {
+    }
+
+
 }
