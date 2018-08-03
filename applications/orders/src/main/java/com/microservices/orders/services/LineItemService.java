@@ -32,7 +32,18 @@ public class LineItemService {
         return lineItemRepository.findById(id);
     }
 
+    public void deleteLineItem(Long id){
+        lineItemRepository.deleteById(id);
+    }
+
     public LineItem createNewLineItem(LineItem lineItem){
+
+        //Todo: set up circuit breaker
+
+        Long productId = lineItem.getProductId();
+        TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
+        Double productPrice = tempProduct.getPrice();
+        lineItem.setSingleItemPrice(productPrice);
 
         LineItem lineItemWithPrices = calculatePrices(lineItem);
 
@@ -40,20 +51,27 @@ public class LineItemService {
     }
 
     public LineItem updateLineItem(LineItem lineItem){
+
         Optional<LineItem> lineItemById = lineItemRepository.findById(lineItem.getId());
         LineItem foundLineItem = lineItemById.get();
 
-        foundLineItem.setProductId(lineItem.getProductId());
-        foundLineItem.setQuantity(lineItem.getQuantity());
-        foundLineItem.setShipmentId(lineItem.getShipmentId());
-        foundLineItem.setSingleItemPrice(lineItem.getSingleItemPrice());
-        foundLineItem.setLineItemTotalPrice(lineItem.getLineItemTotalPrice());
+        if (lineItem.getProductId() != null){
+            foundLineItem.setProductId(lineItem.getProductId());
+        }
+        if (lineItem.getQuantity() != null){
+            foundLineItem.setQuantity(lineItem.getQuantity());
+        }
+        if (lineItem.getShipmentId() != null){
+            foundLineItem.setShipmentId(lineItem.getShipmentId());
+        }
+        if (lineItem.getSingleItemPrice() != null){
+            foundLineItem.setSingleItemPrice(lineItem.getSingleItemPrice());
+        }
+        if (lineItem.getLineItemTotalPrice() != null){
+            foundLineItem.setLineItemTotalPrice(lineItem.getLineItemTotalPrice());
+        }
 
         return lineItemRepository.save(foundLineItem);
-    }
-
-    public void deleteLineItem(Long id){
-        lineItemRepository.deleteById(id);
     }
 
     private LineItem calculatePrices(LineItem lineItem) {

@@ -45,14 +45,6 @@ public class LineItemController {
     public LineItem createNewLineItem(
             @RequestBody LineItem lineItem
     ){
-        Long productId = lineItem.getProductId();
-
-        TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
-
-        Double productPrice = tempProduct.getPrice();
-
-        lineItem.setSingleItemPrice(productPrice);
-
         return lineItemService.createNewLineItem(lineItem);
     }
 

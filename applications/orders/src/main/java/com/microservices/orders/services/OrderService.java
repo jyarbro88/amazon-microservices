@@ -23,7 +23,6 @@ public class OrderService {
     private ShipmentCircuitBreaker shipmentCircuitBreaker;
 
     private String PRODUCTS_SERVICE_URL = "http://products-service/products/";
-    private String SHIPMENTS_SERVICE_URL = "http://shipments-service/shipments";
 
     public OrderService(OrderRepository orderRepository, LineItemService lineItemService, RestTemplate restTemplate, ShipmentCircuitBreaker shipmentCircuitBreaker) {
         this.orderRepository = orderRepository;
@@ -49,6 +48,9 @@ public class OrderService {
     }
 
     public Order createNewOrder(Order order) {
+
+        Double orderTotal = 0.00;
+
         if (order.getLineItems() != null) {
             for (LineItem lineItem: order.getLineItems()) {
                 lineItemService.createNewLineItem(lineItem);
@@ -60,15 +62,20 @@ public class OrderService {
             for (LineItem savedOrderLineItem : savedOrderLineItems) {
                 savedOrderLineItem.setOrderId(savedOrderId);
                 lineItemService.updateLineItem(savedOrderLineItem);
+
+                Double lineItemTotalPrice = savedOrderLineItem.getLineItemTotalPrice();
+
+                orderTotal += lineItemTotalPrice;
             }
+            savedOrder.setTotalPrice(orderTotal);
+            persistOrder(savedOrder);
+
             buildAndSendShipmentObject(savedOrder);
 
             return savedOrder;
         } else {
-            Order savedOrder = persistOrder(order);
-            buildAndSendShipmentObject(savedOrder);
 
-            return savedOrder;
+            return persistOrder(order);
         }
     }
 
