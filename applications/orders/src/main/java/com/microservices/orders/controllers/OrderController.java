@@ -3,7 +3,9 @@ package com.microservices.orders.controllers;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.OrderToDisplay;
 import com.microservices.orders.models.temp.TempProductObject;
+import com.microservices.orders.services.OrderDetails;
 import com.microservices.orders.services.OrderService;
+import com.microservices.orders.services.UpdateOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +21,13 @@ import java.util.List;
 public class OrderController {
 
     private OrderService orderService;
+    private OrderDetails orderDetailsService;
+    private UpdateOrder updateOrderService;
 
-    public OrderController(OrderService orderService) {
+    public OrderController(OrderService orderService, OrderDetails orderDetailsService, UpdateOrder updateOrderService) {
         this.orderService = orderService;
+        this.orderDetailsService = orderDetailsService;
+        this.updateOrderService = updateOrderService;
     }
 
     @GetMapping(value = "/orders/all")
@@ -40,7 +46,14 @@ public class OrderController {
     public OrderToDisplay getDetailsForOrder(
             @PathVariable(value = "id") Long orderId
     ){
-        return orderService.getOrderDetailsById(orderId);
+        return orderDetailsService.getOrderDetailsById(orderId);
+    }
+
+    @GetMapping(value = "/orders/getProductInfo/{lineItemId}", produces = "application/json")
+    public TempProductObject getInformationForProduct(
+            @PathVariable(value = "lineItemId") Long lineItemId
+    ){
+        return orderService.getProductInformation(lineItemId);
     }
 
     @PostMapping(value = "/orders")
@@ -56,19 +69,12 @@ public class OrderController {
     public Order updateOrder(
             @RequestBody Order order
     ){
-        return orderService.updateOrder(order);
+        return updateOrderService.updateOrder(order);
     }
 
     @DeleteMapping(value = "/orders/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable(value = "id") Long orderId){
         orderService.deleteOrder(orderId);
-    }
-
-    @GetMapping(value = "/orders/getProductInfo/{lineItemId}", produces = "application/json")
-    public TempProductObject getInformationForProduct(
-            @PathVariable(value = "lineItemId") Long lineItemId
-    ){
-        return orderService.getProductInformation(lineItemId);
     }
 }

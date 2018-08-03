@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "/shipments")
 public class ShipmentsController {
 
     private ShipmentService shipmentService;
@@ -23,12 +24,12 @@ public class ShipmentsController {
 //        return shipmentRepository.findAllByAccountId(accountId);
 //    }
 
-    @GetMapping(value = "/shipments/showAll")
+    @GetMapping(value = "/showAll")
     public Iterable<Shipment> getAllShipments(){
         return shipmentService.getAllShipments();
     }
 
-    @GetMapping(value = "/shipments/{id}")
+    @GetMapping(value = "/{id}")
     public Optional<Shipment> findShipmentById(
             @PathVariable(value = "id") Long shipmentId
     ){
@@ -42,13 +43,12 @@ public class ShipmentsController {
 //        return shipmentService.get
 //    }
 
-    @GetMapping(value = "/shipments")
+    @GetMapping
     public List<ShipmentToDisplay> getAllShipmentsForAccountIdOrderedByDeliveryDate(
             @RequestParam(value = "accountId") Long accountId
     ){
         return shipmentService.getShipmentByAccountId(accountId);
     }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,7 +66,7 @@ public class ShipmentsController {
         return shipmentService.updateShipment(shipment);
     }
 
-    @DeleteMapping(value = "/shipments/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteShipment(@PathVariable(value = "id") Long shipmentId) {
         shipmentService.deleteShipment(shipmentId);

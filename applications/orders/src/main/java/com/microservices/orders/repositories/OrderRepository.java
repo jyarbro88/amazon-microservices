@@ -10,7 +10,4 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findAllByAccountIdOrderByOrderDate(Long accountId);
-
-//    Order findAllById(Long accountId);
-
 }
