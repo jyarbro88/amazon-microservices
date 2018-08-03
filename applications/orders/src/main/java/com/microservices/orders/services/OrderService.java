@@ -57,10 +57,14 @@ public class OrderService {
             }
             Order savedOrder = persistOrder(order);
             Long savedOrderId = savedOrder.getId();
+            TempShipmentObject newShipmentForOrder = buildAndSendShipmentObject(savedOrder);
+            Long shipmentId = newShipmentForOrder.getId();
+
             List<LineItem> savedOrderLineItems = savedOrder.getLineItems();
 
             for (LineItem savedOrderLineItem : savedOrderLineItems) {
                 savedOrderLineItem.setOrderId(savedOrderId);
+                savedOrderLineItem.setShipmentId(shipmentId);
                 lineItemService.updateLineItem(savedOrderLineItem);
 
                 Double lineItemTotalPrice = savedOrderLineItem.getLineItemTotalPrice();
@@ -70,7 +74,6 @@ public class OrderService {
             savedOrder.setTotalPrice(orderTotal);
             persistOrder(savedOrder);
 
-            buildAndSendShipmentObject(savedOrder);
 
             return savedOrder;
         } else {
@@ -103,9 +106,7 @@ public class OrderService {
         shipmentObjectToSend.setShippingAddressId(savedOrder.getShippingAddressId());
         shipmentObjectToSend.setAccountId(savedOrder.getAccountId());
 
-        TempShipmentObject returnedShipmentObject = shipmentCircuitBreaker.postNewShipment(shipmentObjectToSend);
-
-        return returnedShipmentObject;
+        return shipmentCircuitBreaker.postNewShipment(shipmentObjectToSend);
     }
 
     private Order persistOrder(Order order) {

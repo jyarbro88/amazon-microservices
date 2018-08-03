@@ -79,6 +79,8 @@ public class LineItemService {
 
         Long productId = lineItem.getProductId();
         Integer quantity = lineItem.getQuantity();
+
+        //Todo: set up circuit breaker
         TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
 
         Double productPrice = tempProduct.getPrice();
