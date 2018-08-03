@@ -18,6 +18,7 @@ import java.util.List;
 //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
 
 @RestController
+@RequestMapping(value = "/orders")
 public class OrderController {
 
     private OrderService orderService;
@@ -30,33 +31,33 @@ public class OrderController {
         this.updateOrderService = updateOrderService;
     }
 
-    @GetMapping(value = "/orders/all")
+    @GetMapping(value = "/all")
     public Iterable<Order> getAllOrders(){
         return orderService.getAll();
     }
 
-    @GetMapping(value = "/orders")
+    @GetMapping
     public List<Order> getAllOrdersForAccountId(
             @RequestParam(value = "accountId") Long accountId
     ) {
         return orderService.getAllOrdersForIdOrderByDate(accountId);
     }
 
-    @GetMapping(value = "/orders/{id}")
+    @GetMapping(value = "/{id}")
     public OrderToDisplay getDetailsForOrder(
             @PathVariable(value = "id") Long orderId
     ){
         return orderDetailsService.getOrderDetailsById(orderId);
     }
 
-    @GetMapping(value = "/orders/getProductInfo/{lineItemId}", produces = "application/json")
+    @GetMapping(value = "/getProductInfo/{lineItemId}", produces = "application/json")
     public TempProductObject getInformationForProduct(
             @PathVariable(value = "lineItemId") Long lineItemId
     ){
         return orderService.getProductInformation(lineItemId);
     }
 
-    @PostMapping(value = "/orders")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Order createNewOrder(
             @RequestBody Order order
@@ -64,7 +65,7 @@ public class OrderController {
         return orderService.createNewOrder(order);
     }
 
-    @PutMapping(value = "/orders/update")
+    @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.CREATED)
     public Order updateOrder(
             @RequestBody Order order
@@ -72,7 +73,7 @@ public class OrderController {
         return updateOrderService.updateOrder(order);
     }
 
-    @DeleteMapping(value = "/orders/{id}")
+    @DeleteMapping(value = "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteOrder(@PathVariable(value = "id") Long orderId){
         orderService.deleteOrder(orderId);
