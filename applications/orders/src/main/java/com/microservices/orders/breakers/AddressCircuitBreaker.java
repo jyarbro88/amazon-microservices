@@ -1,10 +1,9 @@
-package com.microservices.orders;
+package com.microservices.orders.breakers;
 
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.OrderAddressToDisplay;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -23,8 +22,7 @@ public class AddressCircuitBreaker {
 
     @SuppressWarnings("unused")
     public OrderAddressToDisplay addressFallBack(Order foundOrder, Long shippingAddressId){
-        OrderAddressToDisplay addressToDisplay = new OrderAddressToDisplay();
 
-        return addressToDisplay;
+        return new OrderAddressToDisplay();
     }
 }
