@@ -2,6 +2,7 @@ package com.microservices.shipments.shipments;
 
 import com.microservices.shipments.models.ShipmentToDisplay;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -58,12 +59,25 @@ public class ShipmentsController {
         return shipmentService.createNewShipment(shipment);
     }
 
-    @PutMapping
+    @PutMapping(value = "/update")
     @ResponseStatus(HttpStatus.CREATED)
-    public Shipment updateShipment(
+    public ResponseEntity updateShipment(
             @RequestBody Shipment shipment
     ){
-        return shipmentService.updateShipment(shipment);
+        shipmentService.updateShipment(shipment);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/updateShipping")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity updateShipping(
+            @RequestParam(value = "orderId") Long orderId,
+            @RequestBody Shipment shipment
+    ){
+        shipmentService.updateShippingDate(orderId, shipment);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

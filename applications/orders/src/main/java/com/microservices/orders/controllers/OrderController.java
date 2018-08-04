@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//Todo:  Create operations for new Order which links the address, account id when saving
+//Todo:  Create operations for new Order which creates a new person, a new address and then links the address, and account id to the order when saving
 //Todo:  Calculate Total Prices with utility class and not manually
-//Todo:  Order Total Price is null
-//Todo:  OrderShipmentToDisplay needs order line item id and order id
 //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
 
 @RestController
@@ -37,24 +35,24 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrdersForAccountId(
+    public List<Order> findAllOrdersByAccountId(
             @RequestParam(value = "accountId") Long accountId
     ) {
-        return orderService.getAllOrdersForIdOrderByDate(accountId);
+        return orderService.findAllOrdersByAccountIdOrderByDate(accountId);
     }
 
     @GetMapping(value = "/{id}")
-    public OrderToDisplay getDetailsForOrder(
+    public OrderToDisplay findDetailsByOrderId(
             @PathVariable(value = "id") Long orderId
     ){
-        return orderDetailsService.getOrderDetailsById(orderId);
+        return orderDetailsService.findDetailsByOrderId(orderId);
     }
 
     @GetMapping(value = "/getProductInfo/{orderId}", produces = "application/json")
-    public List<TempProductObject> getInformationForProduct(
+    public List<TempProductObject> findProductInfoForOrderId(
             @PathVariable(value = "orderId") Long orderId
     ){
-        return orderService.getProductInformation(orderId);
+        return orderService.findProductInfoForOrderId(orderId);
     }
 
     @PostMapping

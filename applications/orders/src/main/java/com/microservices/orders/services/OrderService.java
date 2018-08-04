@@ -43,7 +43,7 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public List<Order> getAllOrdersForIdOrderByDate(Long id) {
+    public List<Order> findAllOrdersByAccountIdOrderByDate(Long id) {
         return orderRepository.findAllByAccountIdOrderByOrderDate(id);
     }
 
@@ -82,7 +82,7 @@ public class OrderService {
         }
     }
 
-    public List<TempProductObject> getProductInformation(Long orderId) {
+    public List<TempProductObject> findProductInfoForOrderId(Long orderId) {
 
         List<LineItem> lineItemsForOrder = lineItemService.findByOrderId(orderId);
         List<TempProductObject> productsToReturnList = new ArrayList<>();

@@ -21,23 +21,26 @@ import java.util.Optional;
 @Service
 public class OrderDetails {
 
-    private OrderRepository orderRepository;
+//    private OrderRepository orderRepository;
+    private OrderService orderService;
     private LineItemService lineItemService;
     private AddressCircuitBreaker addressCircuitBreaker;
     private ProductCircuitBreaker productCircuitBreaker;
     private ShipmentCircuitBreaker shipmentCircuitBreaker;
 
-    public OrderDetails(OrderRepository orderRepository, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
-        this.orderRepository = orderRepository;
+    public OrderDetails(OrderRepository orderRepository, OrderService orderService, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
+        this.orderService = orderService;
+//        this.orderRepository = orderRepository;
         this.lineItemService = lineItemService;
         this.addressCircuitBreaker = addressCircuitBreaker;
         this.productCircuitBreaker = productCircuitBreaker;
         this.shipmentCircuitBreaker = shipmentCircuitBreaker;
     }
 
-    public OrderToDisplay getOrderDetailsById(Long orderId) {
+    public OrderToDisplay findDetailsByOrderId(Long orderId) {
 
-        Optional<Order> foundOrderList = orderRepository.findById(orderId);
+        Optional<Order> foundOrderList = orderService.findById(orderId);
+//        Optional<Order> foundOrderList = orderRepository.findById(orderId);
         Order foundOrder = foundOrderList.get();
         Long shippingAddressId = foundOrder.getShippingAddressId();
 

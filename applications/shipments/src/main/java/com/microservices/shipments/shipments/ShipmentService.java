@@ -4,6 +4,8 @@ import com.microservices.shipments.models.LineItemToDisplay;
 import com.microservices.shipments.models.ShipmentToDisplay;
 import com.microservices.shipments.models.TempLineItem;
 import com.microservices.shipments.models.TempProduct;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -116,4 +118,21 @@ public class ShipmentService {
 
         return shipmentRepository.save(foundShipment);
     }
+
+    ResponseEntity updateShippingDate(Long orderId, Shipment passedInShipment) {
+
+        List<Shipment> allByOrderId = shipmentRepository.findAllByOrderId(orderId);
+        for (Shipment shipment : allByOrderId) {
+            if (passedInShipment.getShippedDate() != null) {
+                shipment.setShippedDate(passedInShipment.getShippedDate());
+            }
+            if (passedInShipment.getDeliveredDate() != null) {
+                shipment.setDeliveredDate(passedInShipment.getDeliveredDate());
+            }
+            shipmentRepository.save(shipment);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

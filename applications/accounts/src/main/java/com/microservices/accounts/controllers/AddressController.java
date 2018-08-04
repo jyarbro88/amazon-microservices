@@ -39,6 +39,7 @@ public class AddressController {
         return addressService.findAddressById(addressId);
     }
 
+    //Todo:  post address to accounts
     @PostMapping(value = "/accounts/{id}/address")
     @ResponseStatus(HttpStatus.CREATED)
     public Address createNewAddress(
@@ -48,6 +49,7 @@ public class AddressController {
         return addressService.createNewAddress(address);
     }
 
+    //Todo:  put new address on accounts record as well
     @PutMapping(value = "/accounts/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Address updateAddress(
@@ -58,6 +60,7 @@ public class AddressController {
         return addressService.updateAddress(address);
     }
 
+    //Todo: remove the record in accounts tied to address
     @DeleteMapping(value = "/accounts/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddress(
