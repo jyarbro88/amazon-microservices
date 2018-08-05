@@ -9,9 +9,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class OrderDetailsTest {
+public class DisplayOrderDetailsTest {
 
-    private final OrderDetails testOrderItem = new OrderDetails();
+    private final DisplayOrderDetails testOrderItem = new DisplayOrderDetails();
 
     @Test
     public void setOrderNumber() throws NoSuchFieldException, IllegalAccessException {
@@ -33,20 +33,20 @@ public class OrderDetailsTest {
 
     @Test
     public void setShippingAddress() throws NoSuchFieldException, IllegalAccessException {
-        OrderAddress mockAddress = Mockito.mock(OrderAddress.class);
+        DisplayOrderAddress mockAddress = Mockito.mock(DisplayOrderAddress.class);
         final Field field = testOrderItem.getClass().getDeclaredField("shippingAddress");
         field.setAccessible(true);
         field.set(testOrderItem, mockAddress);
-        OrderAddress shippingAddress = testOrderItem.getShippingAddress();
+        DisplayOrderAddress shippingAddress = testOrderItem.getShippingAddress();
         assertEquals("", mockAddress, shippingAddress);
     }
 
     @Test
     public void setLineItemsToDisplay() throws NoSuchFieldException, IllegalAccessException {
-        OrderLineItem mockLineItems = Mockito.mock(OrderLineItem.class);
-        OrderLineItem mockLineItems2 = Mockito.mock(OrderLineItem.class);
-        OrderLineItem mockLineItems3 = Mockito.mock(OrderLineItem.class);
-        List<OrderLineItem> mockList = new ArrayList<>();
+        DisplayOrderLineItem mockLineItems = Mockito.mock(DisplayOrderLineItem.class);
+        DisplayOrderLineItem mockLineItems2 = Mockito.mock(DisplayOrderLineItem.class);
+        DisplayOrderLineItem mockLineItems3 = Mockito.mock(DisplayOrderLineItem.class);
+        List<DisplayOrderLineItem> mockList = new ArrayList<>();
 
         mockList.add(mockLineItems);
         mockList.add(mockLineItems2);
@@ -55,25 +55,25 @@ public class OrderDetailsTest {
         final Field field = testOrderItem.getClass().getDeclaredField("orderLineItemsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderLineItem> lineItemsToDisplay = testOrderItem.getOrderLineItemsList();
+        List<DisplayOrderLineItem> lineItemsToDisplay = testOrderItem.getDisplayOrderLineItemsList();
         assertEquals("", mockList, lineItemsToDisplay);
     }
 
     @Test
     public void setOrderShipmentsToDisplayList() throws NoSuchFieldException, IllegalAccessException {
-        OrderShipments mockOrderShipments = Mockito.mock(OrderShipments.class);
-        OrderShipments mockOrderShipments2 = Mockito.mock(OrderShipments.class);
-        OrderShipments mockOrderShipments3 = Mockito.mock(OrderShipments.class);
-        List<OrderShipments> mockList = new ArrayList<>();
+        DisplayOrderShipments mockDisplayOrderShipments = Mockito.mock(DisplayOrderShipments.class);
+        DisplayOrderShipments mockDisplayOrderShipments2 = Mockito.mock(DisplayOrderShipments.class);
+        DisplayOrderShipments mockDisplayOrderShipments3 = Mockito.mock(DisplayOrderShipments.class);
+        List<DisplayOrderShipments> mockList = new ArrayList<>();
 
-        mockList.add(mockOrderShipments);
-        mockList.add(mockOrderShipments2);
-        mockList.add(mockOrderShipments3);
+        mockList.add(mockDisplayOrderShipments);
+        mockList.add(mockDisplayOrderShipments2);
+        mockList.add(mockDisplayOrderShipments3);
 
         final Field field = testOrderItem.getClass().getDeclaredField("orderShipmentsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderShipments> orderShipmentsList = testOrderItem.getOrderShipmentsList();
-        assertEquals("", mockList, orderShipmentsList);
+        List<DisplayOrderShipments> displayOrderShipmentsList = testOrderItem.getDisplayOrderShipmentsList();
+        assertEquals("", mockList, displayOrderShipmentsList);
     }
 }

@@ -1,6 +1,6 @@
 package com.microservices.shipments.shipments;
 
-import com.microservices.shipments.models.ShipmentToDisplay;
+import com.microservices.shipments.models.display.DisplayShipment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +45,7 @@ public class ShipmentsController {
 //    }
 
     @GetMapping
-    public List<ShipmentToDisplay> getAllShipmentsForAccountIdOrderedByDeliveryDate(
+    public List<DisplayShipment> getAllShipmentsForAccountIdOrderedByDeliveryDate(
             @RequestParam(value = "accountId") Long accountId
     ){
         return shipmentService.getShipmentByAccountId(accountId);

@@ -1,7 +1,7 @@
 package com.microservices.orders.breakers;
 
 import com.microservices.orders.models.Order;
-import com.microservices.orders.models.display.OrderAddress;
+import com.microservices.orders.models.display.DisplayOrderAddress;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -16,13 +16,13 @@ public class AddressCircuitBreaker {
     }
 
     @HystrixCommand(fallbackMethod = "addressFallBack")
-    public OrderAddress makeRestCallToGetOrderAddressToDisplay(Order foundOrder, Long shippingAddressId) {
-        return restTemplate.getForObject("http://accounts-service/accounts/" + foundOrder.getAccountId() + "/address/" + shippingAddressId, OrderAddress.class);
+    public DisplayOrderAddress makeRestCallToGetOrderAddressToDisplay(Order foundOrder, Long shippingAddressId) {
+        return restTemplate.getForObject("http://accounts-service/accounts/" + foundOrder.getAccountId() + "/address/" + shippingAddressId, DisplayOrderAddress.class);
     }
 
     @SuppressWarnings("unused")
-    public OrderAddress addressFallBack(Order foundOrder, Long shippingAddressId){
+    public DisplayOrderAddress addressFallBack(Order foundOrder, Long shippingAddressId){
 
-        return new OrderAddress();
+        return new DisplayOrderAddress();
     }
 }

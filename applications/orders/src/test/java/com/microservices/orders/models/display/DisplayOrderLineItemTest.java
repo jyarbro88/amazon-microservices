@@ -6,9 +6,9 @@ import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-public class OrderLineItemTest {
+public class DisplayOrderLineItemTest {
 
-    private final OrderLineItem testItem = new OrderLineItem();
+    private final DisplayOrderLineItem testItem = new DisplayOrderLineItem();
 
     @Test
     public void setOrderLineItemId() throws NoSuchFieldException, IllegalAccessException {

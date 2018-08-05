@@ -2,11 +2,13 @@ package com.microservices.orders.services;
 
 public class CalculateUtil {
 
-    public Double calculatePriceBeforeTax(Double price, Integer quantity) {
+    public Double calculateSingleLineItemTotalPriceBeforeTax(Double price, Integer quantity) {
 
         return price * quantity;
     }
 
+
+    //Todo:  method to calculate the order total before and after tax
     public Double calculatePriceAfterTax(Double totalBeforeTaxes) {
 
         Double taxAmount = .0978;

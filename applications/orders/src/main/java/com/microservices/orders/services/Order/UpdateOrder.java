@@ -1,8 +1,9 @@
-package com.microservices.orders.services;
+package com.microservices.orders.services.Order;
 
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.repositories.OrderRepository;
+import com.microservices.orders.services.LineItem.LineItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

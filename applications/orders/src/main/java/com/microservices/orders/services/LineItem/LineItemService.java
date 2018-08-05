@@ -1,8 +1,9 @@
-package com.microservices.orders.services;
+package com.microservices.orders.services.LineItem;
 
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.repositories.LineItemRepository;
+import com.microservices.orders.services.CalculateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -74,6 +75,7 @@ public class LineItemService {
         return lineItemRepository.save(foundLineItem);
     }
 
+    //Todo break out into their own classes
     private LineItem calculatePrices(LineItem lineItem) {
         CalculateUtil calculateUtil = new CalculateUtil();
 
@@ -84,10 +86,10 @@ public class LineItemService {
         TempProduct tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProduct.class);
 
         Double productPrice = tempProduct.getPrice();
-        Double totalPrice = calculateUtil.calculatePriceBeforeTax(productPrice, quantity);
+        Double lineItemTotalPrice = calculateUtil.calculateSingleLineItemTotalPriceBeforeTax(productPrice, quantity);
 
         lineItem.setSingleItemPrice(productPrice);
-        lineItem.setLineItemTotalPrice(totalPrice);
+        lineItem.setLineItemTotalPrice(lineItemTotalPrice);
 
         return lineItem;
     }

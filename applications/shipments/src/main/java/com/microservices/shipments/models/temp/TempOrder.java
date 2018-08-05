@@ -1,7 +1,7 @@
-package com.microservices.shipments.models;
+package com.microservices.shipments.models.temp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.microservices.shipments.models.temp.TempLineItem;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,11 +1,7 @@
 package com.microservices.orders.orders;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microservices.orders.controllers.OrderController;
-import com.microservices.orders.repositories.LineItemRepository;
-import com.microservices.orders.models.Order;
-import com.microservices.orders.repositories.OrderRepository;
-import com.microservices.orders.services.OrderService;
+import com.microservices.orders.services.Order.OrderService;
 import org.apache.catalina.security.SecurityConfig;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,8 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,7 +24,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

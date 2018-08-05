@@ -1,9 +1,9 @@
 package com.microservices.shipments.shipments;
 
-import com.microservices.shipments.models.LineItemToDisplay;
-import com.microservices.shipments.models.ShipmentToDisplay;
-import com.microservices.shipments.models.TempLineItem;
-import com.microservices.shipments.models.TempProduct;
+import com.microservices.shipments.models.display.DisplayLineItem;
+import com.microservices.shipments.models.display.DisplayShipment;
+import com.microservices.shipments.models.temp.TempLineItem;
+import com.microservices.shipments.models.temp.TempProduct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,22 +38,22 @@ public class ShipmentService {
         return shipmentRepository.findById(id);
     }
 
-    List<ShipmentToDisplay> getShipmentByAccountId(Long id) {
+    List<DisplayShipment> getShipmentByAccountId(Long id) {
 
-        List<LineItemToDisplay> lineItemsToDisplayList = new ArrayList<>();
-        List<ShipmentToDisplay> shipmentToDisplayList = new ArrayList<>();
+        List<DisplayLineItem> displayLineItemsToDisplayList = new ArrayList<>();
+        List<DisplayShipment> displayShipmentList = new ArrayList<>();
 
         List<Shipment> allShipmentsForAccount = shipmentRepository.findAllByAccountIdOrderByDeliveredDate(id);
 
         for (Shipment shipment : allShipmentsForAccount) {
 
-            ShipmentToDisplay shipmentToDisplay = new ShipmentToDisplay();
+            DisplayShipment displayShipment = new DisplayShipment();
             Map<Long, Integer> lineItemsMap = new HashMap<>();
             Map<Long, String> productsMap = new HashMap<>();
 
-            shipmentToDisplay.setDeliveredDate(shipment.getDeliveredDate());
-            shipmentToDisplay.setShipmentDate(shipment.getShippedDate());
-            shipmentToDisplay.setOrderNumber(shipment.getOrderId());
+            displayShipment.setDeliveredDate(shipment.getDeliveredDate());
+            displayShipment.setShipmentDate(shipment.getShippedDate());
+            displayShipment.setOrderNumber(shipment.getOrderId());
 
             Long orderId = shipment.getOrderId();
 
@@ -76,21 +76,21 @@ public class ShipmentService {
             }
 
             for (Long productId : productsMap.keySet()) {
-                LineItemToDisplay lineItemToDisplay = new LineItemToDisplay();
+                DisplayLineItem displayLineItem = new DisplayLineItem();
                 Integer lineItemQuantity = lineItemsMap.get(productId);
                 String productName = productsMap.get(productId);
-                lineItemToDisplay.setProductName(productName);
-                lineItemToDisplay.setQuantity(lineItemQuantity);
+                displayLineItem.setProductName(productName);
+                displayLineItem.setQuantity(lineItemQuantity);
 
-                lineItemsToDisplayList.add(lineItemToDisplay);
+                displayLineItemsToDisplayList.add(displayLineItem);
             }
 
-            shipmentToDisplay.setOrderLineItems(lineItemsToDisplayList);
+            displayShipment.setOrderDisplayLineItems(displayLineItemsToDisplayList);
 
-            shipmentToDisplayList.add(shipmentToDisplay);
+            displayShipmentList.add(displayShipment);
         }
 
-        return shipmentToDisplayList;
+        return displayShipmentList;
     }
 
     Shipment updateShipment(Shipment shipment) {

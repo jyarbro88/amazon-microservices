@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor
-public class OrderLineItem {
+public class DisplayOrderLineItem {
 
     private Long orderLineItemId;
     private String productName;

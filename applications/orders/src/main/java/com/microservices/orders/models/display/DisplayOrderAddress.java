@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderAddress {
+public class DisplayOrderAddress {
 
     private Long shippingAddressId;
     private String addressOne;

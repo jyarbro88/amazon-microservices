@@ -1,4 +1,4 @@
-package com.microservices.shipments.models;
+package com.microservices.shipments.models.temp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

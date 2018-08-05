@@ -1,10 +1,11 @@
 package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.Order;
-import com.microservices.orders.models.display.OrderDetails;
+import com.microservices.orders.models.display.DisplayOrderDetails;
 import com.microservices.orders.models.temp.TempProduct;
-import com.microservices.orders.services.OrderService;
-import com.microservices.orders.services.UpdateOrder;
+import com.microservices.orders.services.Order.OrderDetailsService;
+import com.microservices.orders.services.Order.OrderService;
+import com.microservices.orders.services.Order.UpdateOrder;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +21,10 @@ import java.util.List;
 public class OrderController {
 
     private OrderService orderService;
-    private com.microservices.orders.services.OrderDetails orderDetailsService;
+    private OrderDetailsService orderDetailsService;
     private UpdateOrder updateOrderService;
 
-    public OrderController(OrderService orderService, com.microservices.orders.services.OrderDetails orderDetailsService, UpdateOrder updateOrderService) {
+    public OrderController(OrderService orderService, OrderDetailsService orderDetailsService, UpdateOrder updateOrderService) {
         this.orderService = orderService;
         this.orderDetailsService = orderDetailsService;
         this.updateOrderService = updateOrderService;
@@ -42,7 +43,7 @@ public class OrderController {
     }
 
     @GetMapping(value = "/{id}")
-    public OrderDetails findDetailsByOrderId(
+    public DisplayOrderDetails findDetailsByOrderId(
             @PathVariable(value = "id") Long orderId
     ){
         return orderDetailsService.findDetailsByOrderId(orderId);

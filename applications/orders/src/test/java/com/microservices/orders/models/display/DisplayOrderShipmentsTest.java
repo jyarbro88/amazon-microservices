@@ -9,9 +9,9 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-public class OrderShipmentsTest {
+public class DisplayOrderShipmentsTest {
 
-    private final OrderShipments testOrderShipmentItem = new OrderShipments();
+    private final DisplayOrderShipments testOrderShipmentItem = new DisplayOrderShipments();
 
     @Test
     public void setShipmentId() throws NoSuchFieldException, IllegalAccessException {

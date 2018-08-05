@@ -1,7 +1,7 @@
 package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.LineItem;
-import com.microservices.orders.services.LineItemService;
+import com.microservices.orders.services.LineItem.LineItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

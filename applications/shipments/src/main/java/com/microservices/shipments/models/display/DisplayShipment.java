@@ -1,4 +1,4 @@
-package com.microservices.shipments.models;
+package com.microservices.shipments.models.display;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShipmentToDisplay {
+public class DisplayShipment {
 
     private Long orderNumber;
     @Temporal(TemporalType.DATE)
@@ -22,6 +22,6 @@ public class ShipmentToDisplay {
     @Temporal(TemporalType.DATE)
     @JsonFormat(pattern = "MM-dd-yyyy")
     private Date deliveredDate;
-    private List<LineItemToDisplay> orderLineItems;
+    private List<DisplayLineItem> orderDisplayLineItems;
 
 }

@@ -6,9 +6,9 @@ import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-public class OrderAddressTest {
+public class DisplayOrderAddressTest {
 
-    private final OrderAddress testAddressItem = new OrderAddress();
+    private final DisplayOrderAddress testAddressItem = new DisplayOrderAddress();
 
     @Test
     public void setShippingAddressId() throws NoSuchFieldException, IllegalAccessException {

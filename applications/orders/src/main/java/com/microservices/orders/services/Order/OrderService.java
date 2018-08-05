@@ -1,4 +1,4 @@
-package com.microservices.orders.services;
+package com.microservices.orders.services.Order;
 
 import com.microservices.orders.breakers.ShipmentCircuitBreaker;
 import com.microservices.orders.models.LineItem;
@@ -6,6 +6,7 @@ import com.microservices.orders.models.Order;
 import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.models.temp.TempShipment;
 import com.microservices.orders.repositories.OrderRepository;
+import com.microservices.orders.services.LineItem.LineItemService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -69,6 +70,7 @@ public class OrderService {
 
                 Double lineItemTotalPrice = savedOrderLineItem.getLineItemTotalPrice();
 
+                //Todo:  don't calculate here, extract to a utility
                 orderTotal += lineItemTotalPrice;
             }
             savedOrder.setTotalPrice(orderTotal);

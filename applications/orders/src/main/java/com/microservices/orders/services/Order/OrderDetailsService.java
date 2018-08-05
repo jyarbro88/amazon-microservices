@@ -1,15 +1,17 @@
-package com.microservices.orders.services;
+package com.microservices.orders.services.Order;
 
 import com.microservices.orders.breakers.AddressCircuitBreaker;
 import com.microservices.orders.breakers.ProductCircuitBreaker;
 import com.microservices.orders.breakers.ShipmentCircuitBreaker;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.Order;
-import com.microservices.orders.models.display.OrderAddress;
-import com.microservices.orders.models.display.OrderLineItem;
-import com.microservices.orders.models.display.OrderShipments;
+import com.microservices.orders.models.display.DisplayOrderAddress;
+import com.microservices.orders.models.display.DisplayOrderDetails;
+import com.microservices.orders.models.display.DisplayOrderLineItem;
+import com.microservices.orders.models.display.DisplayOrderShipments;
 import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.models.temp.TempShipment;
+import com.microservices.orders.services.LineItem.LineItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderDetails {
+public class OrderDetailsService {
 
     private OrderService orderService;
     private LineItemService lineItemService;
@@ -25,7 +27,7 @@ public class OrderDetails {
     private ProductCircuitBreaker productCircuitBreaker;
     private ShipmentCircuitBreaker shipmentCircuitBreaker;
 
-    public OrderDetails(OrderService orderService, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
+    public OrderDetailsService(OrderService orderService, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
         this.orderService = orderService;
         this.lineItemService = lineItemService;
         this.addressCircuitBreaker = addressCircuitBreaker;
@@ -33,28 +35,28 @@ public class OrderDetails {
         this.shipmentCircuitBreaker = shipmentCircuitBreaker;
     }
 
-    public com.microservices.orders.models.display.OrderDetails findDetailsByOrderId(Long orderId) {
+    public DisplayOrderDetails findDetailsByOrderId(Long orderId) {
 
         Optional<Order> foundOrderList = orderService.findById(orderId);
         Order foundOrder = foundOrderList.get();
         Long shippingAddressId = foundOrder.getShippingAddressId();
 
-        com.microservices.orders.models.display.OrderDetails orderDetails = new com.microservices.orders.models.display.OrderDetails();
-        orderDetails.setOrderNumber(foundOrder.getId());
+        DisplayOrderDetails displayOrderDetails = new DisplayOrderDetails();
+        displayOrderDetails.setOrderNumber(foundOrder.getId());
 
-        OrderAddress addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder, shippingAddressId);
+        DisplayOrderAddress addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder, shippingAddressId);
 
         addressToDisplay.setShippingAddressId(shippingAddressId);
-        orderDetails.setShippingAddress(addressToDisplay);
+        displayOrderDetails.setShippingAddress(addressToDisplay);
 
         List<LineItem> lineItemsForOrderId = lineItemService.findByOrderId(foundOrder.getId());
 
-        List<OrderLineItem> lineItemsForOrderList = new ArrayList<>();
-        List<OrderShipments> shipmentItemsForOrderList = new ArrayList<>();
+        List<DisplayOrderLineItem> lineItemsForOrderList = new ArrayList<>();
+        List<DisplayOrderShipments> shipmentItemsForOrderList = new ArrayList<>();
 
         for (LineItem lineItem : lineItemsForOrderId) {
-            OrderLineItem orderLineItem = new OrderLineItem();
-            OrderShipments shipmentLineItemToDisplay = new OrderShipments();
+            DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
+            DisplayOrderShipments shipmentLineItemToDisplay = new DisplayOrderShipments();
 
             TempProduct tempProduct = productCircuitBreaker.getTempProductObject(lineItem);
             TempShipment tempShipment = shipmentCircuitBreaker.getShipmentInformation(lineItem);
@@ -71,18 +73,18 @@ public class OrderDetails {
 
 
 
-            orderLineItem.setOrderLineItemId(lineItem.getId());
-            orderLineItem.setProductName(tempProduct.getName());
-            orderLineItem.setQuantity(lineItem.getQuantity());
+            displayOrderLineItem.setOrderLineItemId(lineItem.getId());
+            displayOrderLineItem.setProductName(tempProduct.getName());
+            displayOrderLineItem.setQuantity(lineItem.getQuantity());
 
-            lineItemsForOrderList.add(orderLineItem);
+            lineItemsForOrderList.add(displayOrderLineItem);
             shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
         }
 
-        orderDetails.setOrderTotalPrice(foundOrder.getTotalPrice());
-        orderDetails.setOrderLineItemsList(lineItemsForOrderList);
-        orderDetails.setOrderShipmentsList(shipmentItemsForOrderList);
+        displayOrderDetails.setOrderTotalPrice(foundOrder.getTotalPrice());
+        displayOrderDetails.setDisplayOrderLineItemsList(lineItemsForOrderList);
+        displayOrderDetails.setDisplayOrderShipmentsList(shipmentItemsForOrderList);
 
-        return orderDetails;
+        return displayOrderDetails;
     }
 }
