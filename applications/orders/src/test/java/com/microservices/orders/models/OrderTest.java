@@ -84,7 +84,7 @@ public class OrderTest {
         lineItem.setProductId(4L);
         lineItem.setId(1L);
         lineItem.setSingleItemPrice(3.00);
-        lineItem.setLineItemTotalPrice(9.00);
+        lineItem.setTotalPrice(9.00);
 
         lineItemsTestList.add(lineItem);
 

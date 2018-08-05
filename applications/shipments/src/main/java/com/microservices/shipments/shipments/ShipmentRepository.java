@@ -1,5 +1,6 @@
 package com.microservices.shipments.shipments;
 
+import com.microservices.shipments.models.Shipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

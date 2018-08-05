@@ -1,9 +1,11 @@
-package com.microservices.shipments.shipments;
+package com.microservices.shipments.services;
 
+import com.microservices.shipments.models.Shipment;
 import com.microservices.shipments.models.display.DisplayLineItem;
 import com.microservices.shipments.models.display.DisplayShipment;
 import com.microservices.shipments.models.temp.TempLineItem;
 import com.microservices.shipments.models.temp.TempProduct;
+import com.microservices.shipments.shipments.ShipmentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,23 +24,24 @@ public class ShipmentService {
         this.restTemplate = restTemplate;
     }
 
-    Iterable<Shipment> getAllShipments() {
+    public Iterable<Shipment> getAllShipments() {
         return shipmentRepository.findAll();
     }
 
-    Shipment createNewShipment(Shipment shipment) {
+    public Shipment createNewShipment(Shipment shipment) {
         return shipmentRepository.save(shipment);
     }
 
-    void deleteShipment(Long id) {
+    public void deleteShipment(Long id) {
         shipmentRepository.deleteById(id);
     }
 
-    Optional<Shipment> getShipmentById(Long id) {
+    public Optional<Shipment> getShipmentById(Long id) {
         return shipmentRepository.findById(id);
     }
 
-    List<DisplayShipment> getShipmentByAccountId(Long id) {
+    //Todo:  each method should be extracted out to their own classes
+    public List<DisplayShipment> getShipmentByAccountId(Long id) {
 
         List<DisplayLineItem> displayLineItemsToDisplayList = new ArrayList<>();
         List<DisplayShipment> displayShipmentList = new ArrayList<>();
@@ -57,7 +60,7 @@ public class ShipmentService {
 
             Long orderId = shipment.getOrderId();
 
-            //Todo:  Replace rest calls with circuit breakers
+            //Todo:  Replace rest calls with circuit circuits
             TempProduct[] tempProduct = restTemplate.getForObject("http://orders-service/orders/getProductInfo/" + orderId, TempProduct[].class);
             TempLineItem[] tempLineItem = restTemplate.getForObject("http://orders-service/lineItems/" + orderId + "/lookup", TempLineItem[].class);
 
@@ -93,7 +96,8 @@ public class ShipmentService {
         return displayShipmentList;
     }
 
-    Shipment updateShipment(Shipment shipment) {
+    //Todo:  each method should be extracted out to their own classes
+    public Shipment updateShipment(Shipment shipment) {
         Optional<Shipment> byId = shipmentRepository.findById(shipment.getId());
         Shipment foundShipment = byId.get();
 
@@ -119,7 +123,7 @@ public class ShipmentService {
         return shipmentRepository.save(foundShipment);
     }
 
-    ResponseEntity updateShippingDate(Long orderId, Shipment passedInShipment) {
+    public ResponseEntity updateShippingDate(Long orderId, Shipment passedInShipment) {
 
         List<Shipment> allByOrderId = shipmentRepository.findAllByOrderId(orderId);
         for (Shipment shipment : allByOrderId) {

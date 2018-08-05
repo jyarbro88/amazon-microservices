@@ -53,7 +53,7 @@ public class OrderControllerTest {
         testJsonLineItemsObject.put("orderId", 1L);
         testJsonLineItemsObject.put("quantity", 3);
         testJsonLineItemsObject.put("singleItemPrice", 3.00);
-        testJsonLineItemsObject.put("lineItemTotalPrice", 9.00);
+        testJsonLineItemsObject.put("totalPrice", 9.00);
 
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");

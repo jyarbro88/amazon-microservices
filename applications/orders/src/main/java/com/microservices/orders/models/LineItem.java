@@ -20,6 +20,6 @@ public class LineItem {
 
     private Integer quantity;
     private Double singleItemPrice;
-    private Double lineItemTotalPrice;
+    private Double totalPrice;
 
 }

@@ -3,32 +3,33 @@ package com.microservices.orders.controllers;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.DisplayOrderDetails;
 import com.microservices.orders.models.temp.TempProduct;
-import com.microservices.orders.services.Order.OrderDetailsService;
-import com.microservices.orders.services.Order.OrderService;
-import com.microservices.orders.services.Order.UpdateOrder;
+import com.microservices.orders.services.Order.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 //Todo:  Create operations for new Order which creates a new person, a new address and then links the address, and account id to the order when saving
-//Todo:  Calculate Total Prices with utility class and not manually
 //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
-//Todo:  Add RequestMapping to the base of LineItemController and remove from all HTTPMethods
 
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderController {
 
     private OrderService orderService;
-    private OrderDetailsService orderDetailsService;
+    private OrderDetails orderDetailsService;
+    private NewOrder newOrderService;
+    private ProductInfo productInfoService;
     private UpdateOrder updateOrderService;
 
-    public OrderController(OrderService orderService, OrderDetailsService orderDetailsService, UpdateOrder updateOrderService) {
+    public OrderController(OrderService orderService, OrderDetails orderDetailsService, NewOrder newOrderService, ProductInfo productInfoService, UpdateOrder updateOrderService) {
         this.orderService = orderService;
         this.orderDetailsService = orderDetailsService;
+        this.newOrderService = newOrderService;
+        this.productInfoService = productInfoService;
         this.updateOrderService = updateOrderService;
     }
+
 
     @GetMapping(value = "/all")
     public Iterable<Order> getAllOrders(){
@@ -53,15 +54,15 @@ public class OrderController {
     public List<TempProduct> findProductInfoForOrderId(
             @PathVariable(value = "orderId") Long orderId
     ){
-        return orderService.findProductInfoForOrderId(orderId);
+        return productInfoService.infoForOrderId(orderId);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Order createNewOrder(
+    public Order postNewOrder(
             @RequestBody Order order
     ){
-        return orderService.createNewOrder(order);
+        return newOrderService.postNew(order);
     }
 
     @PutMapping(value = "/update")

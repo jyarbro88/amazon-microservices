@@ -15,6 +15,4 @@ public class TempLineItem {
     private Double singleItemPrice;
     private Double lineItemTotalPrice;
 
-//    private TempOrder order;
-
 }

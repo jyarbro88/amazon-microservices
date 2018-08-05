@@ -1,6 +1,8 @@
 package com.microservices.shipments.shipments;
 
+import com.microservices.shipments.models.Shipment;
 import com.microservices.shipments.models.display.DisplayShipment;
+import com.microservices.shipments.services.ShipmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +20,6 @@ public class ShipmentsController {
         this.shipmentService = shipmentService;
     }
 
-    //    @GetMapping(value = "/shipments/{accountId}", produces = "application/json")
-//    public List<Shipment> getAllShipmentsForAccountId(
-//            @PathVariable(value = "accountId") Long accountId
-//    ){
-//        return shipmentRepository.findAllByAccountId(accountId);
-//    }
-
     @GetMapping(value = "/showAll")
     public Iterable<Shipment> getAllShipments(){
         return shipmentService.getAllShipments();
@@ -36,13 +31,6 @@ public class ShipmentsController {
     ){
         return shipmentService.getShipmentById(shipmentId);
     }
-
-//    @GetMapping(value = "/shipments/lineItems/{shipmentId}", produces = "application/json")
-//    public Optional<Shipment> getLineItemForShipment(
-//            @PathVariable(value = "shipmentId") Long shipmentId
-//    ){
-//        return shipmentService.get
-//    }
 
     @GetMapping
     public List<DisplayShipment> getAllShipmentsForAccountIdOrderedByDeliveryDate(

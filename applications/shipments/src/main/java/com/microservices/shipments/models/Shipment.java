@@ -1,4 +1,4 @@
-package com.microservices.shipments.shipments;
+package com.microservices.shipments.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

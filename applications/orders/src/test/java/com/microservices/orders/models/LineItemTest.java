@@ -69,7 +69,7 @@ public class LineItemTest {
         final Field field = testLineItem.getClass().getDeclaredField("lineItemTotalPrice");
         field.setAccessible(true);
         field.set(testLineItem, 32.99);
-        Double lineItemTotalPrice = testLineItem.getLineItemTotalPrice();
+        Double lineItemTotalPrice = testLineItem.getTotalPrice();
         assertEquals(32.99, lineItemTotalPrice, 32.99);
     }
 }

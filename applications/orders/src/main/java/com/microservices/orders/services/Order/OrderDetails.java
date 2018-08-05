@@ -1,8 +1,8 @@
 package com.microservices.orders.services.Order;
 
-import com.microservices.orders.breakers.AddressCircuitBreaker;
-import com.microservices.orders.breakers.ProductCircuitBreaker;
-import com.microservices.orders.breakers.ShipmentCircuitBreaker;
+import com.microservices.orders.circuits.AddressCircuitBreaker;
+import com.microservices.orders.circuits.ProductCircuitBreaker;
+import com.microservices.orders.circuits.ShipmentCircuitBreaker;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.DisplayOrderAddress;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderDetailsService {
+public class OrderDetails {
 
     private OrderService orderService;
     private LineItemService lineItemService;
@@ -27,13 +27,15 @@ public class OrderDetailsService {
     private ProductCircuitBreaker productCircuitBreaker;
     private ShipmentCircuitBreaker shipmentCircuitBreaker;
 
-    public OrderDetailsService(OrderService orderService, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
+    public OrderDetails(OrderService orderService, LineItemService lineItemService, AddressCircuitBreaker addressCircuitBreaker, ProductCircuitBreaker productCircuitBreaker, ShipmentCircuitBreaker shipmentCircuitBreaker) {
         this.orderService = orderService;
         this.lineItemService = lineItemService;
         this.addressCircuitBreaker = addressCircuitBreaker;
         this.productCircuitBreaker = productCircuitBreaker;
         this.shipmentCircuitBreaker = shipmentCircuitBreaker;
     }
+
+    //Todo:  look at breaking up
 
     public DisplayOrderDetails findDetailsByOrderId(Long orderId) {
 
@@ -58,7 +60,8 @@ public class OrderDetailsService {
             DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
             DisplayOrderShipments shipmentLineItemToDisplay = new DisplayOrderShipments();
 
-            TempProduct tempProduct = productCircuitBreaker.getTempProductObject(lineItem);
+            TempProduct tempProduct = productCircuitBreaker.getTempProductWithId(lineItem.getProductId());
+
             TempShipment tempShipment = shipmentCircuitBreaker.getShipmentInformation(lineItem);
 
             shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());

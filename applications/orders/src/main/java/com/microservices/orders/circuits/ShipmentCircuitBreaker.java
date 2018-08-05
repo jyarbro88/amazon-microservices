@@ -1,4 +1,4 @@
-package com.microservices.orders.breakers;
+package com.microservices.orders.circuits;
 
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempShipment;
@@ -6,11 +6,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import static com.microservices.orders.Routes.SHIPMENT_SERVICE_URL;
+
 @Component
 public class ShipmentCircuitBreaker {
 
     private RestTemplate restTemplate;
-    private String SHIPMENT_SERVICE_URL = "http://shipments-service/shipments/";
 
     public ShipmentCircuitBreaker(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -21,7 +22,6 @@ public class ShipmentCircuitBreaker {
 
         return restTemplate.getForObject(SHIPMENT_SERVICE_URL + lineItem.getShipmentId(), TempShipment.class);
     }
-
     @SuppressWarnings("unused")
     public TempShipment shipmentFallBack(LineItem lineItem) {
 
@@ -29,11 +29,10 @@ public class ShipmentCircuitBreaker {
     }
 
     @HystrixCommand(fallbackMethod = "newShipmentFallBack")
-    public TempShipment postNewShipment(TempShipment shipmentObjectsToPost) {
+    public TempShipment postNewShipment(TempShipment shipment) {
 
-        return restTemplate.postForObject(SHIPMENT_SERVICE_URL, shipmentObjectsToPost, TempShipment.class);
+        return restTemplate.postForObject(SHIPMENT_SERVICE_URL, shipment, TempShipment.class);
     }
-
     @SuppressWarnings("unused")
     public TempShipment newShipmentFallBack(TempShipment shipment) {
         return new TempShipment();
@@ -43,10 +42,7 @@ public class ShipmentCircuitBreaker {
     public void updateShipment(TempShipment shipment) {
         restTemplate.put(SHIPMENT_SERVICE_URL, shipment);
     }
-
     @SuppressWarnings("unused")
-    public void updateShipmentFallBack() {
-    }
-
+    public void updateShipmentFallBack(TempShipment shipment) { }
 
 }
