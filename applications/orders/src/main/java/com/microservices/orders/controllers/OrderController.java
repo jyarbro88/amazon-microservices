@@ -1,9 +1,8 @@
 package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.Order;
-import com.microservices.orders.models.display.OrderToDisplay;
-import com.microservices.orders.models.temp.TempProductObject;
-import com.microservices.orders.services.OrderDetails;
+import com.microservices.orders.models.display.OrderDetails;
+import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.services.OrderService;
 import com.microservices.orders.services.UpdateOrder;
 import org.springframework.http.HttpStatus;
@@ -14,16 +13,17 @@ import java.util.List;
 //Todo:  Create operations for new Order which creates a new person, a new address and then links the address, and account id to the order when saving
 //Todo:  Calculate Total Prices with utility class and not manually
 //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
+//Todo:  Add RequestMapping to the base of LineItemController and remove from all HTTPMethods
 
 @RestController
 @RequestMapping(value = "/orders")
 public class OrderController {
 
     private OrderService orderService;
-    private OrderDetails orderDetailsService;
+    private com.microservices.orders.services.OrderDetails orderDetailsService;
     private UpdateOrder updateOrderService;
 
-    public OrderController(OrderService orderService, OrderDetails orderDetailsService, UpdateOrder updateOrderService) {
+    public OrderController(OrderService orderService, com.microservices.orders.services.OrderDetails orderDetailsService, UpdateOrder updateOrderService) {
         this.orderService = orderService;
         this.orderDetailsService = orderDetailsService;
         this.updateOrderService = updateOrderService;
@@ -42,14 +42,14 @@ public class OrderController {
     }
 
     @GetMapping(value = "/{id}")
-    public OrderToDisplay findDetailsByOrderId(
+    public OrderDetails findDetailsByOrderId(
             @PathVariable(value = "id") Long orderId
     ){
         return orderDetailsService.findDetailsByOrderId(orderId);
     }
 
     @GetMapping(value = "/getProductInfo/{orderId}", produces = "application/json")
-    public List<TempProductObject> findProductInfoForOrderId(
+    public List<TempProduct> findProductInfoForOrderId(
             @PathVariable(value = "orderId") Long orderId
     ){
         return orderService.findProductInfoForOrderId(orderId);

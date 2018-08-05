@@ -1,7 +1,7 @@
 package com.microservices.orders.services;
 
 import com.microservices.orders.models.LineItem;
-import com.microservices.orders.models.temp.TempProductObject;
+import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.repositories.LineItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -41,7 +41,7 @@ public class LineItemService {
         //Todo: set up circuit breaker
 
         Long productId = lineItem.getProductId();
-        TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
+        TempProduct tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProduct.class);
         Double productPrice = tempProduct.getPrice();
         lineItem.setSingleItemPrice(productPrice);
 
@@ -81,7 +81,7 @@ public class LineItemService {
         Integer quantity = lineItem.getQuantity();
 
         //Todo: set up circuit breaker
-        TempProductObject tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProductObject.class);
+        TempProduct tempProduct = restTemplate.getForObject("http://products-service/products/" + productId, TempProduct.class);
 
         Double productPrice = tempProduct.getPrice();
         Double totalPrice = calculateUtil.calculatePriceBeforeTax(productPrice, quantity);

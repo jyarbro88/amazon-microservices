@@ -27,6 +27,7 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    //Todo:  go through and check for values to update
     public Account updateAccount(Account account){
         Optional<Account> byId = accountRepository.findById(account.getId());
         Account foundAccount = byId.get();

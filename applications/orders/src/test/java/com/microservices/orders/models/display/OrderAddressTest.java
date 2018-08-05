@@ -1,15 +1,14 @@
 package com.microservices.orders.models.display;
 
-import com.microservices.orders.models.display.OrderAddressToDisplay;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-public class OrderAddressToDisplayTest {
+public class OrderAddressTest {
 
-    private final OrderAddressToDisplay testAddressItem = new OrderAddressToDisplay();
+    private final OrderAddress testAddressItem = new OrderAddress();
 
     @Test
     public void setShippingAddressId() throws NoSuchFieldException, IllegalAccessException {

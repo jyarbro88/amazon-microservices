@@ -3,8 +3,8 @@ package com.microservices.orders.services;
 import com.microservices.orders.breakers.ShipmentCircuitBreaker;
 import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.Order;
-import com.microservices.orders.models.temp.TempProductObject;
-import com.microservices.orders.models.temp.TempShipmentObject;
+import com.microservices.orders.models.temp.TempProduct;
+import com.microservices.orders.models.temp.TempShipment;
 import com.microservices.orders.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -57,7 +57,7 @@ public class OrderService {
             }
             Order savedOrder = persistOrder(order);
             Long savedOrderId = savedOrder.getId();
-            TempShipmentObject newShipmentForOrder = buildAndSendShipmentObject(savedOrder);
+            TempShipment newShipmentForOrder = buildAndSendShipmentObject(savedOrder);
             Long shipmentId = newShipmentForOrder.getId();
 
             List<LineItem> savedOrderLineItems = savedOrder.getLineItems();
@@ -82,14 +82,14 @@ public class OrderService {
         }
     }
 
-    public List<TempProductObject> findProductInfoForOrderId(Long orderId) {
+    public List<TempProduct> findProductInfoForOrderId(Long orderId) {
 
         List<LineItem> lineItemsForOrder = lineItemService.findByOrderId(orderId);
-        List<TempProductObject> productsToReturnList = new ArrayList<>();
+        List<TempProduct> productsToReturnList = new ArrayList<>();
         for (LineItem lineItem : lineItemsForOrder) {
 
             Long productId = lineItem.getProductId();
-            TempProductObject foundProduct = restTemplate.getForObject(PRODUCTS_SERVICE_URL + productId, TempProductObject.class);
+            TempProduct foundProduct = restTemplate.getForObject(PRODUCTS_SERVICE_URL + productId, TempProduct.class);
 
             foundProduct.setId(productId);
             productsToReturnList.add(foundProduct);
@@ -98,9 +98,9 @@ public class OrderService {
         return productsToReturnList;
     }
 
-    private TempShipmentObject buildAndSendShipmentObject(Order savedOrder) {
+    private TempShipment buildAndSendShipmentObject(Order savedOrder) {
 
-        TempShipmentObject shipmentObjectToSend = new TempShipmentObject();
+        TempShipment shipmentObjectToSend = new TempShipment();
 
         shipmentObjectToSend.setOrderId(savedOrder.getId());
         shipmentObjectToSend.setShippingAddressId(savedOrder.getShippingAddressId());

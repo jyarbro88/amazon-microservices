@@ -1,16 +1,16 @@
 package com.microservices.orders.models.temp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
-@Getter @Setter @NoArgsConstructor
-public class TempShipmentObject {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class TempShipment {
 
     private Long id;
     private Long accountId;

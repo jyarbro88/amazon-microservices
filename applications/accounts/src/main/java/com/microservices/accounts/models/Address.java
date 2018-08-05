@@ -21,9 +21,9 @@ public class Address {
     private String state;
     private String zipCode;
     private String country;
-    @ManyToOne
-    @JsonBackReference
-    private Account account;
+//    @ManyToOne
+//    @JsonBackReference
+//    private Account account;
 
     public Address(String addressOne, String addressTwo, String city, String state, String zipCode, String country) {
         this.addressOne = addressOne;

@@ -27,6 +27,7 @@ public class AddressService {
         return addressRepository.save(address);
     }
 
+    //Todo:  go through and check for values before updating
     public Address updateAddress(Address address){
         Optional<Address> addressById = addressRepository.findById(address.getId());
         Address foundAddress = addressById.get();

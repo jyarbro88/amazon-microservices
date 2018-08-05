@@ -1,6 +1,5 @@
 package com.microservices.orders.models.display;
 
-import com.microservices.orders.models.display.OrderShipmentsToDisplay;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -10,9 +9,9 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-public class OrderShipmentsToDisplayTest {
+public class OrderShipmentsTest {
 
-    private final OrderShipmentsToDisplay testOrderShipmentItem = new OrderShipmentsToDisplay();
+    private final OrderShipments testOrderShipmentItem = new OrderShipments();
 
     @Test
     public void setShipmentId() throws NoSuchFieldException, IllegalAccessException {
@@ -24,12 +23,12 @@ public class OrderShipmentsToDisplayTest {
     }
 
     @Test
-    public void setOrderLineItemId() throws NoSuchFieldException, IllegalAccessException {
-        final Field field = testOrderShipmentItem.getClass().getDeclaredField("orderLineItemId");
+    public void setOrderId() throws NoSuchFieldException, IllegalAccessException {
+        final Field field = testOrderShipmentItem.getClass().getDeclaredField("orderId");
         field.setAccessible(true);
         field.set(testOrderShipmentItem, 1L);
-        Long orderLineItemId = testOrderShipmentItem.getOrderLineItemId();
-        assertEquals(1L, orderLineItemId, 1L);
+        Long orderId = testOrderShipmentItem.getOrderId();
+        assertEquals(1L, orderId, 1L);
     }
 
     @Test

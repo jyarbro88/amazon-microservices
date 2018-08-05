@@ -1,9 +1,5 @@
 package com.microservices.orders.models.display;
 
-import com.microservices.orders.models.display.OrderAddressToDisplay;
-import com.microservices.orders.models.display.OrderLineItemToDisplay;
-import com.microservices.orders.models.display.OrderShipmentsToDisplay;
-import com.microservices.orders.models.display.OrderToDisplay;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -13,9 +9,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class OrderToDisplayTest {
+public class OrderDetailsTest {
 
-    private final OrderToDisplay testOrderItem = new OrderToDisplay();
+    private final OrderDetails testOrderItem = new OrderDetails();
 
     @Test
     public void setOrderNumber() throws NoSuchFieldException, IllegalAccessException {
@@ -37,20 +33,20 @@ public class OrderToDisplayTest {
 
     @Test
     public void setShippingAddress() throws NoSuchFieldException, IllegalAccessException {
-        OrderAddressToDisplay mockAddress = Mockito.mock(OrderAddressToDisplay.class);
+        OrderAddress mockAddress = Mockito.mock(OrderAddress.class);
         final Field field = testOrderItem.getClass().getDeclaredField("shippingAddress");
         field.setAccessible(true);
         field.set(testOrderItem, mockAddress);
-        OrderAddressToDisplay shippingAddress = testOrderItem.getShippingAddress();
+        OrderAddress shippingAddress = testOrderItem.getShippingAddress();
         assertEquals("", mockAddress, shippingAddress);
     }
 
     @Test
     public void setLineItemsToDisplay() throws NoSuchFieldException, IllegalAccessException {
-        OrderLineItemToDisplay mockLineItems = Mockito.mock(OrderLineItemToDisplay.class);
-        OrderLineItemToDisplay mockLineItems2 = Mockito.mock(OrderLineItemToDisplay.class);
-        OrderLineItemToDisplay mockLineItems3 = Mockito.mock(OrderLineItemToDisplay.class);
-        List<OrderLineItemToDisplay> mockList = new ArrayList<>();
+        OrderLineItem mockLineItems = Mockito.mock(OrderLineItem.class);
+        OrderLineItem mockLineItems2 = Mockito.mock(OrderLineItem.class);
+        OrderLineItem mockLineItems3 = Mockito.mock(OrderLineItem.class);
+        List<OrderLineItem> mockList = new ArrayList<>();
 
         mockList.add(mockLineItems);
         mockList.add(mockLineItems2);
@@ -59,16 +55,16 @@ public class OrderToDisplayTest {
         final Field field = testOrderItem.getClass().getDeclaredField("orderLineItemsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderLineItemToDisplay> lineItemsToDisplay = testOrderItem.getOrderLineItemsList();
+        List<OrderLineItem> lineItemsToDisplay = testOrderItem.getOrderLineItemsList();
         assertEquals("", mockList, lineItemsToDisplay);
     }
 
     @Test
     public void setOrderShipmentsToDisplayList() throws NoSuchFieldException, IllegalAccessException {
-        OrderShipmentsToDisplay mockOrderShipments = Mockito.mock(OrderShipmentsToDisplay.class);
-        OrderShipmentsToDisplay mockOrderShipments2 = Mockito.mock(OrderShipmentsToDisplay.class);
-        OrderShipmentsToDisplay mockOrderShipments3 = Mockito.mock(OrderShipmentsToDisplay.class);
-        List<OrderShipmentsToDisplay> mockList = new ArrayList<>();
+        OrderShipments mockOrderShipments = Mockito.mock(OrderShipments.class);
+        OrderShipments mockOrderShipments2 = Mockito.mock(OrderShipments.class);
+        OrderShipments mockOrderShipments3 = Mockito.mock(OrderShipments.class);
+        List<OrderShipments> mockList = new ArrayList<>();
 
         mockList.add(mockOrderShipments);
         mockList.add(mockOrderShipments2);
@@ -77,7 +73,7 @@ public class OrderToDisplayTest {
         final Field field = testOrderItem.getClass().getDeclaredField("orderShipmentsList");
         field.setAccessible(true);
         field.set(testOrderItem, mockList);
-        List<OrderShipmentsToDisplay> orderShipmentsToDisplayList = testOrderItem.getOrderShipmentsList();
-        assertEquals("", mockList, orderShipmentsToDisplayList);
+        List<OrderShipments> orderShipmentsList = testOrderItem.getOrderShipmentsList();
+        assertEquals("", mockList, orderShipmentsList);
     }
 }

@@ -2,16 +2,16 @@ package com.microservices.orders.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "orders")
 public class Order {
 

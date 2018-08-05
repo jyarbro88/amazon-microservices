@@ -1,22 +1,21 @@
 package com.microservices.orders.models.temp;
 
-import com.microservices.orders.models.temp.TempProductObject;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-public class TempProductObjectTest {
+public class TempProductTest {
 
-    private TempProductObject testItem = new TempProductObject();
+    private TempProduct testItem = new TempProduct();
 
     @Test
     public void setProductId() throws NoSuchFieldException, IllegalAccessException {
-        final Field field = testItem.getClass().getDeclaredField("productId");
+        final Field field = testItem.getClass().getDeclaredField("id");
         field.setAccessible(true);
         field.set(testItem, 1L);
-        Long productId = testItem.getProductId();
+        Long productId = testItem.getId();
         assertEquals(1L, productId, 1L);
     }
 
@@ -45,14 +44,5 @@ public class TempProductObjectTest {
         field.set(testItem, 2.00);
         Double price = testItem.getPrice();
         assertEquals(2.00, price, 2.00);
-    }
-
-    @Test
-    public void setQuantity() throws NoSuchFieldException, IllegalAccessException {
-        final Field field = testItem.getClass().getDeclaredField("quantity");
-        field.setAccessible(true);
-        field.set(testItem, 22);
-        Integer quantity = testItem.getQuantity();
-        assertEquals(22, quantity, 22);
     }
 }

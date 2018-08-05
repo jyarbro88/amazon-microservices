@@ -1,11 +1,9 @@
 package com.microservices.orders.controllers;
 
 import com.microservices.orders.models.LineItem;
-import com.microservices.orders.models.temp.TempProductObject;
 import com.microservices.orders.services.LineItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +12,9 @@ import java.util.Optional;
 public class LineItemController {
 
     private LineItemService lineItemService;
-    private RestTemplate restTemplate;
 
-    public LineItemController(LineItemService lineItemService, RestTemplate restTemplate) {
+    public LineItemController(LineItemService lineItemService) {
         this.lineItemService = lineItemService;
-        this.restTemplate = restTemplate;
     }
 
     @GetMapping(value = "/lineItems")

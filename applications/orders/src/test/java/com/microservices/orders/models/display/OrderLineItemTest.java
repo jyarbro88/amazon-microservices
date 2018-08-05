@@ -1,15 +1,14 @@
 package com.microservices.orders.models.display;
 
-import com.microservices.orders.models.display.OrderLineItemToDisplay;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-public class OrderLineItemToDisplayTest {
+public class OrderLineItemTest {
 
-    private final OrderLineItemToDisplay testItem = new OrderLineItemToDisplay();
+    private final OrderLineItem testItem = new OrderLineItem();
 
     @Test
     public void setOrderLineItemId() throws NoSuchFieldException, IllegalAccessException {

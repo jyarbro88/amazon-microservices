@@ -1,6 +1,5 @@
 package com.microservices.orders.models.temp;
 
-import com.microservices.orders.models.temp.TempShipmentObject;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -10,9 +9,9 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-public class TempShipmentObjectTest {
+public class TempShipmentTest {
 
-    private TempShipmentObject testItem = new TempShipmentObject();
+    private TempShipment testItem = new TempShipment();
 
     @Test
     public void setId() throws NoSuchFieldException, IllegalAccessException {
@@ -48,15 +47,6 @@ public class TempShipmentObjectTest {
         field.set(testItem, 55L);
         Long orderId = testItem.getOrderId();
         assertEquals(55L, orderId, 55L);
-    }
-
-    @Test
-    public void setLineItemId() throws NoSuchFieldException, IllegalAccessException {
-        final Field field = testItem.getClass().getDeclaredField("lineItemId");
-        field.setAccessible(true);
-        field.set(testItem, 4L);
-        Long lineItemId = testItem.getLineItemId();
-        assertEquals(4L, lineItemId, 4L);
     }
 
     @Test
