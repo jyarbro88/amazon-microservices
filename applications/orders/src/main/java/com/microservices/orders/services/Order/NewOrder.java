@@ -13,16 +13,16 @@ import java.util.List;
 @Service
 public class NewOrder {
 
-    private NewLineItem newLineItem;
+    private NewLineItem newLineItemService;
     private OrderService orderService;
-    private UpdateLineItem updateLineItem;
+    private UpdateLineItem updateLineItemService;
     private ShipmentService shipmentService;
     private CalculateUtil calculateUtil;
 
-    public NewOrder(NewLineItem newLineItem, OrderService orderService, UpdateLineItem updateLineItem, ShipmentService shipmentService, CalculateUtil calculateUtil) {
-        this.newLineItem = newLineItem;
+    public NewOrder(NewLineItem newLineItemService, OrderService orderService, UpdateLineItem updateLineItemService, ShipmentService shipmentService, CalculateUtil calculateUtil) {
+        this.newLineItemService = newLineItemService;
         this.orderService = orderService;
-        this.updateLineItem = updateLineItem;
+        this.updateLineItemService = updateLineItemService;
         this.shipmentService = shipmentService;
         this.calculateUtil = calculateUtil;
     }
@@ -30,23 +30,22 @@ public class NewOrder {
     public Order postNew(Order passedInOrder) {
 
         if (passedInOrder.getLineItems() != null) {
+
             for (LineItem lineItem: passedInOrder.getLineItems()) {
-                newLineItem.postNew(lineItem);
+                newLineItemService.postNew(lineItem);
             }
 
             Order order = orderService.saveOrder(passedInOrder);
+            Long orderId = order.getId();
 
             TempShipment shipment = shipmentService.buildAndPostNewShipment(order);
-
-            Long orderId = order.getId();
-            List<LineItem> orderLineItems = order.getLineItems();
             Long shipmentId = shipment.getId();
 
+            List<LineItem> orderLineItems = order.getLineItems();
             for (LineItem lineItem : orderLineItems) {
                 lineItem.setShipmentId(shipmentId);
                 lineItem.setOrderId(orderId);
-
-                updateLineItem.update(lineItem);
+                updateLineItemService.update(lineItem);
             }
 
             Double orderTotal = calculateUtil.orderTotalPrice(order);

@@ -18,11 +18,11 @@ public class AddressCircuitBreaker {
     }
 
     @HystrixCommand(fallbackMethod = "addressFallBack")
-    public DisplayOrderAddress makeRestCallToGetOrderAddressToDisplay(Order foundOrder, Long shippingAddressId) {
-        return restTemplate.getForObject(ACCOUNTS_SERVICE_URL + foundOrder.getAccountId() + "/address/" + shippingAddressId, DisplayOrderAddress.class);
+    public DisplayOrderAddress makeRestCallToGetOrderAddressToDisplay(Long accountId, Long shippingAddressId) {
+        return restTemplate.getForObject(ACCOUNTS_SERVICE_URL + accountId + "/address/" + shippingAddressId, DisplayOrderAddress.class);
     }
     @SuppressWarnings("unused")
-    public DisplayOrderAddress addressFallBack(Order foundOrder, Long shippingAddressId){
+    public DisplayOrderAddress addressFallBack(Long accountId, Long shippingAddressId){
 
         return new DisplayOrderAddress();
     }

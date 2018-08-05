@@ -19,27 +19,36 @@ public class AccountService {
         return accountRepository.findAll();
     }
 
-    public Optional<Account> findAccountById(Long id){
+    public Optional<Account> findAccountById(Long id) {
         return accountRepository.findById(id);
     }
 
-    public Account createNewAccount(Account account){
+    public Account createNewAccount(Account account) {
         return accountRepository.save(account);
     }
 
-    //Todo:  go through and check for values to update
-    public Account updateAccount(Account account){
+    public Account updateAccount(Account account) {
+
         Optional<Account> byId = accountRepository.findById(account.getId());
         Account foundAccount = byId.get();
-        foundAccount.setAccountAddresses(account.getAccountAddresses());
-        foundAccount.setEmail(account.getEmail());
-        foundAccount.setFirstName(account.getFirstName());
-        foundAccount.setLastName(account.getLastName());
+
+        if (account.getAccountAddresses() != null) {
+            foundAccount.setAccountAddresses(account.getAccountAddresses());
+        }
+        if (account.getEmail() != null) {
+            foundAccount.setEmail(account.getEmail());
+        }
+        if (account.getFirstName() != null) {
+            foundAccount.setFirstName(account.getFirstName());
+        }
+        if (account.getLastName() != null) {
+            foundAccount.setLastName(account.getLastName());
+        }
 
         return accountRepository.save(foundAccount);
     }
 
-    public void deleteAccount(Long id){
+    public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
 }

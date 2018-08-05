@@ -20,7 +20,6 @@ public class AccountController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Account createNewAccount(
             @RequestBody Account account
     ){
@@ -28,7 +27,6 @@ public class AccountController {
     }
 
     @PutMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public Account updateAccount(
             @RequestBody Account account
     ){

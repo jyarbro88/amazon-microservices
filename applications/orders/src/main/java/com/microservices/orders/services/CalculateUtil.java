@@ -17,10 +17,7 @@ public class CalculateUtil {
         this.productCircuitBreaker = productCircuitBreaker;
     }
 
-    private Double multiplyPriceByQuantity(Double price, Integer quantity) {
-
-        return price * quantity;
-    }
+    private Double multiplyPriceByQuantity(Double price, Integer quantity) { return price * quantity; }
 
     public Double orderTotalPrice(Order order){
 
@@ -29,7 +26,6 @@ public class CalculateUtil {
         List<LineItem> lineItems = order.getLineItems();
         for (LineItem lineItem : lineItems) {
             Double lineItemTotalPrice = lineItem.getTotalPrice();
-
             totalPrice += lineItemTotalPrice;
         }
 
@@ -41,7 +37,6 @@ public class CalculateUtil {
         Long productId = lineItem.getProductId();
         Integer quantity = lineItem.getQuantity();
 
-        //Todo: set up circuit breaker
         TempProduct tempProduct = productCircuitBreaker.getTempProductWithId(productId);
 
         Double productPrice = tempProduct.getPrice();

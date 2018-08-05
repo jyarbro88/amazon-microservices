@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 import java.util.Date;
 
 @Getter @Setter @NoArgsConstructor
-public class DisplayOrderShipments {
+public class DisplayOrderShipment {
 
     private Long shipmentId;
     private Long orderId;

@@ -13,5 +13,5 @@ public class DisplayOrderDetails {
     private Double orderTotalPrice;
     private DisplayOrderAddress shippingAddress;
     private List<DisplayOrderLineItem> displayOrderLineItemsList;
-    private List<DisplayOrderShipments> displayOrderShipmentsList;
+    private List<DisplayOrderShipment> displayOrderShipmentsList;
 }

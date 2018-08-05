@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //Todo:  Create operations for new Order which creates a new person, a new address and then links the address, and account id to the order when saving
-//Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
 
 @RestController
 @RequestMapping(value = "/orders")

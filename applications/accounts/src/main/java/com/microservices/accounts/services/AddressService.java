@@ -15,33 +15,46 @@ public class AddressService {
         this.addressRepository = addressRepository;
     }
 
-    public Iterable<Address> getAllAddresses(){
+    public Iterable<Address> getAllAddresses() {
         return addressRepository.findAll();
     }
 
-    public Optional<Address> findAddressById(Long id){
+    public Optional<Address> findAddressById(Long id) {
         return addressRepository.findById(id);
     }
 
-    public Address createNewAddress(Address address){
+    public Address createNewAddress(Address address) {
         return addressRepository.save(address);
     }
 
-    //Todo:  go through and check for values before updating
-    public Address updateAddress(Address address){
+    public Address updateAddress(Address address) {
+
         Optional<Address> addressById = addressRepository.findById(address.getId());
         Address foundAddress = addressById.get();
-        foundAddress.setAddressOne(address.getAddressOne());
-        foundAddress.setAddressTwo(address.getAddressTwo());
-        foundAddress.setCity(address.getCity());
-        foundAddress.setZipCode(address.getZipCode());
-        foundAddress.setCountry(address.getCountry());
-        foundAddress.setState(address.getState());
+
+        if (address.getAddressOne() != null) {
+            foundAddress.setAddressOne(address.getAddressOne());
+        }
+        if (address.getAddressTwo() != null) {
+            foundAddress.setAddressTwo(address.getAddressTwo());
+        }
+        if (address.getCity() != null) {
+            foundAddress.setCity(address.getCity());
+        }
+        if (address.getZipCode() != null) {
+            foundAddress.setZipCode(address.getZipCode());
+        }
+        if (address.getCountry() != null) {
+            foundAddress.setCountry(address.getCountry());
+        }
+        if (address.getState() != null) {
+            foundAddress.setState(address.getState());
+        }
 
         return addressRepository.save(foundAddress);
     }
 
-    public void deleteAddress(Long id){
+    public void deleteAddress(Long id) {
         addressRepository.deleteById(id);
     }
 }

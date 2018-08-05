@@ -8,7 +8,7 @@ import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.DisplayOrderAddress;
 import com.microservices.orders.models.display.DisplayOrderDetails;
 import com.microservices.orders.models.display.DisplayOrderLineItem;
-import com.microservices.orders.models.display.DisplayOrderShipments;
+import com.microservices.orders.models.display.DisplayOrderShipment;
 import com.microservices.orders.models.temp.TempProduct;
 import com.microservices.orders.models.temp.TempShipment;
 import com.microservices.orders.services.LineItem.LineItemService;
@@ -35,9 +35,10 @@ public class OrderDetails {
         this.shipmentCircuitBreaker = shipmentCircuitBreaker;
     }
 
-    //Todo:  look at breaking up
-
     public DisplayOrderDetails findDetailsByOrderId(Long orderId) {
+
+        List<DisplayOrderShipment> shipmentItemsForOrder = new ArrayList<>();
+        List<DisplayOrderLineItem> lineItemsForOrderList = new ArrayList<>();
 
         Optional<Order> foundOrderList = orderService.findById(orderId);
         Order foundOrder = foundOrderList.get();
@@ -46,48 +47,54 @@ public class OrderDetails {
         DisplayOrderDetails displayOrderDetails = new DisplayOrderDetails();
         displayOrderDetails.setOrderNumber(foundOrder.getId());
 
-        DisplayOrderAddress addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder, shippingAddressId);
+        DisplayOrderAddress addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder.getAccountId(), shippingAddressId);
 
         addressToDisplay.setShippingAddressId(shippingAddressId);
         displayOrderDetails.setShippingAddress(addressToDisplay);
 
+
         List<LineItem> lineItemsForOrderId = lineItemService.findByOrderId(foundOrder.getId());
 
-        List<DisplayOrderLineItem> lineItemsForOrderList = new ArrayList<>();
-        List<DisplayOrderShipments> shipmentItemsForOrderList = new ArrayList<>();
-
         for (LineItem lineItem : lineItemsForOrderId) {
-            DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
-            DisplayOrderShipments shipmentLineItemToDisplay = new DisplayOrderShipments();
-
-            TempProduct tempProduct = productCircuitBreaker.getTempProductWithId(lineItem.getProductId());
-
-            TempShipment tempShipment = shipmentCircuitBreaker.getShipmentInformation(lineItem);
-
-            shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
-            shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());
-            shipmentLineItemToDisplay.setShipmentId(tempShipment.getId());
-
-
-
-            shipmentLineItemToDisplay.setOrderId(lineItem.getOrderId());
-
-
-
-
-
-            displayOrderLineItem.setOrderLineItemId(lineItem.getId());
-            displayOrderLineItem.setProductName(tempProduct.getName());
-            displayOrderLineItem.setQuantity(lineItem.getQuantity());
+            DisplayOrderShipment displayOrderShipment = buildShipmentToDisplay(lineItem);
+            DisplayOrderLineItem displayOrderLineItem = buildLineItemToDisplay(lineItem);
 
             lineItemsForOrderList.add(displayOrderLineItem);
-            shipmentItemsForOrderList.add(shipmentLineItemToDisplay);
+            shipmentItemsForOrder.add(displayOrderShipment);
         }
 
         displayOrderDetails.setOrderTotalPrice(foundOrder.getTotalPrice());
         displayOrderDetails.setDisplayOrderLineItemsList(lineItemsForOrderList);
-        displayOrderDetails.setDisplayOrderShipmentsList(shipmentItemsForOrderList);
+
+        displayOrderDetails.setDisplayOrderShipmentsList(shipmentItemsForOrder);
 
         return displayOrderDetails;
+    }
+
+    private DisplayOrderLineItem buildLineItemToDisplay(LineItem lineItem) {
+
+        DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
+
+        displayOrderLineItem.setOrderLineItemId(lineItem.getId());
+
+        TempProduct tempProduct = productCircuitBreaker.getTempProductWithId(lineItem.getProductId());
+        displayOrderLineItem.setProductName(tempProduct.getName());
+        displayOrderLineItem.setQuantity(lineItem.getQuantity());
+
+        return displayOrderLineItem;
+    }
+
+    private DisplayOrderShipment buildShipmentToDisplay(LineItem lineItem) {
+
+        TempShipment tempShipment = shipmentCircuitBreaker.getShipmentInformation(lineItem);
+
+        DisplayOrderShipment shipmentLineItemToDisplay = new DisplayOrderShipment();
+
+        shipmentLineItemToDisplay.setDeliveryDate(tempShipment.getDeliveredDate());
+        shipmentLineItemToDisplay.setShippedDate(tempShipment.getShippedDate());
+        shipmentLineItemToDisplay.setShipmentId(tempShipment.getId());
+        shipmentLineItemToDisplay.setOrderId(lineItem.getOrderId());
+
+        return shipmentLineItemToDisplay;
     }
 }

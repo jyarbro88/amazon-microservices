@@ -16,6 +16,8 @@ public class AddressController {
         this.addressService = addressService;
     }
 
+    //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
+
     @GetMapping
     @RequestMapping("/addresses")
     public Iterable<Address> getAllAddresses() {

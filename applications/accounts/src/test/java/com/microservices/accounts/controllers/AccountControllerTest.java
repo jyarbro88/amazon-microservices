@@ -16,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -66,7 +68,7 @@ public class AccountControllerTest {
     public void testCreateNewAccount() throws Exception {
         mockMvc.perform(post("/accounts")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(testJsonObject)))
+                .content(String.valueOf(testJsonObject.toString())))
                 .andExpect(status().isCreated())
                 .andDo(print());
     }
