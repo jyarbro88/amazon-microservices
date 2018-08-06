@@ -1,18 +1,24 @@
 package com.microservices.accounts.services;
 
 import com.microservices.accounts.models.Account;
+import com.microservices.accounts.models.Address;
 import com.microservices.accounts.repositories.AccountRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AccountService {
 
     private AccountRepository accountRepository;
+    private AddressService addressService;
 
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, AddressService addressService) {
         this.accountRepository = accountRepository;
+        this.addressService = addressService;
     }
 
     public Iterable<Account> getAllAccounts() {
@@ -23,8 +29,20 @@ public class AccountService {
         return accountRepository.findById(id);
     }
 
-    public Account createNewAccount(Account account) {
-        return accountRepository.save(account);
+    public ResponseEntity save(Account account) {
+
+        List<Address> accountAddresses = account.getAccountAddresses();
+
+        if(accountAddresses == null){
+            accountRepository.save(account);
+        } else {
+            for (Address accountAddress : accountAddresses) {
+                addressService.save(accountAddress);
+            }
+            accountRepository.save(account);
+        }
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public Account updateAccount(Account account) {

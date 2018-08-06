@@ -1,6 +1,5 @@
 package com.microservices.accounts.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +17,6 @@ public class Account {
     private String lastName;
     private String email;
     @OneToMany
-    @JsonManagedReference
     private List<Address> accountAddresses;
 
     public Account(String firstName, String lastName, String email, List<Address> accountAddresses) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@RequestMapping(value = "/addresses")
 public class AddressController {
 
     private AddressService addressService;
@@ -19,13 +20,12 @@ public class AddressController {
     //Todo:  Link Account Address with Account when creating new, then remove from AccountApplication run file
 
     @GetMapping
-    @RequestMapping("/addresses")
     public Iterable<Address> getAllAddresses() {
         return addressService.getAllAddresses();
     }
 
     @GetMapping
-    @RequestMapping("/accounts/{id}/address")
+    @RequestMapping("/{id}/address")
     public Optional<Address> getAddressForId(
             @PathVariable(value = "id") Long addressId
     ){
@@ -33,7 +33,7 @@ public class AddressController {
     }
 
     @GetMapping
-    @RequestMapping("/accounts/{id}/address/{addressId}")
+    @RequestMapping("/{id}/address/{addressId}")
     public Optional<Address> getSingleAddressWithId(
             @PathVariable(value = "id") Long accountId,
             @PathVariable(value = "addressId") Long addressId
@@ -42,17 +42,17 @@ public class AddressController {
     }
 
     //Todo:  post address to accounts
-    @PostMapping(value = "/accounts/{id}/address")
+    @PostMapping(value = "/{id}/address")
     @ResponseStatus(HttpStatus.CREATED)
-    public Address createNewAddress(
+    public Address save(
             @PathVariable(value = "id") Long accountId,
             @RequestBody Address address
     ){
-        return addressService.createNewAddress(address);
+        return addressService.save(address);
     }
 
     //Todo:  put new address on accounts record as well
-    @PutMapping(value = "/accounts/{id}/address/{addressId}")
+    @PutMapping(value = "/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Address updateAddress(
             @PathVariable(value = "id") Long accountId,
@@ -63,7 +63,7 @@ public class AddressController {
     }
 
     //Todo: remove the record in accounts tied to address
-    @DeleteMapping(value = "/accounts/{id}/address/{addressId}")
+    @DeleteMapping(value = "/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddress(
             @PathVariable(value = "id") Long accountId,

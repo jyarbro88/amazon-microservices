@@ -35,7 +35,7 @@ public class NewOrder {
                 newLineItemService.postNew(lineItem);
             }
 
-            Order order = orderService.saveOrder(passedInOrder);
+            Order order = orderService.save(passedInOrder);
             Long orderId = order.getId();
 
             TempShipment shipment = shipmentService.buildAndPostNewShipment(order);
@@ -51,12 +51,12 @@ public class NewOrder {
             Double orderTotal = calculateUtil.orderTotalPrice(order);
             order.setTotalPrice(orderTotal);
 
-            orderService.saveOrder(order);
+            orderService.save(order);
 
             return order;
 
         } else {
-            return orderService.saveOrder(passedInOrder);
+            return orderService.save(passedInOrder);
         }
     }
 }

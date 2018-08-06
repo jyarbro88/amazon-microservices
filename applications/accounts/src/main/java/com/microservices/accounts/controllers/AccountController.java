@@ -3,9 +3,11 @@ package com.microservices.accounts.controllers;
 import com.microservices.accounts.models.Account;
 import com.microservices.accounts.services.AccountService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value = "/accounts")
 public class AccountController {
 
     private AccountService accountService;
@@ -19,11 +21,11 @@ public class AccountController {
         return accountService.getAllAccounts();
     }
 
-    @PostMapping
-    public Account createNewAccount(
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity save(
             @RequestBody Account account
     ){
-        return accountService.createNewAccount(account);
+        return accountService.save(account);
     }
 
     @PutMapping

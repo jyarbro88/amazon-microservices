@@ -32,7 +32,7 @@ public class OrderService {
         return orderRepository.findAllByAccountIdOrderByOrderDate(id);
     }
 
-    Order saveOrder(Order order) {
+    Order save(Order order) {
 
         Order savedOrder = orderRepository.save(order);
         orderRepository.flush();

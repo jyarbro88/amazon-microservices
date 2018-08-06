@@ -1,6 +1,5 @@
 package com.microservices.orders.circuits;
 
-import com.microservices.orders.models.Order;
 import com.microservices.orders.models.display.DisplayOrderAddress;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
