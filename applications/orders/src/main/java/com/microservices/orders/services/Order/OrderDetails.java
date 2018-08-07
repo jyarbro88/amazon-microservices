@@ -47,7 +47,7 @@ public class OrderDetails {
         DisplayOrderDetails displayOrderDetails = new DisplayOrderDetails();
         displayOrderDetails.setOrderNumber(foundOrder.getId());
 
-        DisplayOrderAddress addressToDisplay = addressCircuitBreaker.makeRestCallToGetOrderAddressToDisplay(foundOrder.getAccountId(), shippingAddressId);
+        DisplayOrderAddress addressToDisplay = addressCircuitBreaker.getOrderAddress(foundOrder.getAccountId(), shippingAddressId);
 
         addressToDisplay.setShippingAddressId(shippingAddressId);
         displayOrderDetails.setShippingAddress(addressToDisplay);

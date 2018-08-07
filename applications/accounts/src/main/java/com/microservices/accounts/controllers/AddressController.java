@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/addresses")
 public class AddressController {
 
     private AddressService addressService;
@@ -25,7 +24,7 @@ public class AddressController {
     }
 
     @GetMapping
-    @RequestMapping("/{id}/address")
+    @RequestMapping("addresses/{id}")
     public Optional<Address> getAddressForId(
             @PathVariable(value = "id") Long addressId
     ){
@@ -33,7 +32,7 @@ public class AddressController {
     }
 
     @GetMapping
-    @RequestMapping("/{id}/address/{addressId}")
+    @RequestMapping("addresses/{id}/address/{addressId}")
     public Optional<Address> getSingleAddressWithId(
             @PathVariable(value = "id") Long accountId,
             @PathVariable(value = "addressId") Long addressId
@@ -42,7 +41,7 @@ public class AddressController {
     }
 
     //Todo:  post address to accounts
-    @PostMapping(value = "/{id}/address")
+    @PostMapping(value = "addresses/{id}/address")
     @ResponseStatus(HttpStatus.CREATED)
     public Address save(
             @PathVariable(value = "id") Long accountId,
@@ -52,7 +51,7 @@ public class AddressController {
     }
 
     //Todo:  put new address on accounts record as well
-    @PutMapping(value = "/{id}/address/{addressId}")
+    @PutMapping(value = "addresses/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.CREATED)
     public Address updateAddress(
             @PathVariable(value = "id") Long accountId,
@@ -63,7 +62,7 @@ public class AddressController {
     }
 
     //Todo: remove the record in accounts tied to address
-    @DeleteMapping(value = "/{id}/address/{addressId}")
+    @DeleteMapping(value = "addresses/{id}/address/{addressId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAddress(
             @PathVariable(value = "id") Long accountId,
