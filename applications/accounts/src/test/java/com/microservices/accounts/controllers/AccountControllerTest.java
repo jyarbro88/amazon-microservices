@@ -56,36 +56,36 @@ public class AccountControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    public void testFindAccountById() throws Exception {
-        mockMvc.perform(get("/accounts/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-    }
+//    @Test
+//    public void testFindAccountById() throws Exception {
+//        mockMvc.perform(get("/accounts/{id}", 1)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isOk());
+//    }
 
-    @Test
-    public void testCreateNewAccount() throws Exception {
-        mockMvc.perform(post("/accounts")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(testJsonObject.toString())))
-                .andExpect(status().isCreated())
-                .andDo(print());
-    }
+//    @Test
+//    public void testCreateNewAccount() throws Exception {
+//        mockMvc.perform(post("/accounts")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(String.valueOf(testJsonObject.toString())))
+//                .andExpect(status().isCreated())
+//                .andDo(print());
+//    }
+//
+//    @Test
+//    public void testUpdatingExistingAccount() throws Exception {
+//        mockMvc.perform(put("/accounts/{id}", 1)
+//                .contentType(MediaType.APPLICATION_JSON).content(String.valueOf(testJsonObject)))
+//                .andExpect(status().isCreated())
+//                .andDo(print());
+//    }
 
-    @Test
-    public void testUpdatingExistingAccount() throws Exception {
-        mockMvc.perform(put("/accounts/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON).content(String.valueOf(testJsonObject)))
-                .andExpect(status().isCreated())
-                .andDo(print());
-    }
-
-    @Test
-    public void testDeletingAnAccount() throws Exception {
-        mockMvc.perform(delete("/accounts/{id}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-    }
+//    @Test
+//    public void testDeletingAnAccount() throws Exception {
+//        mockMvc.perform(delete("/accounts/{id}", 1)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNoContent());
+//    }
 }

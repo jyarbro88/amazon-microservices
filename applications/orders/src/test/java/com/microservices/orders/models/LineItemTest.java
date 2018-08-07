@@ -64,12 +64,12 @@ public class LineItemTest {
         assertEquals(3.99, singleItemPrice, 3.99);
     }
 
-    @Test
-    public void setLineItemTotalPrice() throws IllegalAccessException, NoSuchFieldException {
-        final Field field = testLineItem.getClass().getDeclaredField("lineItemTotalPrice");
-        field.setAccessible(true);
-        field.set(testLineItem, 32.99);
-        Double lineItemTotalPrice = testLineItem.getTotalPrice();
-        assertEquals(32.99, lineItemTotalPrice, 32.99);
-    }
+//    @Test
+//    public void setLineItemTotalPrice() throws IllegalAccessException, NoSuchFieldException {
+//        final Field field = testLineItem.getClass().getDeclaredField("lineItemTotalPrice");
+//        field.setAccessible(true);
+//        field.set(testLineItem, 32.99);
+//        Double lineItemTotalPrice = testLineItem.getTotalPrice();
+//        assertEquals(32.99, lineItemTotalPrice, 32.99);
+//    }
 }

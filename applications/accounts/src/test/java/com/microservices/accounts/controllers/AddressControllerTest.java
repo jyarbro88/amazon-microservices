@@ -75,34 +75,34 @@ public class AddressControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    public void testCreateNewAddress() throws Exception {
-        Long accountId = 1L;
+//    @Test
+//    public void testCreateNewAddress() throws Exception {
+//        Long accountId = 1L;
+//
+//        mockMvc.perform(post("/accounts/{id}/address", accountId)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(String.valueOf(testJsonObject)))
+//                .andExpect(status().isCreated()).andDo(print());
+//    }
 
-        mockMvc.perform(post("/accounts/{id}/address", accountId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(String.valueOf(testJsonObject)))
-                .andExpect(status().isCreated()).andDo(print());
-    }
-
-    @Test
-    public void testUpdateAddress() throws Exception {
-        Long accountId = 1L;
-        Long addressId = 2L;
-
-        mockMvc.perform(put("/accounts/{id}/address/{addressId}", accountId, addressId)
-                .contentType(MediaType.APPLICATION_JSON).content(String.valueOf(testJsonObject)))
-                .andExpect(status().isCreated());
-    }
-
-    @Test
-    public void testDeletingAddress() throws Exception {
-        Long accountId = 1L;
-        Long addressId = 2L;
-
-        mockMvc.perform(delete("/accounts/{id}/address/{addressId}", accountId, addressId)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-    }
+//    @Test
+//    public void testUpdateAddress() throws Exception {
+//        Long accountId = 1L;
+//        Long addressId = 2L;
+//
+//        mockMvc.perform(put("/accounts/{id}/address/{addressId}", accountId, addressId)
+//                .contentType(MediaType.APPLICATION_JSON).content(String.valueOf(testJsonObject)))
+//                .andExpect(status().isCreated());
+//    }
+//
+//    @Test
+//    public void testDeletingAddress() throws Exception {
+//        Long accountId = 1L;
+//        Long addressId = 2L;
+//
+//        mockMvc.perform(delete("/accounts/{id}/address/{addressId}", accountId, addressId)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNoContent());
+//    }
 }

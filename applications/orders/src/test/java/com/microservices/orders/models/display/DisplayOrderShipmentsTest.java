@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class DisplayOrderShipmentsTest {
 
-    private final DisplayOrderShipments testOrderShipmentItem = new DisplayOrderShipments();
+    private final DisplayOrderShipment testOrderShipmentItem = new DisplayOrderShipment();
 
     @Test
     public void setShipmentId() throws NoSuchFieldException, IllegalAccessException {
