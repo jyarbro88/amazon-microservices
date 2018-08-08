@@ -1,5 +1,6 @@
 package com.microservices.shipments.services;
 
+import com.microservices.shipments.circuits.OrderCircuitBreaker;
 import com.microservices.shipments.models.Shipment;
 import com.microservices.shipments.models.display.DisplayLineItem;
 import com.microservices.shipments.models.display.DisplayShipment;
@@ -17,11 +18,11 @@ import java.util.*;
 public class ShipmentService {
 
     private ShipmentRepository shipmentRepository;
-    private RestTemplate restTemplate;
+    private OrderCircuitBreaker orderCircuitBreaker;
 
-    public ShipmentService(ShipmentRepository shipmentRepository, RestTemplate restTemplate) {
+    public ShipmentService(ShipmentRepository shipmentRepository, OrderCircuitBreaker orderCircuitBreaker) {
         this.shipmentRepository = shipmentRepository;
-        this.restTemplate = restTemplate;
+        this.orderCircuitBreaker = orderCircuitBreaker;
     }
 
     public Iterable<Shipment> getAllShipments() {
@@ -61,8 +62,9 @@ public class ShipmentService {
             Long orderId = shipment.getOrderId();
 
             //Todo:  Replace rest calls with circuit circuits
-            TempProduct[] tempProduct = restTemplate.getForObject("http://orders-service/orders/getProductInfo/" + orderId, TempProduct[].class);
-            TempLineItem[] tempLineItem = restTemplate.getForObject("http://orders-service/lineItems/" + orderId + "/lookup", TempLineItem[].class);
+            TempProduct[] tempProduct = orderCircuitBreaker.getTempProductInfoForOrder(orderId);
+            TempLineItem[] tempLineItem = orderCircuitBreaker.getTempLineItemsForOrder(orderId);
+
 
             for (TempLineItem lineItem : tempLineItem) {
                 Long lineItemProductId = lineItem.getProductId();

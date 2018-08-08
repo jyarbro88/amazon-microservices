@@ -40,8 +40,7 @@ public class OrderDetails {
         List<DisplayOrderShipment> shipmentItemsForOrder = new ArrayList<>();
         List<DisplayOrderLineItem> lineItemsForOrderList = new ArrayList<>();
 
-        Optional<Order> foundOrderList = orderService.findById(orderId);
-        Order foundOrder = foundOrderList.get();
+        Order foundOrder = orderService.findById(orderId).get();
         Long shippingAddressId = foundOrder.getShippingAddressId();
 
         DisplayOrderDetails displayOrderDetails = new DisplayOrderDetails();
@@ -73,11 +72,9 @@ public class OrderDetails {
 
     private DisplayOrderLineItem buildLineItemToDisplay(LineItem lineItem) {
 
-        DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
-
-        displayOrderLineItem.setOrderLineItemId(lineItem.getId());
-
         TempProduct tempProduct = productCircuitBreaker.getTempProductWithId(lineItem.getProductId());
+        DisplayOrderLineItem displayOrderLineItem = new DisplayOrderLineItem();
+        displayOrderLineItem.setOrderLineItemId(lineItem.getId());
         displayOrderLineItem.setProductName(tempProduct.getName());
         displayOrderLineItem.setQuantity(lineItem.getQuantity());
 

@@ -26,7 +26,7 @@ public class OrderCircuitBreaker {
 
     @HystrixCommand(fallbackMethod = "tempLineItemFallBack")
     public TempLineItem[] getTempLineItemsForOrder(Long orderId){
-        return restTemplate.getForObject("http://orders-service/orders/getProductInfo/" + orderId + "/lookup", TempLineItem[].class);
+        return restTemplate.getForObject("http://orders-service/lineItems/" + orderId + "/lookup", TempLineItem[].class);
     }
 
     public TempLineItem[] tempLineItemFallBack(Long orderId){
