@@ -1,6 +1,5 @@
 package com.microservices.orders.circuits;
 
-import com.microservices.orders.models.LineItem;
 import com.microservices.orders.models.temp.TempProduct;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.stereotype.Component;
@@ -16,8 +15,6 @@ public class ProductCircuitBreaker {
     public ProductCircuitBreaker(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
-
-
 
     @HystrixCommand(fallbackMethod = "productFallBack")
     public TempProduct getTempProductWithId(Long productId) {

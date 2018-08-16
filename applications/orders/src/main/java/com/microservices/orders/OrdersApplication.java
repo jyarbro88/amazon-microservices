@@ -22,3 +22,8 @@ public class OrdersApplication {
         return new RestTemplate();
     }
 }
+
+// What to do with shared "domain" objects?
+// How to set up service classes
+// What kind of SOAP services should I look into
+// What other technologies should I be looking at

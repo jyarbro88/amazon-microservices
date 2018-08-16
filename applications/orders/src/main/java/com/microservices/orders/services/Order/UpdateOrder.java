@@ -30,25 +30,20 @@ public class UpdateOrder {
         return orderRepository.save(foundOrderToUpdate);
     }
 
-
-
     private void checkForValues(Order passedInOrder, Order orderToUpdate) {
+
         if (passedInOrder.getAccountId() != null) {
             orderToUpdate.setAccountId(passedInOrder.getAccountId());
         }
-
         if (passedInOrder.getBillingAddressId() != null) {
             orderToUpdate.setBillingAddressId(passedInOrder.getBillingAddressId());
         }
-
         if (passedInOrder.getLineItems() != null) {
             orderToUpdate.setLineItems(passedInOrder.getLineItems());
         }
-
         if (passedInOrder.getOrderDate() != null) {
             orderToUpdate.setOrderDate(passedInOrder.getOrderDate());
         }
-
         if (passedInOrder.getShippingAddressId() != null){
             orderToUpdate.setShippingAddressId(passedInOrder.getShippingAddressId());
         }
